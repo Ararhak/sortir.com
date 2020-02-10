@@ -1,0 +1,13 @@
+h1{
+    color: #0088CC;
+}
+@font-face {
+    font-family: 'Main font';
+    src: url('font/Main font.ttf');
+}
+div { font-family: 'Main font', sans-serif; }
+
+
+footer{
+    margin-top:auto;
+}
