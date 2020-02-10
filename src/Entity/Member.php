@@ -64,6 +64,11 @@ class Member
      */
     private $registeredEvents;
 
+    /**
+     * @ORM\Column(type="string", length=1024)
+     */
+    private $password;
+
     public function __construct()
     {
         $this->organizedEvents = new ArrayCollection();
@@ -214,6 +219,18 @@ class Member
             $this->registeredEvents->removeElement($registeredEvent);
             $registeredEvent->removeRegistered($this);
         }
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
