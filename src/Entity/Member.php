@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,28 @@ class Member
      * @ORM\Column(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\site", inversedBy="members")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="organizer", orphanRemoval=true)
+     */
+    private $organizedEvents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="registered")
+     */
+    private $registeredEvents;
+
+    public function __construct()
+    {
+        $this->organizedEvents = new ArrayCollection();
+        $this->registeredEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +143,77 @@ class Member
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getSite(): ?site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getOrganizedEvents(): Collection
+    {
+        return $this->organizedEvents;
+    }
+
+    public function addOrganizedEvent(Event $organizedEvent): self
+    {
+        if (!$this->organizedEvents->contains($organizedEvent)) {
+            $this->organizedEvents[] = $organizedEvent;
+            $organizedEvent->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizedEvent(Event $organizedEvent): self
+    {
+        if ($this->organizedEvents->contains($organizedEvent)) {
+            $this->organizedEvents->removeElement($organizedEvent);
+            // set the owning side to null (unless already changed)
+            if ($organizedEvent->getOrganizer() === $this) {
+                $organizedEvent->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getRegisteredEvents(): Collection
+    {
+        return $this->registeredEvents;
+    }
+
+    public function addRegisteredEvent(Event $registeredEvent): self
+    {
+        if (!$this->registeredEvents->contains($registeredEvent)) {
+            $this->registeredEvents[] = $registeredEvent;
+            $registeredEvent->addRegistered($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegisteredEvent(Event $registeredEvent): self
+    {
+        if ($this->registeredEvents->contains($registeredEvent)) {
+            $this->registeredEvents->removeElement($registeredEvent);
+            $registeredEvent->removeRegistered($this);
+        }
 
         return $this;
     }

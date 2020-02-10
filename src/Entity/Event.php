@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,22 @@ class Event
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $infos;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\member", inversedBy="organizedEvents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organizer;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\member", inversedBy="registeredEvents")
+     */
+    private $registeredMembers;
+
+    public function __construct()
+    {
+        $this->registeredMembers = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -120,6 +138,44 @@ class Event
     public function setInfos(?string $infos): self
     {
         $this->infos = $infos;
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?member
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?member $organizer): self
+    {
+        $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|member[]
+     */
+    public function getRegistered(): Collection
+    {
+        return $this->registeredMembers;
+    }
+
+    public function addRegistered(member $registeredMember): self
+    {
+        if (!$this->registeredMembers->contains($registeredMember)) {
+            $this->registeredMembers[] = $registeredMember;
+        }
+
+        return $this;
+    }
+
+    public function removeRegistered(member $registeredMember): self
+    {
+        if ($this->registeredMembers->contains($registeredMember)) {
+            $this->registeredMembers->removeElement($registeredMember);
+        }
 
         return $this;
     }
