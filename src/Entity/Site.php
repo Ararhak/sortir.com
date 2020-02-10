@@ -28,9 +28,15 @@ class Site
      */
     private $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="site", orphanRemoval=true)
+     */
+    private $events;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,6 +81,37 @@ class Site
             // set the owning side to null (unless already changed)
             if ($member->getSite() === $this) {
                 $member->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getSite() === $this) {
+                $event->setSite(null);
             }
         }
 

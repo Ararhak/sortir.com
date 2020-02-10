@@ -59,6 +59,23 @@ class Event
      */
     private $registeredMembers;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\site", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\location", inversedBy="events")
+     */
+    private $location;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\status", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->registeredMembers = new ArrayCollection();
@@ -176,6 +193,42 @@ class Event
         if ($this->registeredMembers->contains($registeredMember)) {
             $this->registeredMembers->removeElement($registeredMember);
         }
+
+        return $this;
+    }
+
+    public function getSite(): ?site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getLocation(): ?location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?location $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    public function getStatus(): ?status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
