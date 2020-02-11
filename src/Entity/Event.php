@@ -66,7 +66,7 @@ class Event
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\location", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events")
      */
     private $location;
 

@@ -50,7 +50,7 @@ class Member implements UserInterface
     private $active;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\site", inversedBy="members")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="members")
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;
@@ -242,6 +242,7 @@ class Member implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
+        return ['ROLE_USER'];
     }
 
     /**
@@ -257,7 +258,8 @@ class Member implements UserInterface
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        // TODO: Implement getUsername() method : a voir si nom, prenom ou les deux
+        return $this->getName();
     }
 
     /**
