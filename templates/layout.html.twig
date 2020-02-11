@@ -9,6 +9,14 @@
           href="{{ asset('assets/img/Favicon.jpg')}}">
 </head>
 <body>
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="'alert alert-{{ label }}">{{ message }}</div>
+    {% endfor %}
+{% endfor %}
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{{ url('home') }}">
         <img src="{{ asset('assets/img/logo.jpg')}}" width="100" height="100" alt="">
