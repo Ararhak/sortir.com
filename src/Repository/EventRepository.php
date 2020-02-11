@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,21 @@ class EventRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
+    }
+
+    public function findEventByPage($page = 0, $limit = 100)
+    {
+        $entityManager = $this->getEntityManager();
+        $dql = <<<DQL
+SELECT s 
+FROM App\Entity\Event s
+DQL;
+        $query = $entityManager->createQuery($dql)
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
+        $paginator = new Paginator($query, true);
+
+        return $paginator;
     }
 
     // /**
