@@ -1,13 +1,26 @@
 security:
+    encoders:
+        App\Entity\Member:
+            algorithm: argon2i
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        user_provider:
+            entity:
+                class: App\Entity\Member
+                property: mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: lazy
+            guard:
+                authenticators:
+                    - App\Security\LoginFromAuthentificator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

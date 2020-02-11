@@ -5,11 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @UniqueEntity(fields={"mail"}, message="There is already an account with this mail")
  */
-class Member
+class Member implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -29,7 +32,7 @@ class Member
     private $surname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
@@ -38,10 +41,8 @@ class Member
      */
     private $mail;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $admin;
+    //Le champ active est false tant que l'utilisateur ne s'est pas connecté une première fois
+    ///après qu'un admin lui ait crée son compte
 
     /**
      * @ORM\Column(type="boolean")
@@ -49,8 +50,8 @@ class Member
     private $active;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\site", inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="members")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
@@ -124,18 +125,6 @@ class Member
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getAdmin(): ?bool
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(bool $admin): self
-    {
-        $this->admin = $admin;
 
         return $this;
     }
@@ -233,5 +222,39 @@ class Member
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method : a voir si nom, prenom ou les deux
+        return $this->getName();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

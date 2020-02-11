@@ -49,29 +49,29 @@ class Event
     private $infos;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\member", inversedBy="organizedEvents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="organizedEvents")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organizer;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\member", inversedBy="registeredEvents")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Member", inversedBy="registeredEvents")
      */
     private $registeredMembers;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\site", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\location", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events")
      */
     private $location;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\status", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
