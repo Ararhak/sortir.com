@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,8 +22,9 @@ class MyProfileType extends AbstractType
             ->add('surname', TextType::class, ['label'=>'Nom : ', 'required'=>true])
             ->add('phone', TextType::class, ['label'=>'Téléphone : ', 'required'=>true])
             ->add('mail', Email::class, ['label'=>'Email : ', 'required'=>true])
-            ->add('password', PasswordType::class, ['label'=>'Mot de passe : ', 'required'=>true])
-            ->add('password', PasswordType::class, ['label'=>'Confirmation : ', 'required'=>true])
+            ->add('password', RepeatedType::class,
+                ['first_options'=> ['label'=>'Mot de passe : '], 'second_options'=>['label'=>'Confirmation :'],])
+//            ->add('password', PasswordType::class, ['label'=>'Confirmation : ', 'required'=>true])
             ->add('site', TextType::class, ['label'=>'Ville de rattachement : ', 'required'=>true])
             ->add('save', SubmitType::class, ['label'=>'Ajouter',])
         ;
