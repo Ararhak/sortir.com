@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-sm navbar-expand-md navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url('home') }}">
+        <img src="{{ asset('assets/img/Favicon.png')}}" width="100" height="100" alt="">
+    </a>>
+    <a class="navbar-brand" href="{{ url('home') }}"> Sortir</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('home') }}">Accueil <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                {# A modifier menu déroulant#}
+                {#                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'1'}) }}">Dessins</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'2'}) }}">Chez vous</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'3'}) }}">Expositions</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'4'}) }}">Presse</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'5'}) }}">Décor Mural</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'6'}) }}">Vases</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'7'}) }}">Gravures</a>
+                                    <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'8'}) }}">Autres</a>
+                                </div>#}
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('home') }}">login<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('home') }}">contact<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
