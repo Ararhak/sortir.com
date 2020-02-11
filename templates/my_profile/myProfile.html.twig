@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% form_theme myProfileForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme myProfileFormView 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Mon Profil{% endblock %}
 
@@ -8,16 +8,10 @@
 
     <h1>Mon profil</h1>
 
-    {{ form(myProfileFormView.pseudo) }}
-    {{ form(myProfileFormView.name) }}
-    {{ form(myProfileFormView.surname) }}
-    {{ form(myProfileFormView.phone) }}
-    {{ form(myProfileFormView.mail) }}
-    {{ form(myProfileFormView.password.first_options) }}
-    {{ form(myProfileFormView.password.second_options) }}
-    {{ form(myProfileFormView.site) }}
+    {{ form(myProfileFormView) }}
 
-    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">
+
+    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button">
         Retour
     </a>
 

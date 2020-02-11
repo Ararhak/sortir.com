@@ -22,7 +22,7 @@ class MyProfileController extends AbstractController
         $memberForm->handleRequest($request);
 
         if($memberForm->isSubmitted() && $memberForm->isValid()){
-            $this->addFlash('success', 'Modificatios enregistrées !');
+            $this->addFlash('success', 'Modifications enregistrées !');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
