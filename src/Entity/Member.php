@@ -10,7 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
- * @UniqueEntity(fields={"mail","pseudo"}, message="Un compte avec cet email existe déjà")
+ * @UniqueEntity(fields={"mail"}, message="Cet email est déjà lié à un compte")
+ * @UniqueEntity(fields={"pseudo"}, message="Le pseudo existe déjà")
  */
 class Member implements UserInterface
 {
@@ -37,7 +38,7 @@ class Member implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $mail;
 
@@ -71,7 +72,7 @@ class Member implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
     private $pseudo;
 
