@@ -5,10 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @UniqueEntity(fields={"mail"}, message="There is already an account with this mail")
  */
 class Member implements UserInterface
 {
@@ -30,7 +32,7 @@ class Member implements UserInterface
     private $surname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
 
@@ -39,10 +41,8 @@ class Member implements UserInterface
      */
     private $mail;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $admin;
+    //Le champ active est false tant que l'utilisateur ne s'est pas connecté une première fois
+    ///après qu'un admin lui ait crée son compte
 
     /**
      * @ORM\Column(type="boolean")
@@ -51,7 +51,7 @@ class Member implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
@@ -130,18 +130,6 @@ class Member implements UserInterface
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getAdmin(): ?bool
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(bool $admin): self
-    {
-        $this->admin = $admin;
 
         return $this;
     }

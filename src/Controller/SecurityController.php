@@ -9,6 +9,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    //TODO: Login par email pour le moment, ajouter la possibilité de se loger par pseudo
+
     /**
      * @Route("/login", name="app_login")
      */
