@@ -70,6 +70,11 @@ class Member implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $pseudo;
+
     public function __construct()
     {
         $this->organizedEvents = new ArrayCollection();
@@ -268,5 +273,18 @@ class Member implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
 }
