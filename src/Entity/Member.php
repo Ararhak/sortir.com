@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
- * @UniqueEntity(fields={"mail"}, message="There is already an account with this mail")
+ * @UniqueEntity(fields={"mail","pseudo"}, message="Un compte avec cet email existe déjà")
  */
 class Member implements UserInterface
 {
@@ -61,7 +61,7 @@ class Member implements UserInterface
     private $organizedEvents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="registered")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="registeredMembers")
      */
     private $registeredEvents;
 
@@ -71,7 +71,7 @@ class Member implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $pseudo;
 
@@ -94,7 +94,6 @@ class Member implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
