@@ -44,11 +44,6 @@ class Member implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $admin;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $active;
 
     /**
@@ -127,18 +122,6 @@ class Member implements UserInterface
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getAdmin(): ?bool
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(bool $admin): self
-    {
-        $this->admin = $admin;
 
         return $this;
     }
