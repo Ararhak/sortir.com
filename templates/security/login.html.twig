@@ -15,9 +15,10 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputMail">Email</label>
-    <input type="text" value="{{ last_username }}" name="mail" id="inputMail" class="form-control" required autofocus>
+    <h1 class="h3 mb-3 font-weight-normal">Identifiez-vous</h1>
+    <label for="inputMailOrPseudo">Identifiant</label>
+    <input type="text" value="{{ last_username }}" name="mailOrPseudo"
+           placeholder="pseudo ou email" id="inputMail" class="form-control" required autofocus>
     <label for="inputPassword">Mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 

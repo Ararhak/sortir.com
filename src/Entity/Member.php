@@ -10,7 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
- * @UniqueEntity(fields={"mail"}, message="There is already an account with this mail")
+ * @UniqueEntity(fields={"mail"}, message="Cet email est déjà lié à un compte")
+ * @UniqueEntity(fields={"pseudo"}, message="Le pseudo existe déjà")
  */
 class Member implements UserInterface
 {
@@ -37,13 +38,12 @@ class Member implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $mail;
 
     //Le champ active est false tant que l'utilisateur ne s'est pas connecté une première fois
     ///après qu'un admin lui ait crée son compte
-
     /**
      * @ORM\Column(type="boolean")
      */
@@ -61,7 +61,7 @@ class Member implements UserInterface
     private $organizedEvents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="registered")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="registeredMembers")
      */
     private $registeredEvents;
 
@@ -71,7 +71,7 @@ class Member implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
     private $pseudo;
 
@@ -94,7 +94,6 @@ class Member implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 

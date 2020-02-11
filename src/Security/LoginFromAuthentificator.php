@@ -50,17 +50,18 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'mail' => $request->request->get('mail'),
+            'mailOrPseudo' => $request->request->get('mailOrPseudo'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['mail']
+            $credentials['mailOrPseudo']
         );
 
         return $credentials;
     }
+
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
@@ -69,11 +70,14 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['mail' => $credentials['mail']]);
+        $user = $this->entityManager->getRepository(Member::class)->findByPseudoOrEmail($credentials['mailOrPseudo']);
+
+//        dump($user);
+//        die();
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Mail could not be found.');
+            throw new CustomUserMessageAuthenticationException('Email ou pseudo invalide !');
         }
 
         return $user;

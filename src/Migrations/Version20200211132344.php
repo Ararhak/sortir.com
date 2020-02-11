@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200211100133 extends AbstractMigration
+final class Version20200211132344 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,8 @@ final class Version20200211100133 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE member CHANGE site_id site_id INT DEFAULT NULL');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_70E4FA785126AC48 ON member (mail)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_70E4FA7886CC499D ON member (pseudo)');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +31,7 @@ final class Version20200211100133 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE member CHANGE site_id site_id INT NOT NULL');
+        $this->addSql('DROP INDEX UNIQ_70E4FA785126AC48 ON member');
+        $this->addSql('DROP INDEX UNIQ_70E4FA7886CC499D ON member');
     }
 }

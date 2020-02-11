@@ -1,10 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
+
     <h1>Nouvelle inscription</h1>
 
     {{ form_start(registrationForm) }}
@@ -14,7 +15,7 @@
 
     <button class="btn">Inscrire un nouveau membre</button>
 
-    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">
+    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
         Retour
     </a>
 
