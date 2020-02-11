@@ -31,9 +31,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             //Build default password with first letter of surname and name (lower case)
-            $plainPassword = substr($form->get('surname')->getData(),0, 1) . $form->get('name')->getData();
+            $plainPassword = substr($form->get('name')->getData(),0, 1) . $form->get('surname')->getData();
 
             // encode the plain password
             $user->setPassword(
@@ -49,16 +48,17 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
+            //TODO: as an admin we don't want to authentificate after register
+//            return $guardHandler->authenticateUserAndHandleSuccess(
+//                $user,
+//                $request,
+//                $authenticator,
+//                'main' // firewall name in security.yaml
+//            );
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            dump($this->getUser());
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [

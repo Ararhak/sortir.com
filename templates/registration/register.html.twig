@@ -1,15 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1>Nouvelle inscription</h1>
 
     {{ form_start(registrationForm) }}
     {{ form_row(registrationForm.surname) }}
     {{ form_row(registrationForm.name) }}
     {{ form_row(registrationForm.mail) }}
 
-    <button class="btn">Register new member</button>
+    <button class="btn">Inscrire un nouveau membre</button>
+
+    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">
+        Retour
+    </a>
+
     {{ form_end(registrationForm) }}
+
 {% endblock %}
