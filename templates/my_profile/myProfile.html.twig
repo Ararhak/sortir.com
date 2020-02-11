@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% form_theme myProfileForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+
+    <h1>Mon profil</h1>
+
+    {{ form(myProfileFormView.pseudo) }}
+    {{ form(myProfileFormView.name) }}
+    {{ form(myProfileFormView.surname) }}
+    {{ form(myProfileFormView.phone) }}
+    {{ form(myProfileFormView.mail) }}
+    {{ form(myProfileFormView.password.first_options) }}
+    {{ form(myProfileFormView.password.second_options) }}
+    {{ form(myProfileFormView.site) }}
+
+    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button" aria-disabled="true">
+        Retour
+    </a>
+
+{% endblock %}

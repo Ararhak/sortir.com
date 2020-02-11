@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MyProfileController extends AbstractController
 {
     /**
-     * @Route("/my/profile", name="my_profile")
+     * @Route("/myprofile", name="myProfile")
      */
     public function myProfile(Request $request, EntityManagerInterface $entityManager)
     {
@@ -28,11 +28,11 @@ class MyProfileController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute(''); //TODO : Route's name
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render('my_profile/index.html.twig', [
-            'controller_name' => 'MyProfileController',
+        return $this->render('my_profile/myProfile.html.twig', [
+            'myProfileFormView' => $memberForm->createView(),
         ]);
     }
 
