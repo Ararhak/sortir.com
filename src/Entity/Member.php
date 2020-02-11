@@ -41,6 +41,9 @@ class Member implements UserInterface
      */
     private $mail;
 
+    //Le champ active est false tant que l'utilisateur ne s'est pas connecté une première fois
+    ///après qu'un admin lui ait crée son compte
+
     /**
      * @ORM\Column(type="boolean")
      */
@@ -48,7 +51,7 @@ class Member implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
