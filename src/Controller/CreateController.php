@@ -38,13 +38,11 @@ class CreateController extends AbstractController
                 $entityManager->persist($event);
                 $entityManager->flush();
 
-                return $this->redirectToRoute(''); //TODO : Route's name
+                return $this->redirectToRoute('home'); //TODO : Route's name
             }
         }
 
-        return $this->render('my_profile/index.html.twig', [
-            'controller_name' => 'MyProfileController',
-        ]);
+        return $this->render('create/create.html.twig', ['eventFormView' => $eventForm->createView()]);
     }
 
 
