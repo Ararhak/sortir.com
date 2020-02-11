@@ -44,7 +44,6 @@ class Member implements UserInterface
 
     //Le champ active est false tant que l'utilisateur ne s'est pas connecté une première fois
     ///après qu'un admin lui ait crée son compte
-
     /**
      * @ORM\Column(type="boolean")
      */

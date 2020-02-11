@@ -19,6 +19,16 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
+
+    public function findByPseudoOrEmail($value){
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.pseudo = :value')
+            ->orWhere('m.mail = :value')
+            ->setParameter( 'value', $value )
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */
@@ -47,4 +57,6 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
 }
