@@ -3,7 +3,7 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Status;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,5 +16,6 @@ class MainController extends AbstractController
     public function myProfile()
     {
         return $this->render("main/home.html.twig");
+
     }
 }
