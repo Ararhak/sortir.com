@@ -15,6 +15,10 @@ class ChangePasswordController extends AbstractController
      */
     public function changePassword(Request $request, EntityManagerInterface $entityManager)
     {
+
+        //require the user to log during the session, not based on a 'remember_me' cookie
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $user = $this->getUser();
         $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
 
