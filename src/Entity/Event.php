@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +20,7 @@ class Event
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Votre nom est indispensable")
      * @ORM\Column(type="string", length=300)
      */
     private $name;
@@ -44,6 +46,7 @@ class Event
     private $nbMaxRegistration;
 
     /**
+     * @Assert\Length(max=500, maxMessage = "le champs ne doit pas contenir plus de {{ limit }} caractères")
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $infos;
@@ -66,7 +69,7 @@ class Event
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events",cascade={"persist"})
      */
     private $location;
 

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Location;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -19,10 +20,10 @@ class EventType extends AbstractType
             ->add('name',TextType::class, ['label'=>'Nom de l\'événement : ', 'required'=>true])
             ->add('startingDateTime', DateType::class,['label'=>'Date de début : ','required'=>true])
             ->add('duration', NumberType::class,['label'=>'Durée :','required'=>true])
-            ->add('inscriptionDeadLine',DateType::class,['label'=>'Date de début : ','required'=>true])
-            ->add('nbMaxRegistration', NumberType::class,['label'=>'Durée :','required'=>true])
-            ->add('infos', TextType::class, ['label'=>'Nom de l\'événement : ', 'required'=>true])
-            ->add('location', TextType::class, ['label'=>'Nom de l\'événement : ', 'required'=>true])
+            ->add('inscriptionDeadLine',DateType::class,['label'=>'Date limite d\'inscription : ','required'=>true])
+            ->add('nbMaxRegistration', NumberType::class,['label'=>'Nombre maximum de participants :','required'=>true])
+            ->add('infos', TextType::class, ['label'=>'Informations complémentaire : ', 'required'=>true])
+            ->add('location', LocationType::class, ['required'=>true])
             ->add('save', SubmitType::class, ['label'=>'Ajouter',])
         ;
     }

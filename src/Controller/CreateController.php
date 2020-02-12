@@ -8,6 +8,7 @@ use App\Entity\Member;
 use App\Form\EventType;
 use App\Form\MyProfileType;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,11 +25,11 @@ class CreateController extends AbstractController
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->getUser();
-            $event->setOrganizer($user->getid());
+            $event->setOrganizer($user);
 
 
             $eventForm = $this->createForm(EventType::class, $event);
-            $eventForm->handleRequest($id);
+            $eventForm->handleRequest($request);
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
                 $event->setSite($user->getsite());
@@ -40,9 +41,12 @@ class CreateController extends AbstractController
 
                 return $this->redirectToRoute('home'); //TODO : Route's name
             }
-        }
 
-        return $this->render('create/create.html.twig', ['eventFormView' => $eventForm->createView()]);
+
+            return $this->render('create/create.html.twig', ['eventFormView' => $eventForm->createView()]);
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
     }
 
 
