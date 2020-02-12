@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -26,11 +27,7 @@ class Event
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $startingDateTime;
-
-    /**
+     * @Assert\Type(type="integer", message="Vous devez indiquer un nombre")
      * @ORM\Column(type="integer")
      */
     private $duration;
@@ -38,9 +35,15 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
+    private $startingDateTime;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
     private $inscriptionDeadLine;
 
     /**
+     * @Assert\Type(type="integer", message="Vous devez indiquer un nombre")
      * @ORM\Column(type="integer")
      */
     private $nbMaxRegistration;
@@ -78,6 +81,41 @@ class Event
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateStartingDate(ExecutionContextInterface $context, $payload)
+    {
+        $dateadd =$this->getStartingDateTime();
+        if(!is_numeric($this->getDuration())){
+            return;
+        }
+        $dur='PT'.$this->getDuration().'H';
+        $duration = new \DateInterval($dur);
+        $dateadd -> add($duration);
+        if($dateadd<new \DateTime('now')){
+            $context->buildViolation('La date de début et la durée doivent être supérieur à maintenant')
+                ->atPath('startingDateTime')
+                ->addViolation();
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
+    {
+        if(!is_numeric($this->getDuration())){
+            return;
+        }
+        $duration = new\DateInterval('PT'.$this->getDuration().'H');
+        if($this->getInscriptionDeadLine() > ($this->getStartingDateTime()-> add($duration))){
+            $context->buildViolation('La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement')
+                ->atPath('inscriptionDeadLine')
+                ->addViolation();
+        }
+    }
 
     public function __construct()
     {

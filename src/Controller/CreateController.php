@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Member;
+use App\Entity\Status;
 use App\Form\EventType;
 use App\Form\MyProfileType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,12 +33,8 @@ class CreateController extends AbstractController
             $eventForm->handleRequest($request);
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
-                $event->setSite($user->getsite());
-                $this->addFlash('success', 'Modificatios enregistrées !');
+                $this->saveInDB($event, $user, $entityManager);
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($event);
-                $entityManager->flush();
 
                 return $this->redirectToRoute('home'); //TODO : Route's name
             }
@@ -48,6 +45,23 @@ class CreateController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
+
+    public function saveInDB($event, $user, EntityManagerInterface $entityManager){
+        $event->setSite($user->getsite());
+        $this->addFlash('success', 'Modificatios enregistrées !');
+        $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
+        $event->setStatus($status);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home'); //TODO : Route's name
+    }
+
+    public function verifyDate($event){
+
+    }
+
 
 
 }
