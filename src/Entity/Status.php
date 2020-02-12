@@ -16,7 +16,7 @@ class Status
         return 'created';
     }
     public static function opened(){
-        return 'open';
+        return 'opened';
     }
     public static function ongoing(){
         return 'ongoing';
