@@ -72,9 +72,6 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
 
         $user = $this->entityManager->getRepository(Member::class)->findByPseudoOrEmail($credentials['mailOrPseudo']);
 
-//        dump($user);
-//        die();
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email ou pseudo invalide !');

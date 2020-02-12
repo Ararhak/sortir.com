@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Member;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFromAuthentificator;
+use App\Service\DefaultPasswordGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +30,15 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ( $form->isSubmitted() && $form->isValid()) {
 
-            //Build default password with first letter of surname and name (lower case)
-            $plainPassword = substr($form->get('name')->getData(),0, 1) . $form->get('surname')->getData();
+            //Build default password
+            $plainPassword  = DefaultPasswordGenerator::defaultPasswordFromNameAndSurname(
+                $form->get('name')->getData(),
+                $form->get('surname')->getData()
+            );
+
+            //$plainPassword = substr($form->get('name')->getData(),0, 1) . $form->get('surname')->getData();
 
             // encode the plain password
             $user->setPassword(
