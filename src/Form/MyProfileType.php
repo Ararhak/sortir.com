@@ -23,8 +23,8 @@ class MyProfileType extends AbstractType
             ->add('surname', TextType::class, ['label'=>'Nom : ', 'required'=>true])
             ->add('phone', TextType::class, ['label'=>'Téléphone : ', 'required'=>true])
             ->add('mail', EmailType::class, ['label'=>'Email : ', 'required'=>true])
-            ->add('password', RepeatedType::class,
-                ['first_options'=> ['label'=>'Mot de passe : '], 'second_options'=>['label'=>'Confirmation :'],])
+//            ->add('password', RepeatedType::class,
+//                ['first_options'=> ['label'=>'Mot de passe : '], 'second_options'=>['label'=>'Confirmation :'],])
             ->add('site', TextType::class, ['label'=>'Ville de rattachement : ', 'required'=>true])
             ->add('save', SubmitType::class, ['label'=>'Ajouter',])
         ;

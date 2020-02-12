@@ -8,10 +8,25 @@
 
     <h1>Mon profil</h1>
 
-    {{ form(myProfileFormView) }}
+    {{ form_start(myProfileFormView) }}
+
+    {{ form_row(myProfileFormView.pseudo) }}
+    {{ form_row(myProfileFormView.name) }}
+    {{ form_row(myProfileFormView.surname) }}
+    {{ form_row(myProfileFormView.phone) }}
+    {{ form_row(myProfileFormView.mail) }}
+
+    <div class="password-div">
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="8caracte" value="password" disabled>
+        <a href="{{ path('changePassword') }}" class="btn btn-secondary btn-lg" role="button">Changer le mot de passe</a>
+    </div>
+
+    {{ form_row(myProfileFormView.site) }}
+    {{ form_row(myProfileFormView.save) }}
 
 
-    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg disabled" role="button">
+    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg" role="button">
         Retour
     </a>
 
