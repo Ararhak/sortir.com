@@ -33,7 +33,6 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder
-
     ) {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -91,7 +90,8 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('home'));
+
+        return new RedirectResponse($this->urlGenerator->generate('first_login'));
     }
 
     protected function getLoginUrl()

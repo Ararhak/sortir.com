@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method Status|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,22 @@ class StatusRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Status::class);
+    }
+
+    public function findByLibel($value)
+    {
+        try {
+            return $this->createQueryBuilder('s')
+                ->andWhere('s.libel = :val')
+                ->setParameter('val', $value)
+                ->orderBy('s.id', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            dump('pas de status trouver');
+            die();
+        }
     }
 
     // /**

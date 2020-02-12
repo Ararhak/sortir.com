@@ -44,7 +44,7 @@ class Location
     private $events;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="locations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="locations",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $city;

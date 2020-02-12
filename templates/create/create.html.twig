@@ -3,50 +3,21 @@
 {% block name %}Création d'événement {% endblock %}
 
 {% block body %}
+
+    <div class="col-4 mx-auto"><br>
     {{ form_start(eventFormView) }}
 
     {{ form_row(eventFormView.name) }}
     {{ form_row(eventFormView.startingDateTime) }}
-    {{ form_row(eventFormView.duration) }}
+    {{ form_row(eventFormView.duration) }} <p>heures</p>
     {{ form_row(eventFormView.inscriptionDeadLine) }}
     {{ form_row(eventFormView.nbMaxRegistration) }}
     {{ form_row(eventFormView.infos) }}
     {{ form_row(eventFormView.location) }}
     {{ form_row(eventFormView.save) }}
 
-    {{ form_label(eventFormView.name) }}
-    {{ form_widget(eventFormView.name) }}
-    {{ form_errors(eventFormView.name) }}
-
-    {{ form_label(eventFormView.startingDateTime) }}
-    {{ form_widget(eventFormView.startingDateTime) }}
-    {{ form_errors(eventFormView.startingDateTime) }}
-
-    {{ form_label(eventFormView.duration) }}
-    {{ form_widget(eventFormView.duration) }}
-    {{ form_errors(eventFormView.duration) }}
-
-    {{ form_label(eventFormView.inscriptionDeadLine) }}
-    {{ form_widget(eventFormView.inscriptionDeadLine) }}
-    {{ form_errors(eventFormView.inscriptionDeadLine) }}
-
-    {{ form_label(eventFormView.nbMaxRegistration) }}
-    {{ form_widget(eventFormView.nbMaxRegistration) }}
-    {{ form_errors(eventFormView.nbMaxRegistration) }}
-
-    {{ form_label(eventFormView.infos) }}
-    {{ form_widget(eventFormView.infos) }}
-    {{ form_errors(eventFormView.infos) }}
-
-    {{ form_label(eventFormView.location) }}
-    {{ form_widget(eventFormView.location) }}
-    {{ form_errors(eventFormView.location) }}
-
-    {{ form_label(eventFormView.save) }}
-    {{ form_widget(eventFormView.save) }}
-    {{ form_errors(eventFormView.save) }}
 
     {{ form_end(eventFormView) }}
-
+    </div>
 
 {% endblock %}
