@@ -1,3 +1,34 @@
 {% extends 'layout.html.twig' %}
 
-it's you first time here, welcome !
+{% block body %}
+
+    <h1>Bienvenue sur Sortir</h1>
+
+    <p>
+        C'est votre première connexion.
+    </p>
+
+    <p>
+        Nous vous invitons à compléter votre profil en suivant ce lien.
+        <a href="{{ path('myProfile') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
+            Modifier mon profil
+        </a>
+    </p>
+
+    <p>
+        Nous vous recommandons de <strong>remplacer votre mot de passe</strong> qui vous a été attribué par défaut en suivant ce lien
+        <a href="{{ path('changePassword') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
+            Modifier mon pot de passe
+        </a>
+    </p>
+
+    <p>
+    Vous pouvez également ignorer ce message et continuer vos activités (à vos risques et périls)
+        <a href="{{ path('home') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
+           Continuer
+        </a>
+    </p>
+
+
+
+{% endblock body %}

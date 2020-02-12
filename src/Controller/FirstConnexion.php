@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\DefaultPasswordGenerator;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,10 +13,11 @@ class FirstConnexion extends  AbstractController
     /**
      * @Route("/firstlogin", name="first_login");
      * */
-
-    public function isFirstLogin()
+    public function isFirstLogin(LoggerInterface $logger)
     {
         //TODO: test if first connexion (ie default password), if it is redirect to the page, else redirect to home
+
+        $logger->info('arrivée dans isFirstLogin');
 
         $userPassword = $this->getUser()->getPassword();
 
@@ -26,9 +28,6 @@ class FirstConnexion extends  AbstractController
         $defaultPassword = DefaultPasswordGenerator::defaultPasswordFromNameAndSurname($userName,$userSurname);
 
         //Compare to password
-
-        dump($defaultPassword,$userPassword );
-        die();
 
         return $this->render("security/firstlogin.html.twig");
     }
