@@ -11,6 +11,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Status
 {
+
+    public static function created(){
+        return 'created';
+    }
+    public static function opened(){
+        return 'open';
+    }
+    public static function ongoing(){
+        return 'ongoing';
+    }
+    public static function closed(){
+        return 'closed';
+    }
+    public static function finished(){
+        return 'finished';
+    }
+    public static function cancelled(){
+        return 'created';
+    }
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
