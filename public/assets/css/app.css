@@ -1,5 +1,5 @@
 h1{
-    color: #0088CC;
+    color: #000000;
 }
 @font-face {
     font-family: 'Main font';
@@ -19,21 +19,21 @@ a {
 
 
 .navbar-custom {
-    background-color: #226699;
+    background-color: #55acee;
 }
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
-    color: rgba(255,255,255,.8);
+    color: #f5f8fa;
 }
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
-    color: rgba(255,255,255,.5);
+    color: #f5f8fa;
 }
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
-    color: #ffffff;
+    color: #f5f8fa;
 }
 
 .navbar,.navbar-expand-sm,.navbar-expand-md,.navbar-expand-lg,.navbar-custom,.navbar-brand{
@@ -47,18 +47,15 @@ a {
     margin-top: 30px;
 }
 
-/*body {
-    background: url('assets/img/background.jpg') no-repeat center fixed;
-    background: url('assets/img/background.jpg') no-repeat center fixed;
-    background-size: cover;
-}*/
-/*
-html {
-    background: url(assets/img/background.jpg) no-repeat;
-    background-origin: content-box;
-}*/
+.footer{
+    position: fixed;
+    text-align: center;
+    bottom: 0px;
+    width: 100%;
+}
+
 body {
     background: #ffffff;
-    background: url("background.jpg") no-repeat center fixed;
+/*    background: url("background.jpg") no-repeat center fixed;*/
     background-size: 100%;
 }
