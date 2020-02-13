@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DisplayEventController extends AbstractController
+class DisplayListEventsController extends AbstractController
 {
     /**
      * @Route("/displayevents", name="display_events")

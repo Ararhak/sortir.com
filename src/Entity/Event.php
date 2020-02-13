@@ -66,13 +66,13 @@ class Event
     private $registeredMembers;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events",cascade={"persist"}, fetch="EAGER")
      */
     private $location;
 
