@@ -22,13 +22,13 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class,[
-                'label' => 'prénom'
+                'label' => 'Prénom'
             ])
             ->add('surname', TextType::class,[
-                'label' => 'nom'
+                'label' => 'Nom'
             ])
             ->add('mail', EmailType::class,[
-                'label' => 'email'
+                'label' => 'Email'
             ]);
     }
 

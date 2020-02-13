@@ -31,33 +31,21 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid()) {
-
             //Build default password
             $plainPassword  = DefaultPasswordGenerator::defaultPasswordFromNameAndSurname(
                 $form->get('name')->getData(),
                 $form->get('surname')->getData()
             );
 
-            //$plainPassword = substr($form->get('name')->getData(),0, 1) . $form->get('surname')->getData();
-
-            // encode the plain password
             $user->setPassword( $passwordEncoder->encodePassword( $user,  $plainPassword));
-
             $user->setActive(false);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //TODO: as an admin we don't want to authentificate after register
-//            return $guardHandler->authenticateUserAndHandleSuccess(
-//                $user,
-//                $request,
-//                $authenticator,
-//                'main' // firewall name in security.yaml
-//            );
 
-            dump($this->getUser());
+            $this->addFlash('success', 'Le membre a bien été inscrit');
 
             return $this->redirectToRoute('app_register');
         }
