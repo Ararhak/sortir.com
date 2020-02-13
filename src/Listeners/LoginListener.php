@@ -24,7 +24,8 @@ class LoginListener implements EventSubscriberInterface
     {
         $user = $event->getAuthenticationToken()->getUser();
 
-        if (!$user->getNbConnection()) {
+        if ( is_null($user->getNbConnection()) ) {
+
             $user->setNbConnection(1);
         }
         else{

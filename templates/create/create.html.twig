@@ -3,25 +3,32 @@
 
 {% form_theme eventFormView 'bootstrap_4_layout.html.twig' %}
 
-{% block name %}Création d'événement {% endblock %}
+{% block title %}Creer{% endblock title %}
 
 {% block body %}
 
-    <div class="col-4 mx-auto"><br>
 
-        <h1>Création d'un événment</h1>
+    <div class="col-4 mx-auto"><br>
+        <h1>Proposer un nouvel événement</h1>
         {{ form_start(eventFormView) }}
 
-
+        {{ form_row(eventFormView.name) }}
         {{ form_row(eventFormView.startingDateTime) }}
-        {{ form_row(eventFormView.duration) }} <p>heures</p>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(eventFormView.duration) }}
+            </div>
+            <div class="col">
+                {{ form_row(eventFormView.duration_unit) }}
+            </div>
+
+
+        </div>
+
         {{ form_row(eventFormView.inscriptionDeadLine) }}
 
-
-        {{ form_row(eventFormView.name) }}
-
         {{ form_row(eventFormView.nbMaxRegistration) }}
-
         {{ form_row(eventFormView.infos) }}
 
         {{ form_row(eventFormView.location.name) }}
@@ -34,7 +41,6 @@
 
 
         {{ form_end(eventFormView) }}
-
     </div>
 
 {% endblock %}

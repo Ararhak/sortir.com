@@ -6,19 +6,19 @@
 
 {% block body %}
 
-    <h1>Nouvelle inscription</h1>
+    <h1>Nouveau membre</h1>
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.name) }}
-    {{ form_row(registrationForm.surname) }}
-    {{ form_row(registrationForm.mail) }}
-
-    <button class="btn">Inscrire un nouveau membre</button>
-
-    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
-        Retour
-    </a>
-
-    {{ form_end(registrationForm) }}
+    <div class="col-4 mx-auto">
+        {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.surname) }}
+        {{ form_row(registrationForm.mail) }}
+        {{ form_row(registrationForm.site) }}
+        <button class="btn btn-primary">Inscrire un nouveau membre</button>
+        <a href="{{ path('display_events') }}" class="btn btn-secondary " role="button" aria-disabled="true">
+            Retour
+        </a>
+        {{ form_end(registrationForm) }}
+    </div>
 
 {% endblock %}

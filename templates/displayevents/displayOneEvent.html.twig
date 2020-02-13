@@ -26,6 +26,7 @@
     </div>
     </div>
 
+
     <div id="scrollbar">
         <ul>
         {% for registeredMember in eventDetail.getRegisteredMembers %}
@@ -35,15 +36,10 @@
         {% endfor %}
         </ul>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
 
 
+    <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
 
-
-    <a href="{{ path('display_events') }}" class="btn btn-secondary btn-lg" role="button">
         Retour
     </a>
 

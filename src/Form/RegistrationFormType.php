@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Member;
+use App\Entity\Site;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,21 +23,36 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class,[
-                'label' => 'prénom'
-            ])
-            ->add('surname', TextType::class,[
-                'label' => 'nom'
-            ])
-            ->add('mail', EmailType::class,[
-                'label' => 'email'
-            ]);
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'label' => 'Prénom',
+                ]
+            )
+            ->add(
+                'surname',
+                TextType::class,
+                [
+                    'label' => 'Nom',
+                ]
+            )
+            ->add(
+                'mail',
+                EmailType::class,
+                [
+                    'label' => 'Email',
+                ]
+            )
+            ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' => 'name']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Member::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Member::class,
+            ]
+        );
     }
 }
