@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Member;
+use App\Entity\ResetPassword;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
@@ -28,7 +29,9 @@ class ChangePasswordController extends AbstractController
 
         $user = $this->getUser();
 
-        $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
+        $resetPassword = new ResetPassword();
+
+        $changePasswordForm = $this->createForm(ChangePasswordType::class, $resetPassword);
 
         $changePasswordForm->handleRequest($request);
 
@@ -36,11 +39,12 @@ class ChangePasswordController extends AbstractController
 
             //TODO : verifier toutes les contraintes de taille de caractères spéciaux, pas le meme que l'ancien
 
+
             //encode the password give in the form
             $this->getUser()->setPassword(
                 $passwordEncoder->encodePassword(
                     $this->getUser(),
-                    $changePasswordForm->get('password')->getData()
+                    $changePasswordForm->get('newPassword')->getData()
                 )
             );
 
