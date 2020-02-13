@@ -14,10 +14,11 @@
     {{ form_row(registrationForm.name) }}
     {{ form_row(registrationForm.surname) }}
     {{ form_row(registrationForm.mail) }}
+        {{ form_row(registrationForm.site) }}
 
     <button class="btn btn-primary">Inscrire un nouveau membre</button>
 
-    <a href="{{ path('home') }}" class="btn btn-secondary " role="button" aria-disabled="true">
+    <a href="{{ path('display_events') }}" class="btn btn-secondary " role="button" aria-disabled="true">
         Retour
     </a>
 
