@@ -25,7 +25,7 @@ class MyProfileController extends AbstractController
         $memberForm->handleRequest($request);
 
         if($memberForm->isSubmitted() && $memberForm->isValid()){
-            $this->addFlash('success', 'Modifications enregistrées !');
+            $this->addFlash('success', 'Le profil a été modifié !');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
