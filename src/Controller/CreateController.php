@@ -28,14 +28,11 @@ class CreateController extends AbstractController
             $user = $this->getUser();
             $event->setOrganizer($user);
 
-
             $eventForm = $this->createForm(EventType::class, $event);
             $eventForm->handleRequest($request);
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
                 $this->saveInDB($event, $user, $entityManager);
-
-
                 return $this->redirectToRoute('home'); //TODO : Route's name
             }
 

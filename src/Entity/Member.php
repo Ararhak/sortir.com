@@ -255,8 +255,8 @@ class Member implements UserInterface
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method : a voir si nom, prenom ou les deux
-        return $this->getName();
+        // TODO: Implement getUsername() method
+        return $this->getMail();
     }
 
     /**

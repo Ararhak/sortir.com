@@ -22,8 +22,8 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
             remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 3600
+                secret: '%env(APP_SECRET)%'
+                lifetime: 10000000
                 path: /
 
             # activate different ways to authenticate
