@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Member;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,20 +17,19 @@ class ChangePasswordController extends AbstractController
     /**
      * @Route("/changepassword", name="changePassword")
      */
+
     public function changePassword(
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
+        $user = $this->getUser();
 
-        //require the user to log during the session, not based on a 'remember_me' cookie
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
 
-        $changePasswordForm = $this->createForm(ChangePasswordType::class, $this->getUser());
         $changePasswordForm->handleRequest($request);
 
         if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
-
 
             //TODO : verifier toutes les contraintes de taille de caractères spéciaux, pas le meme que l'ancien
 
@@ -40,20 +40,12 @@ class ChangePasswordController extends AbstractController
                     $changePasswordForm->get('password')->getData()
                 )
             );
-
+            
             $this->addFlash('success', 'Mot de passe modifié avec succès');
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($this->getUser());
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('home');
-
-        } else {
-
-            $this->addFlash('alert', 'Mot de passe non modifié !');
-
-
         }
 
         return $this->render(

@@ -90,7 +90,6 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-
         return new RedirectResponse($this->urlGenerator->generate('first_login'));
     }
 
