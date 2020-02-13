@@ -21,17 +21,15 @@ class ChangePasswordController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
+        $user= $this->getUser();
 
-        //require the user to log during the session, not based on a 'remember_me' cookie
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        $changePasswordForm = $this->createForm(ChangePasswordType::class, $this->getUser());
+        $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
         $changePasswordForm->handleRequest($request);
 
         if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
 
-
             //TODO : verifier toutes les contraintes de taille de caractères spéciaux, pas le meme que l'ancien
+
 
             //encode the password give in the form
             $this->getUser()->setPassword(
@@ -43,17 +41,10 @@ class ChangePasswordController extends AbstractController
 
             $this->addFlash('success', 'Mot de passe modifié avec succès');
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($this->getUser());
+            $entityManager->persist( $user );
             $entityManager->flush();
 
             return $this->redirectToRoute('home');
-
-        } else {
-
-            $this->addFlash('alert', 'Mot de passe non modifié !');
-
-
         }
 
         return $this->render(
