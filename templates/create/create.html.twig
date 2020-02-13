@@ -5,19 +5,31 @@
 {% block body %}
 
     <div class="col-4 mx-auto"><br>
-    {{ form_start(eventFormView) }}
 
-    {{ form_row(eventFormView.name) }}
+
+    {{ form_start(eventFormView) }}
+        <form>
+            <div class="form-group row">
     {{ form_row(eventFormView.startingDateTime) }}
     {{ form_row(eventFormView.duration) }} <p>heures</p>
     {{ form_row(eventFormView.inscriptionDeadLine) }}
+            </div>
+            <div class="form-row">
+                {{ form_row(eventFormView.name) }}
+            </div>
     {{ form_row(eventFormView.nbMaxRegistration) }}
+            <div class="form-row">
     {{ form_row(eventFormView.infos) }}
+            </div>
     {{ form_row(eventFormView.location) }}
+            <div class="form-row">
     {{ form_row(eventFormView.save) }}
-
+            </div>
+        </form>
 
     {{ form_end(eventFormView) }}
+
+
     </div>
 
 {% endblock %}

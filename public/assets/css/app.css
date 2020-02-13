@@ -46,3 +46,19 @@ a {
     margin-bottom: 0px;
     margin-top: 30px;
 }
+
+/*body {
+    background: url('assets/img/background.jpg') no-repeat center fixed;
+    background: url('assets/img/background.jpg') no-repeat center fixed;
+    background-size: cover;
+}*/
+/*
+html {
+    background: url(assets/img/background.jpg) no-repeat;
+    background-origin: content-box;
+}*/
+body {
+    background: #ffffff;
+    background: url("background.jpg") no-repeat center fixed;
+    background-size: 100%;
+}
