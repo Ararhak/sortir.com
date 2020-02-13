@@ -33,7 +33,7 @@ class CreateController extends AbstractController
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
                 $this->saveInDB($event, $user, $entityManager);
-                return $this->redirectToRoute('home'); //TODO : Route's name
+                return $this->redirectToRoute('displayevents/displayevents.html.twig');
             }
 
 
@@ -51,7 +51,6 @@ class CreateController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
-
         return $this->redirectToRoute('home'); //TODO : Route's name
     }
 
