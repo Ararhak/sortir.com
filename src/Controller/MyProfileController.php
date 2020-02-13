@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Form\MyProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,9 @@ class MyProfileController extends AbstractController
     public function myProfile(Request $request, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
+
         $memberForm = $this->createForm(MyProfileType::class, $user);
+
 
         $memberForm->handleRequest($request);
 
@@ -28,11 +31,13 @@ class MyProfileController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('display_events');
         }
 
-        return $this->render('my_profile/myProfile.html.twig', [
+        return $this->render('my_profile/myProfile.html.twig',
+            [
             'myProfileFormView' => $memberForm->createView(),
+
         ]);
     }
 
