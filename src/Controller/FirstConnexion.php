@@ -17,9 +17,10 @@ class FirstConnexion extends AbstractController
     {
 
         if ($this->getUser()->getNbConnection() === 1 ) {
-            return $this->render("security/firstlogin.html.twig");
+            return $this->redirectToRoute('first_login');
+//            return $this->render("security/firstlogin.html.twig");
         } else {
-            return $this->render('Main/home.html.twig');
+            return $this->redirectToRoute('display_events');
         }
     }
 
