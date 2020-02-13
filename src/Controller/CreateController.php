@@ -45,7 +45,7 @@ class CreateController extends AbstractController
 
     public function saveInDB($event, $user, EntityManagerInterface $entityManager){
         $event->setSite($user->getsite());
-        $this->addFlash('success', 'Modificatios enregistrées !');
+        $this->addFlash('success', 'Événement ajouté !');
         $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
         $event->setStatus($status);
         $entityManager = $this->getDoctrine()->getManager();
