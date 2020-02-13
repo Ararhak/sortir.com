@@ -32,6 +32,8 @@ class CreateController extends AbstractController
             $eventForm->handleRequest($request);
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+                dump();
+                die();
                 $this->saveInDB($event, $user, $entityManager);
                 return $this->redirectToRoute('home'); //TODO : Route's name
             }
@@ -51,7 +53,6 @@ class CreateController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
-
         return $this->redirectToRoute('home'); //TODO : Route's name
     }
 

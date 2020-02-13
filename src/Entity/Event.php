@@ -93,7 +93,8 @@ class Event
         }
         $dur='PT'.$this->getDuration().'H';
         $duration = new \DateInterval($dur);
-        $dateadd -> add($duration);
+        $dateadd = new \DateTime();
+        $dateadd->add($duration);
         if($dateadd<new \DateTime('now')){
             $context->buildViolation('La date de début et la durée doivent être supérieur à maintenant')
                 ->atPath('startingDateTime')
@@ -110,7 +111,9 @@ class Event
             return;
         }
         $duration = new\DateInterval('PT'.$this->getDuration().'H');
-        if($this->getInscriptionDeadLine() > ($this->getStartingDateTime()-> add($duration))){
+        $dateadd = new \DateTime();
+        $dateadd = $this->getStartingDateTime()-> add($duration);
+        if($this->getInscriptionDeadLine() > $dateadd){
             $context->buildViolation('La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement')
                 ->atPath('inscriptionDeadLine')
                 ->addViolation();
