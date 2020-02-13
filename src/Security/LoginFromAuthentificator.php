@@ -33,7 +33,6 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder
-
     ) {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -82,7 +81,6 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
@@ -91,6 +89,7 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
 
         return new RedirectResponse($this->urlGenerator->generate('first_login'));
     }
