@@ -33,7 +33,7 @@ class CreateController extends AbstractController
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
                 $this->saveInDB($event, $user, $entityManager);
-                return $this->redirectToRoute('displayevents/displayevents.html.twig');
+                return $this->redirectToRoute('display_events');
             }
 
 
