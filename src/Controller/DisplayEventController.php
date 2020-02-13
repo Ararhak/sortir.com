@@ -15,8 +15,9 @@ class DisplayEventController extends AbstractController
      * @Route("/displayevents", name="display_events")
      */
     public function displayEvents(EntityManagerInterface $entityManager){
+        $site = $this->getUser()->getSite();
         $eventRepo = $entityManager->getRepository(Event::class);
-        $events = $eventRepo->findAll();
+        $events = $eventRepo->findEventBySite($site);
         return $this->render("displayevents/displayevents.html.twig",compact('events'));
     }
 

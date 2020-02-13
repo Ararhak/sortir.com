@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -15,6 +16,20 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class EventRepository extends ServiceEntityRepository
 {
+    /**
+     * @return Event[]
+     */
+    public function findEventBySite($site){
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.site = :site')
+            ->setParameter('site', $site)
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
