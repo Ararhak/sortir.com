@@ -12,6 +12,7 @@
         <h1>Proposer un nouvel événement</h1>
         {{ form_start(eventFormView) }}
 
+        {{ form_row(eventFormView.name) }}
         {{ form_row(eventFormView.startingDateTime) }}
 
         <div class="row">
@@ -25,9 +26,8 @@
 
         </div>
 
-
         {{ form_row(eventFormView.inscriptionDeadLine) }}
-        {{ form_row(eventFormView.name) }}
+
         {{ form_row(eventFormView.nbMaxRegistration) }}
         {{ form_row(eventFormView.infos) }}
 

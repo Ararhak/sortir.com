@@ -17,6 +17,6 @@ class DisplayOneEventController extends AbstractController
         $eventRepository = $entityManager->getRepository(Event::class);
         $eventDetail = $eventRepository->find($id);
 
-        return $this->render('display_one_event/displayOneEvent.html.twig', compact('eventDetail'));
+        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail'));
     }
 }

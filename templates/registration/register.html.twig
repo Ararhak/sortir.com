@@ -9,20 +9,16 @@
     <h1>Nouveau membre</h1>
 
     <div class="col-4 mx-auto">
-
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.name) }}
-    {{ form_row(registrationForm.surname) }}
-    {{ form_row(registrationForm.mail) }}
+        {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.surname) }}
+        {{ form_row(registrationForm.mail) }}
         {{ form_row(registrationForm.site) }}
-
-    <button class="btn btn-primary">Inscrire un nouveau membre</button>
-
-    <a href="{{ path('display_events') }}" class="btn btn-secondary " role="button" aria-disabled="true">
-        Retour
-    </a>
-
-    {{ form_end(registrationForm) }}
+        <button class="btn btn-primary">Inscrire un nouveau membre</button>
+        <a href="{{ path('display_events') }}" class="btn btn-secondary " role="button" aria-disabled="true">
+            Retour
+        </a>
+        {{ form_end(registrationForm) }}
     </div>
 
 {% endblock %}
