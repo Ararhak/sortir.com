@@ -23,6 +23,9 @@ class ChangePasswordController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $user = $this->getUser();
 
         $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
@@ -40,7 +43,7 @@ class ChangePasswordController extends AbstractController
                     $changePasswordForm->get('password')->getData()
                 )
             );
-            
+
             $this->addFlash('success', 'Mot de passe modifié avec succès');
             $entityManager->persist($user);
             $entityManager->flush();

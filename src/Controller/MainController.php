@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Event;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -9,8 +11,10 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="home");
      * */
-    public function myProfile()
+    public function myProfile(EntityManagerInterface $entityManager)
     {
-        return $this->render("main/home.html.twig");
+        $eventRepo = $entityManager->getRepository(Event::class);
+        $events = $eventRepo->findAll();
+        return $this->render("displayevents/displayevents.html.twig",compact('events'));
     }
 }
