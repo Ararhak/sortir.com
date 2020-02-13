@@ -107,15 +107,20 @@ class Event
      */
     public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
     {
-        if(!is_numeric($this->getDuration())){
+        if (!is_numeric($this->getDuration())) {
             return;
         }
         $duration = new\DateInterval('PT'.$this->getDuration().'H');
         $dateadd = new \DateTime();
-        $dateadd = $this->getStartingDateTime()-> add($duration);
-        if($this->getInscriptionDeadLine() > $dateadd){
-            $context->buildViolation('La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement')
-
+        $dateadd = $this->getStartingDateTime()->add($duration);
+        if ($this->getInscriptionDeadLine() > $dateadd) {
+            $context->buildViolation(
+                'La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement'
+            )
+                ->atPath('startingDateTime')
+                ->addViolation();
+        }
+    }
     public function __construct()
     {
         $this->registeredMembers = new ArrayCollection();

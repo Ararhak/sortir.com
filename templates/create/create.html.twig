@@ -21,7 +21,10 @@
         <div class="form-row">
             {{ form_row(eventFormView.infos) }}
         </div>
-        {{ form_row(eventFormView.location) }}
+        {{ form_row(eventFormView.location.name) }}
+        {{ form_row(eventFormView.location.street) }}
+        {{ form_row(eventFormView.location.city.name) }}
+        {{ form_row(eventFormView.location.city.zipCode) }}
         <div class="form-row">
             {{ form_row(eventFormView.save) }}
         </div>
