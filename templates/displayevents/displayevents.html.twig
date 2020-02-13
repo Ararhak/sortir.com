@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block name %}Création d'événement {% endblock %}
+
+{% block body %}
+
+{% for event in events %}
+<div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ event.name }}</h5>
+            <small class="text-muted"> Commence le {{ "now"|date(null, "Europe/Paris") }} et dure {{ event.duration }}</small>
+        </div>
+        <p class="mb-1">{{event.location.name}}</p>
+        <small class="text-muted">{{event.infos}}</small>
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}
