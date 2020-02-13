@@ -96,7 +96,7 @@ class Event
         $dateadd = new \DateTime();
         $dateadd->add($duration);
         if($dateadd<new \DateTime('now')){
-            $context->buildViolation('La date de début et la durée doivent être supérieur à maintenant')
+            $context->buildViolation('La date de début et la durée doivent être supérieures à maintenant')
                 ->atPath('startingDateTime')
                 ->addViolation();
         }
@@ -115,10 +115,6 @@ class Event
         $dateadd = $this->getStartingDateTime()-> add($duration);
         if($this->getInscriptionDeadLine() > $dateadd){
             $context->buildViolation('La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement')
-                ->atPath('inscriptionDeadLine')
-                ->addViolation();
-        }
-    }
 
     public function __construct()
     {

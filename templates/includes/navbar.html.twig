@@ -17,26 +17,24 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('home') }}">Accueil <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Événements
-                </a>
-                {# A modifier menu déroulant#}
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
-                    <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements</a>
-                                                       {# <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'3'}) }}">Expositions</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'4'}) }}">Presse</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'5'}) }}">Décor Mural</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'6'}) }}">Vases</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'7'}) }}">Gravures</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'8'}) }}">Autres</a>#}
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
+
             {% if app.user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Événements
+                    </a>
+                    {# A modifier menu déroulant#}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
+                        <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements</a>
+                    </div>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('myProfile') }}">Mon profil<span
+                                class="sr-only">(current)</span></a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter<span
                                 class="sr-only">(current)</span></a>

@@ -6,29 +6,26 @@
 
     <div class="col-4 mx-auto"><br>
 
-    <h1>Création d'un événment</h1>
-    {{ form_start(eventFormView) }}
-        <form>
-            <div class="form-group row">
-    {{ form_row(eventFormView.startingDateTime) }}
-    {{ form_row(eventFormView.duration) }} <p>heures</p>
-    {{ form_row(eventFormView.inscriptionDeadLine) }}
-            </div>
-            <div class="form-row">
-                {{ form_row(eventFormView.name) }}
-            </div>
-    {{ form_row(eventFormView.nbMaxRegistration) }}
-            <div class="form-row">
-    {{ form_row(eventFormView.infos) }}
-            </div>
-    {{ form_row(eventFormView.location) }}
-            <div class="form-row">
-    {{ form_row(eventFormView.save) }}
-            </div>
-        </form>
+        <h1>Création d'un événment</h1>
+        {{ form_start(eventFormView) }}
 
-    {{ form_end(eventFormView) }}
-
+        <div class="form-group row">
+            {{ form_row(eventFormView.startingDateTime) }}
+            {{ form_row(eventFormView.duration) }} <p>heures</p>
+            {{ form_row(eventFormView.inscriptionDeadLine) }}
+        </div>
+        <div class="form-row">
+            {{ form_row(eventFormView.name) }}
+        </div>
+        {{ form_row(eventFormView.nbMaxRegistration) }}
+        <div class="form-row">
+            {{ form_row(eventFormView.infos) }}
+        </div>
+        {{ form_row(eventFormView.location) }}
+        <div class="form-row">
+            {{ form_row(eventFormView.save) }}
+        </div>
+        {{ form_end(eventFormView) }}
 
     </div>
 
