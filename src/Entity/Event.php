@@ -88,14 +88,8 @@ class Event
     public function validateStartingDate(ExecutionContextInterface $context, $payload)
     {
         $dateadd =$this->getStartingDateTime();
-        if(!is_numeric($this->getDuration())){
-            return;
-        }
-        $dur='PT'.$this->getDuration().'H';
-        $duration = new \DateInterval($dur);
-        $dateadd -> add($duration);
         if($dateadd<new \DateTime('now')){
-            $context->buildViolation('La date de début et la durée doivent être supérieur à maintenant')
+            $context->buildViolation('La date de début ne peut pas être dans le passé')
                 ->atPath('startingDateTime')
                 ->addViolation();
         }
@@ -106,17 +100,20 @@ class Event
      */
     public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
     {
-        if(!is_numeric($this->getDuration())){
+        if (!is_numeric($this->getDuration())) {
             return;
         }
         $duration = new\DateInterval('PT'.$this->getDuration().'H');
-        if($this->getInscriptionDeadLine() > ($this->getStartingDateTime()-> add($duration))){
-            $context->buildViolation('La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement')
-                ->atPath('inscriptionDeadLine')
+        $dateadd = new \DateTime();
+        $dateadd = $this->getStartingDateTime()->add($duration);
+        if ($this->getInscriptionDeadLine() > $this->getStartingDateTime()) {
+            $context->buildViolation(
+                'La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement'
+            )
+                ->atPath('startingDateTime')
                 ->addViolation();
         }
     }
-
     public function __construct()
     {
         $this->registeredMembers = new ArrayCollection();

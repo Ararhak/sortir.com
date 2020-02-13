@@ -33,7 +33,7 @@ class CreateController extends AbstractController
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
                 $this->saveInDB($event, $user, $entityManager);
-                return $this->redirectToRoute('home'); //TODO : Route's name
+                return $this->redirectToRoute('display_events');
             }
 
 
@@ -45,13 +45,12 @@ class CreateController extends AbstractController
 
     public function saveInDB($event, $user, EntityManagerInterface $entityManager){
         $event->setSite($user->getsite());
-        $this->addFlash('success', 'Modificatios enregistrées !');
+        $this->addFlash('success', 'Événement ajouté !');
         $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
         $event->setStatus($status);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
-
         return $this->redirectToRoute('home'); //TODO : Route's name
     }
 

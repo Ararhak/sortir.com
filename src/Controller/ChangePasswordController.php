@@ -17,19 +17,22 @@ class ChangePasswordController extends AbstractController
     /**
      * @Route("/changepassword", name="changePassword")
      */
-    public function changePassword(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $currentUserBDD= $entityManager->getRepository(Member::class)->find($this->getUser()->getId());
-        $user = $this->getUser();
 
+    public function changePassword(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder
+    ) {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
 
         $changePasswordForm = $this->createForm(ChangePasswordType::class, $user);
 
         $changePasswordForm->handleRequest($request);
 
         if ($changePasswordForm->isSubmitted() && $changePasswordForm->isValid()) {
-
 
             //TODO : verifier toutes les contraintes de taille de caractères spéciaux, pas le meme que l'ancien
 
@@ -41,23 +44,11 @@ class ChangePasswordController extends AbstractController
                 )
             );
 
-            if($passwordEncoder->isPasswordValid($currentUserBDD, $changePasswordForm->get('currentPassword')->getData())) {
-
             $this->addFlash('success', 'Mot de passe modifié avec succès');
-
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($this->getUser());
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('home');
-
-            } else {
-                //TODO
-                dump($currentUserBDD, $changePasswordForm->get('currentPassword')->getData());
-                die();
-            }
-
         }
 
         return $this->render(

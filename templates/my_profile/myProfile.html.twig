@@ -7,6 +7,7 @@
 {% block body %}
 
     <h1>Mon profil</h1>
+<div class="col-4 mx-auto"><br>
 
     {{ form_start(myProfileFormView) }}
 
@@ -18,16 +19,19 @@
 
     <div class="password-div">
         <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="8caracte" value="password" disabled>
-        <a href="{{ path('changePassword') }}" class="btn btn-secondary btn-lg" role="button">Changer le mot de passe</a>
+        <input type="password" id="password" name="8caracter" value="password" disabled>
+        <a href="{{ path('changePassword') }}" class="btn btn-secondary" role="button">Changer le mot de passe</a>
     </div>
 
     {{ form_row(myProfileFormView.site) }}
     {{ form_row(myProfileFormView.save) }}
 
+    {{ form_end(myProfileFormView) }}
 
-    <a href="{{ path('home') }}" class="btn btn-secondary btn-lg" role="button">
+    <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
         Retour
     </a>
+
+</div>
 
 {% endblock %}

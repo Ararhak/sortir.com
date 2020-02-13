@@ -1,34 +1,39 @@
 {% extends 'layout.html.twig' %}
 
+
+{% form_theme eventFormView 'bootstrap_4_layout.html.twig' %}
+
 {% block name %}Création d'événement {% endblock %}
 
 {% block body %}
 
     <div class="col-4 mx-auto"><br>
 
-    <h1>Création d'un événment</h1>
-    {{ form_start(eventFormView) }}
-        <form>
-            <div class="form-group row">
-    {{ form_row(eventFormView.startingDateTime) }}
-    {{ form_row(eventFormView.duration) }} <p>heures</p>
-    {{ form_row(eventFormView.inscriptionDeadLine) }}
-            </div>
-            <div class="form-row">
-                {{ form_row(eventFormView.name) }}
-            </div>
-    {{ form_row(eventFormView.nbMaxRegistration) }}
-            <div class="form-row">
-    {{ form_row(eventFormView.infos) }}
-            </div>
-    {{ form_row(eventFormView.location) }}
-            <div class="form-row">
-    {{ form_row(eventFormView.save) }}
-            </div>
-        </form>
+        <h1>Création d'un événment</h1>
+        {{ form_start(eventFormView) }}
 
-    {{ form_end(eventFormView) }}
 
+        {{ form_row(eventFormView.startingDateTime) }}
+        {{ form_row(eventFormView.duration) }} <p>heures</p>
+        {{ form_row(eventFormView.inscriptionDeadLine) }}
+
+
+        {{ form_row(eventFormView.name) }}
+
+        {{ form_row(eventFormView.nbMaxRegistration) }}
+
+        {{ form_row(eventFormView.infos) }}
+
+        {{ form_row(eventFormView.location.name) }}
+        {{ form_row(eventFormView.location.street) }}
+        {{ form_row(eventFormView.location.city.name) }}
+        {{ form_row(eventFormView.location.city.zipCode) }}
+
+
+        {{ form_row(eventFormView.save) }}
+
+
+        {{ form_end(eventFormView) }}
 
     </div>
 

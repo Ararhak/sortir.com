@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-expand-lg navbar-custom">
 
-    <a class="navbar-brand" href="{{ url('home') }}">
+    <a class="navbar-brand .d-none .d-sm-block" href="{{ url('display_events') }}">
         <img src="{{ asset('assets/img/Favicon.png') }}" width="100" height="100" alt="">
     </a>
     <div class="navbar-text">
-        <a class="navbar-brand" href="{{ url('home') }}"> Sortir.com </a><br>
+        <a class="navbar-brand" href="{{ url('display_events') }}"> Sortir.com </a><br>
         <p>Sortez avec vos collègues de l'ENI</p>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -15,28 +15,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url('home') }}">Accueil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url('display_events') }}">Accueil <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Événements
-                </a>
-                {# A modifier menu déroulant#}
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
-                    <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements</a>
-                                                       {# <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'3'}) }}">Expositions</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'4'}) }}">Presse</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'5'}) }}">Décor Mural</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'6'}) }}">Vases</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'7'}) }}">Gravures</a>
-                                                        <a class="dropdown-item" href="{{ path('categorie',{'idCategorie':'8'}) }}">Autres</a>#}
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
+
             {% if app.user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Événements
+                    </a>
+                    {# A modifier menu déroulant#}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
+                        <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements</a>
+                    </div>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('myProfile') }}">{{ app.user.name }}<span
+                                class="sr-only">(current)</span></a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter<span
                                 class="sr-only">(current)</span></a>

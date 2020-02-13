@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -75,10 +76,23 @@ class Member implements UserInterface
      */
     private $password;
 
+//    /**
+//     * @SecurityAssert\UserPassword(
+//     *     message = "Le mot de passe n'est pas correct"
+//     * )
+//     */
+//    protected $oldPassword;
+
     /**
      * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
     private $pseudo;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbConnection;
+
 
     public function __construct()
     {
@@ -234,6 +248,25 @@ class Member implements UserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword($oldPassword): void
+    {
+        $this->oldPassword = $oldPassword;
+    }
+
+
+
+
+    /**
      * @inheritDoc
      */
     public function getRoles()
@@ -276,6 +309,18 @@ class Member implements UserInterface
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getNbConnection(): ?int
+    {
+        return $this->nbConnection;
+    }
+
+    public function setNbConnection(?int $nbConnection): self
+    {
+        $this->nbConnection = $nbConnection;
 
         return $this;
     }
