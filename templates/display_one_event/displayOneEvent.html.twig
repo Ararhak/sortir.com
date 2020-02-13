@@ -8,6 +8,7 @@
     <div class="row">
     <div class="col-4 mx-auto"><br>
         <p>Nom de la sortie : {{ eventDetail.name }}</p>
+        <p>Organisateur : <a href="url">{{ eventDetail.organizer.name }}</a></p>
         <p>Date et heure de la sortie : {{ eventDetail.startingDateTime|date('d-m-Y') }}</p>
         <p>Date limite d'inscription : {{ eventDetail.inscriptionDeadLine|date('d-m-Y') }}</p>
         <p>Nombre de places : {{ eventDetail.nbMaxRegistration }}</p>
@@ -24,6 +25,23 @@
         <p>Longitude : {{ eventDetail.location.longitude }}</p>
     </div>
     </div>
+
+    <div id="scrollbar">
+        <ul>
+        {% for registeredMember in eventDetail.getRegisteredMembers %}
+            <li>{{ registeredMember.name }}</li>
+            {% else %}
+                Aucun participant à cette sortie
+        {% endfor %}
+        </ul>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
 
     <a href="{{ path('display_events') }}" class="btn btn-secondary btn-lg" role="button">
         Retour
