@@ -37,10 +37,12 @@
 
         <h2>Gestion des inscriptions</h2>
 
-        <div class="row" >
+        <div class="row">
 
             <div class="col">
-                {{ form_row(eventFormView.deadLineDate) }}
+
+                {{ form_label(eventFormView.deadLineDate) }}
+                {{ form_widget(eventFormView.deadLineDate) }}
             </div>
             <div class="col">
                 {{ form_row(eventFormView.deadLineTime) }}
@@ -52,11 +54,44 @@
         <h2>Lieu</h2>
 
         {{ form_row(eventFormView.location.name) }}
+        {#        Cette liste stocke la liste temporaire de match entre l'input de l'user et la bbd#}
+        <ul id="list-match" class="list-group"></ul>
         {{ form_row(eventFormView.location.street) }}
         {{ form_row(eventFormView.location.city) }}
 
         {{ form_row(eventFormView.save) }}
         {{ form_end(eventFormView) }}
     </div>
+
+    {% block JS %}
+
+        {#    Autocomplete location #}
+        <script>
+            $("#event_location_name").on('input', function () {
+
+                //Empty the list
+                $('#list-match').empty();
+                let inputText = $("#event_location_name").val();
+                
+                console.log(inputText);
+
+                $.ajax({
+                    url: "http://localhost/sortir/public/api/getlocations/like/" + inputText,
+                    success: function (result) {
+                        console.log(result);
+                        result.forEach(el => $('#list-match').append(
+                            '<a href=# class=list-group-item list-group-item-action>' +
+                            '<p>' + '<strong>' + el.name + '</strong>' + '</p>' +
+                            '<p> ' + el.street + '</p> ' +
+                            '<p> ' + el.city + ' ' + el.zipCode +  '</p> ' +
+                            '</a>'
+                        ));
+                    }
+                });
+            });
+        </script>
+
+
+    {% endblock JS %}
 
 {% endblock %}
