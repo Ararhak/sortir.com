@@ -17,7 +17,7 @@ class LocationType extends AbstractType
         $builder
             ->add('name',TextType::class, ['label'=>'Lieu du rendez-vous ', 'required'=>true])
             ->add('street', TextType::class, ['label'=>'Rue ', 'required'=>true])
-            ->add('city', EntityType::class, ['class' => City::class, 'choice_label' =>'name'])
+            ->add('city', CityType::class, [ 'required' => true])
         ;
     }
 

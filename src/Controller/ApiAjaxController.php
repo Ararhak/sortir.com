@@ -16,7 +16,7 @@ class ApiAjaxController extends AbstractController
      * @Route("/api", name="api_ajax");
      * */
     public function apiHome(){
-        return new JsonResponse( array("hello, welcome on the API of Sortir.com !"));
+        return new JsonResponse( array("Hello, welcome on the API of Sortir.com !"));
     }
 
     /**
@@ -29,8 +29,9 @@ class ApiAjaxController extends AbstractController
 
         $response = array();
 
-        for($i = 0 ; $i !==count($locationsMatching); $i++){
+        for($i = 0 ; $i !== count($locationsMatching); $i++){
             $jsonLocation = array (
+                'id' => $locationsMatching[$i]->getId(),
                 'name' => $locationsMatching[$i]->getName(),
                 'street' =>  $locationsMatching[$i]->getStreet(),
                 'city' => $locationsMatching[$i]->getCity()->getName(),

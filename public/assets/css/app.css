@@ -86,3 +86,13 @@ label {
     display: inline-block;
     text-align: right;
 }​
+
+
+ li{
+     background-color: azure;
+ }
+
+ li:hover{
+     background-color: #55acee;
+     color: #f5f8fa;
+ }
