@@ -397,6 +397,6 @@ class Event
     {
         $this->startingTime = $startingTime;
     }
-    
+
 
 }
