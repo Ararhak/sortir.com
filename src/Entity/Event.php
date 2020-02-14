@@ -82,38 +82,38 @@ class Event
      */
     private $status;
 
-    /**
-     * @Assert\Callback
-     */
-    public function validateStartingDate(ExecutionContextInterface $context, $payload)
-    {
-        $dateadd =$this->getStartingDateTime();
-        if($dateadd<new \DateTime('now')){
-            $context->buildViolation('La date de début ne peut pas être dans le passé')
-                ->atPath('startingDateTime')
-                ->addViolation();
-        }
-    }
-
-    /**
-     * @Assert\Callback
-     */
-    public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
-    {
-        if (!is_numeric($this->getDuration())) {
-            return;
-        }
-        $duration = new\DateInterval('PT'.$this->getDuration().'H');
-        $dateadd = new \DateTime();
-        $dateadd = $this->getStartingDateTime()->add($duration);
-        if ($this->getInscriptionDeadLine() > $this->getStartingDateTime()) {
-            $context->buildViolation(
-                'La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement'
-            )
-                ->atPath('startingDateTime')
-                ->addViolation();
-        }
-    }
+//    /**
+//     * @Assert\Callback
+//     */
+//    public function validateStartingDate(ExecutionContextInterface $context, $payload)
+//    {
+////        $dateadd =$this->getStartingDateTime();
+////        if($dateadd<new \DateTime('now')){
+////            $context->buildViolation('La date de début ne peut pas être dans le passé')
+////                ->atPath('startingDateTime')
+////                ->addViolation();
+////        }
+//    }
+//
+//    /**
+//     * @Assert\Callback
+//     */
+//    public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
+//    {
+////        if (!is_numeric($this->getDuration())) {
+////            return;
+////        }
+////        $duration = new\DateInterval('PT'.$this->getDuration().'H');
+////        $dateadd = new \DateTime();
+////        $dateadd = $this->getStartingDateTime()->add($duration);
+////        if ($this->getInscriptionDeadLine() > $this->getStartingDateTime()) {
+////            $context->buildViolation(
+////                'La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement'
+////            )
+////                ->atPath('startingDateTime')
+////                ->addViolation();
+////        }
+//    }
     public function __construct()
     {
         $this->registeredMembers = new ArrayCollection();

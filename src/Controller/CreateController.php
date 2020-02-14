@@ -29,42 +29,68 @@ class CreateController extends AbstractController
             $eventForm = $this->createForm(EventType::class, $event);
             $eventForm->handleRequest($request);
 
-            if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+            if ($eventForm->isSubmitted() && $eventForm->isValid() ) {
 
-                $event->setDuration(DurationUnit::convertDurationIntoHours(
-                    $eventForm->get('duration')->getData(),
-                    $eventForm->get('duration_unit')->getData()
-                   ));
-
-                $this->saveInDB($event, $user, $entityManager);
-
+                $event = $this->setAttributes($event, $eventForm, $entityManager);
+                $this->persistEvent($event);
                 return $this->redirectToRoute('display_events');
             }
 
-
             return $this->render('create/create.html.twig', ['eventFormView' => $eventForm->createView()]);
+
         } else {
             return $this->redirectToRoute('app_login');
         }
     }
 
-    public function saveInDB($event, $user, EntityManagerInterface $entityManager)
-    {
-        $event->setSite($user->getsite());
-        $this->addFlash('success', 'Événement ajouté !');
+
+    public function setAttributes($event, $eventForm, $entityManager ){
+
+        //Set dateTime
+        $event = $this->buildDateTimeFromDateAndTimeForm($eventForm, $event);
+
+        //Set duration
+        $event->setDuration(DurationUnit::convertDurationIntoHours(
+            $eventForm->get('duration')->getData(),
+            $eventForm->get('duration_unit')->getData()
+        ));
+        //Set site
+        $event->setSite($this->getUser()->getsite());
         $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
+        //Set status
         $event->setStatus($status);
+
+        return $event;
+    }
+
+    public function buildDateTimeFromDateAndTimeForm($eventForm, $event){
+
+        $format = 'Y-m-d H:i:s';
+
+        //merge date et time starting date:
+        $startingDate = $eventForm->get('startingDate')->getData();
+        $startingTime = $eventForm->get('startingTime')->getData();
+        $startingDate = \DateTime::createFromFormat($format, "$startingDate $startingTime");
+
+        //merge date et time deadline :
+        $deadLineDate = $eventForm->get('deadLineDate')->getData();
+        $deadLineTime = $eventForm->get('deadLineTime')->getData();
+        $inscriptionDeadLine = \DateTime::createFromFormat($format, "$deadLineDate $deadLineTime");
+
+        $event->setStartingDateTime($startingDate);
+        $event->setInscriptionDeadLine($inscriptionDeadLine);
+
+        return $event;
+    }
+
+    public function persistEvent($event)
+    {
+        $this->addFlash('success', 'Événement ajouté !');
         $entityManager = $this->getDoctrine()->getManager();
-
-
         $entityManager->persist($event);
         $entityManager->flush();
-
         return $this->redirectToRoute('home'); //TODO : Route's name
     }
 
-    public function verifyDate($event)
-    {
 
-    }
 }
