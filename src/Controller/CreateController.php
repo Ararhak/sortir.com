@@ -65,20 +65,18 @@ class CreateController extends AbstractController
 
     public function buildDateTimeFromDateAndTimeForm($eventForm, $event){
 
-        $format = 'Y-m-d H:i:s';
-
         //merge date et time starting date:
         $startingDate = $eventForm->get('startingDate')->getData();
         $startingTime = $eventForm->get('startingTime')->getData();
-        $startingDate = \DateTime::createFromFormat($format, "$startingDate $startingTime");
+        $startingDateTime = $event->buildDateTimeFromStringDateStringTime($startingDate,$startingTime );
 
         //merge date et time deadline :
         $deadLineDate = $eventForm->get('deadLineDate')->getData();
         $deadLineTime = $eventForm->get('deadLineTime')->getData();
-        $inscriptionDeadLine = \DateTime::createFromFormat($format, "$deadLineDate $deadLineTime");
+        $inscriptionDeadLine = $event->buildDateTimeFromStringDateStringTime($deadLineDate, $deadLineTime );
 
-        $event->setStartingDateTime($startingDate);
-        $event->setInscriptionDeadLine($inscriptionDeadLine);
+        $event->setStartingDateTime( $startingDateTime );
+        $event->setInscriptionDeadLine( $inscriptionDeadLine );
 
         return $event;
     }

@@ -21,9 +21,9 @@ class DurationUnit
         return 'mois';
     }
 
-    public static function convertDurationIntoHours($value, $durationType ){
+    public static function convertDurationIntoHours($value, $durationUnit ){
 
-        switch ($durationType){
+        switch ($durationUnit){
             case DurationUnit::hour():
                 return $value;
                 break;

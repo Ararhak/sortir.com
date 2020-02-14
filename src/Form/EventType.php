@@ -9,8 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +36,6 @@ class EventType extends AbstractType
                     'required' => true,
                     'input' => 'string',
                     'data' => date_format($date,'Y-m-d'),
-                    'mapped' => false,
                 ]
             )
             ->add(
@@ -45,7 +46,6 @@ class EventType extends AbstractType
                     'input' => 'string',
                     'widget' => 'choice',
                     'required' => true,
-                    'mapped' => false,
                     'data' =>date_format($date,'H:i:s'),
                     'minutes' => [0 , 15 , 30 , 45]
                 ]
@@ -69,7 +69,6 @@ class EventType extends AbstractType
                         DurationUnit::week() => DurationUnit::week(),
                         DurationUnit::month() => DurationUnit::month(),
                     ],
-                    'mapped' => false,
                     'label' => "Unité",
                 ]
             )
@@ -82,7 +81,6 @@ class EventType extends AbstractType
                     'required' => true,
                     'input' => 'string',
                     'data' => date_format($date,'Y-m-d'),
-                    'mapped' => false,
                 ]
             )
             ->add(
@@ -93,7 +91,6 @@ class EventType extends AbstractType
                     'input' => 'string',
                     'widget' => 'choice',
                     'required' => true,
-                    'mapped' => false,
                     'data' =>date_format($date,'H:i:s'),
                     'minutes' => [0 , 15 , 30 , 45]
                 ]
