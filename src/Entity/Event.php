@@ -95,7 +95,7 @@ class Event
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events",cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="events", cascade={"persist"}, fetch="EAGER")
      */
     private $location;
 
@@ -200,9 +200,6 @@ class Event
     {
         $this->durationUnit = $durationUnit;
     }
-
-
-
 
     public function __construct()
     {
@@ -400,10 +397,6 @@ class Event
     {
         $this->startingTime = $startingTime;
     }
-
-
-
-
-
+    
 
 }

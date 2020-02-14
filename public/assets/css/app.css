@@ -1,16 +1,20 @@
-h1{
+h1 {
     color: #000000;
     margin-bottom: 20px;
 }
+
 @font-face {
     font-family: 'Main font';
     /*src: url('font/Main font.ttf');*/
 }
-div { font-family: 'Main font', sans-serif; }
+
+div {
+    font-family: 'Main font', sans-serif;
+}
 
 
-footer{
-    margin-top:auto;
+footer {
+    margin-top: auto;
 }
 
 a {
@@ -23,33 +27,37 @@ a {
     background-color: #55acee;
     border-bottom: 1px solid #226699;
 }
+
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
     color: #f5f8fa;
 }
+
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
     color: #f5f8fa;
 }
+
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
     color: #f5f8fa;
 }
 
-.navbar,.navbar-expand-sm,.navbar-expand-md,.navbar-expand-lg,.navbar-custom,.navbar-brand{
+.navbar, .navbar-expand-sm, .navbar-expand-md, .navbar-expand-lg, .navbar-custom, .navbar-brand {
     position: relative;
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 0;
 }
+
 .navbar-text > p {
     margin-bottom: 0px;
     margin-top: 30px;
 }
 
-.footer{
+.footer {
     position: fixed;
     text-align: center;
     bottom: 0px;
@@ -58,41 +66,42 @@ a {
 
 body {
     background: #ffffff;
-/*    background: url("background.jpg") no-repeat center fixed;*/
+    /*    background: url("background.jpg") no-repeat center fixed;*/
     background-size: 100%;
 }
 
 
 .btn-secondary {
-    background-color:#55acee;
+    background-color: #55acee;
 }
 
-.btn-secondary:active,.btn-secondary:checked {
-    background-color:#226699;
+.btn-secondary:active, .btn-secondary:checked {
+    background-color: #226699;
 }
 
-#scrollbar{
+#scrollbar {
     margin-top: 100px;
     width: 500px;
     height: 140px;
     overflow-y: scroll;
     scrollbar-width: thin;
 }
+
 #listSearch {
-    display:inline;
+    display: inline;
 }
 
 label {
     display: inline-block;
     text-align: right;
-}​
+}
 
+​
+li {
+    background-color: azure;
+}
 
- li{
-     background-color: azure;
- }
-
- li:hover{
-     background-color: #55acee;
-     color: #f5f8fa;
- }
+li:hover {
+    background-color: #55acee;
+    color: #f5f8fa;
+}
