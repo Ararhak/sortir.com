@@ -13,8 +13,8 @@ class CityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class, ['label'=>'Ville : ', 'required'=>true])
-            ->add('zipCode',TextType::class, ['label'=>'Code Postal : ', 'required'=>true])
+            ->add('name',TextType::class, ['label'=>'Ville ', 'required'=>true])
+            ->add('zipCode',TextType::class, ['label'=>'Code Postal ', 'required'=>true])
         ;
     }
 

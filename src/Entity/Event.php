@@ -55,7 +55,7 @@ class Event
     private $infos;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="organizedEvents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="organizedEvents", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organizer;
@@ -270,5 +270,16 @@ class Event
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getRegisteredMembers(): Collection
+    {
+        return $this->registeredMembers;
+    }
+
+
+
 
 }

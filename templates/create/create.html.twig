@@ -9,9 +9,11 @@
 
 
     <div class="col-4 mx-auto"><br>
+
         <h1>Proposer un nouvel événement</h1>
         {{ form_start(eventFormView) }}
 
+        {{ form_row(eventFormView.name) }}
         {{ form_row(eventFormView.startingDateTime) }}
 
         <div class="row">
@@ -25,17 +27,18 @@
 
         </div>
 
-
         {{ form_row(eventFormView.inscriptionDeadLine) }}
-        {{ form_row(eventFormView.name) }}
+
         {{ form_row(eventFormView.nbMaxRegistration) }}
         {{ form_row(eventFormView.infos) }}
 
+        <h2>Lieu</h2>
+
         {{ form_row(eventFormView.location.name) }}
         {{ form_row(eventFormView.location.street) }}
-        {{ form_row(eventFormView.location.city.name) }}
-        {{ form_row(eventFormView.location.city.zipCode) }}
-
+        {{ form_row(eventFormView.location.city) }}
+        {#        {{ form_row(eventFormView.location.city.name) }}#}
+        {#        {{ form_row(eventFormView.location.city.zipCode) }}#}
 
         {{ form_row(eventFormView.save) }}
 
