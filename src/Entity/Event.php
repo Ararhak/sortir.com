@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\DurationUnit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
@@ -38,9 +39,31 @@ class Event
     private $startingDateTime;
 
     /**
+     * @Assert\Type(type="string")
+     */
+    private $startingDate;
+
+    /**
+     * @Assert\Type(type="string")
+     */
+    private $startingTime;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $inscriptionDeadLine;
+
+
+    /**
+     * @Assert\Type(type="string")
+     */
+    private $deadLineDate;
+
+    /**
+     * @Assert\Type(type="string")
+     */
+    private $deadLineTime;
+
 
     /**
      * @Assert\Type(type="integer", message="Vous devez indiquer un nombre")
@@ -82,38 +105,105 @@ class Event
      */
     private $status;
 
+    //Format of datetime
+    private const FORMAT_DATETIME = 'Y-m-d H:i:s';
+
+    /**
+     * @Assert\Type(type="string")
+     */
+    private $durationUnit;
+
     /**
      * @Assert\Callback
      */
     public function validateStartingDate(ExecutionContextInterface $context, $payload)
     {
-        $dateadd =$this->getStartingDateTime();
-        if($dateadd<new \DateTime('now')){
-            $context->buildViolation('La date de début ne peut pas être dans le passé')
-                ->atPath('startingDateTime')
+        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+        if( $startingDateTime < new \DateTime('now')){
+            $context->buildViolation('L\'évènement doit débuter à une date ultérieure au présent')
+                ->atPath('startingDate')
                 ->addViolation();
         }
     }
+
 
     /**
      * @Assert\Callback
      */
     public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
     {
-        if (!is_numeric($this->getDuration())) {
-            return;
-        }
-        $duration = new\DateInterval('PT'.$this->getDuration().'H');
-        $dateadd = new \DateTime();
-        $dateadd = $this->getStartingDateTime()->add($duration);
-        if ($this->getInscriptionDeadLine() > $this->getStartingDateTime()) {
+
+        $deadLineDateTime = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
+        $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
+
+        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+        $endingDateTime = clone $startingDateTime;
+        $endingDateTime->add( new\DateInterval('PT'.$durationInHours.'H') );
+
+        if ($deadLineDateTime > $endingDateTime) {
             $context->buildViolation(
-                'La date limite d\inscriptionde doit être inférieure à la date de début et la durée de l\'évenement'
+                'La date limite d\'inscription doit arriver avant la clôture de l\'événement '
             )
-                ->atPath('startingDateTime')
+                ->atPath('deadLineDate')
                 ->addViolation();
         }
     }
+
+    public function buildDateTimeFromStringDateStringTime($date, $time){
+        return \DateTime::createFromFormat(Event::FORMAT_DATETIME, "$date $time");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeadLineDate()
+    {
+        return $this->deadLineDate;
+    }
+
+    /**
+     * @param mixed $deadLineDate
+     */
+    public function setDeadLineDate($deadLineDate): void
+    {
+        $this->deadLineDate = $deadLineDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeadLineTime()
+    {
+        return $this->deadLineTime;
+    }
+
+    /**
+     * @param mixed $deadLineTime
+     */
+    public function setDeadLineTime($deadLineTime): void
+    {
+        $this->deadLineTime = $deadLineTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDurationUnit()
+    {
+        return $this->durationUnit;
+    }
+
+    /**
+     * @param mixed $durationUnit
+     */
+    public function setDurationUnit($durationUnit): void
+    {
+        $this->durationUnit = $durationUnit;
+    }
+
+
+
+
     public function __construct()
     {
         $this->registeredMembers = new ArrayCollection();
@@ -278,6 +368,40 @@ class Event
     {
         return $this->registeredMembers;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStartingDate()
+    {
+        return $this->startingDate;
+    }
+
+    /**
+     * @param mixed $startingDate
+     */
+    public function setStartingDate($startingDate): void
+    {
+        $this->startingDate = $startingDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartingTime()
+    {
+        return $this->startingTime;
+    }
+
+    /**
+     * @param mixed $startingTime
+     */
+    public function setStartingTime($startingTime): void
+    {
+        $this->startingTime = $startingTime;
+    }
+
+
 
 
 

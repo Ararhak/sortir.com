@@ -23,7 +23,7 @@ class MyProfileType extends AbstractType
             ->add('surname', TextType::class, ['label'=>'Nom ', 'required'=>true])
             ->add('phone', TextType::class, ['label'=>'Téléphone', 'required' => false])
             ->add('mail', EmailType::class, ['label'=>'Email ', 'required'=>true])
-            ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' =>'name'])
+            ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' =>'name' , 'label' => 'Site ENI'])
             ->add('save', SubmitType::class, ['label'=>'Enregistrer',])
         ;
     }

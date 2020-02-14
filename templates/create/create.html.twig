@@ -7,14 +7,24 @@
 
 {% block body %}
 
-
     <div class="col-4 mx-auto"><br>
 
         <h1>Proposer un nouvel événement</h1>
         {{ form_start(eventFormView) }}
 
         {{ form_row(eventFormView.name) }}
-        {{ form_row(eventFormView.startingDateTime) }}
+        {{ form_row(eventFormView.infos) }}
+
+        <h2>Date et durée de l'événement</h2>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(eventFormView.startingDate) }}
+            </div>
+            <div class="col">
+                {{ form_row(eventFormView.startingTime) }}
+            </div>
+        </div>
 
         <div class="row">
             <div class="col">
@@ -23,26 +33,29 @@
             <div class="col">
                 {{ form_row(eventFormView.duration_unit) }}
             </div>
-
-
         </div>
 
-        {{ form_row(eventFormView.inscriptionDeadLine) }}
+        <h2>Gestion des inscriptions</h2>
+
+        <div class="row" >
+
+            <div class="col">
+                {{ form_row(eventFormView.deadLineDate) }}
+            </div>
+            <div class="col">
+                {{ form_row(eventFormView.deadLineTime) }}
+            </div>
+        </div>
 
         {{ form_row(eventFormView.nbMaxRegistration) }}
-        {{ form_row(eventFormView.infos) }}
 
         <h2>Lieu</h2>
 
         {{ form_row(eventFormView.location.name) }}
         {{ form_row(eventFormView.location.street) }}
         {{ form_row(eventFormView.location.city) }}
-        {#        {{ form_row(eventFormView.location.city.name) }}#}
-        {#        {{ form_row(eventFormView.location.city.zipCode) }}#}
 
         {{ form_row(eventFormView.save) }}
-
-
         {{ form_end(eventFormView) }}
     </div>
 
