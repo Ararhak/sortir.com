@@ -3,18 +3,28 @@
 {% block name %}Création d'événement {% endblock %}
 
 {% block body %}
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        {% for site in sites %}
+            <label class="btn btn-secondary active">
+                {% if app.user.site.id==site.id %}
+                    <input type="radio" name="options" id="{{ site.id }}" checked >{{ site.name }}
+                {% else %}
+                    <input type="radio" name="options" id="{{ site.id }}" >{{ site.name }}
+                {% endif %}
+            </label>
+        {% endfor %}
+    </div>
 
-{% for event in events %}
-<div class="list-group">
-    <a href="{{ path('display_one_event', {'id': event.id}) }}" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ event.name }}</h5>
-            <small class="text-muted"> Commence le {{ "now"|date(null, "Europe/Paris") }} et dure {{ event.duration }}</small>
-        </div>
-        <p class="mb-1">{{event.location.name}}</p>
-        <small class="text-muted">{{event.infos}}</small>
-    </a>
-</div>
-{% endfor %}
+{% include 'includes/eventslist.html.twig' %}
 
+{% endblock %}
+{%  block JS %}
+<script>
+    $(".btn-secondary input").click(function(){
+        bouton=$(this).attr("id")
+        $.ajax({url: "http://localhost/sortir/public/displayevents/"+bouton, success: function(result){
+                $("#listevents").html(result);
+            }});
+    });
+</script>
 {% endblock %}

@@ -20,6 +20,7 @@ a {
 
 .navbar-custom {
     background-color: #55acee;
+    border-bottom: 1px solid #226699;
 }
 /* change the brand and text color */
 .navbar-custom .navbar-brand,
@@ -58,4 +59,12 @@ body {
     background: #ffffff;
 /*    background: url("background.jpg") no-repeat center fixed;*/
     background-size: 100%;
+}
+
+
+.btn-secondary {
+    background-color:#55acee;
+}
+.btn-secondary:active {
+    background-color:#226699;
 }
