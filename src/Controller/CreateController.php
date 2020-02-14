@@ -2,14 +2,11 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Event;
-use App\Entity\Member;
 use App\Entity\Status;
 use App\Form\EventType;
-use App\Form\MyProfileType;
+use App\Service\DurationUnit;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,6 +22,7 @@ class CreateController extends AbstractController
         $event = new Event();
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+
             $user = $this->getUser();
             $event->setOrganizer($user);
 
@@ -32,7 +30,14 @@ class CreateController extends AbstractController
             $eventForm->handleRequest($request);
 
             if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+
+                $event->setDuration(DurationUnit::convertDurationIntoHours(
+                    $eventForm->get('duration')->getData(),
+                    $eventForm->get('duration_unit')->getData()
+                   ));
+
                 $this->saveInDB($event, $user, $entityManager);
+
                 return $this->redirectToRoute('display_events');
             }
 
@@ -43,21 +48,23 @@ class CreateController extends AbstractController
         }
     }
 
-    public function saveInDB($event, $user, EntityManagerInterface $entityManager){
+    public function saveInDB($event, $user, EntityManagerInterface $entityManager)
+    {
         $event->setSite($user->getsite());
         $this->addFlash('success', 'Événement ajouté !');
         $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
         $event->setStatus($status);
         $entityManager = $this->getDoctrine()->getManager();
+
+
         $entityManager->persist($event);
         $entityManager->flush();
+
         return $this->redirectToRoute('home'); //TODO : Route's name
     }
 
-    public function verifyDate($event){
+    public function verifyDate($event)
+    {
 
     }
-
-
-
 }

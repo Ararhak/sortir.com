@@ -4,11 +4,11 @@ namespace App\Form;
 
 use App\Entity\Event;
 use App\Entity\Location;
+use App\Service\DurationUnit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,10 +33,10 @@ class EventType extends AbstractType
             ])
             ->add('duration_unit', ChoiceType::class, [
                 'choices' => [
-                    'heure' => 'heures',
-                    'jour' => 'jours',
-                    'semaine' => 'semaines',
-                    'mois' => 'mois',
+                    DurationUnit::hour() => DurationUnit::hour(),
+                    DurationUnit::day() => DurationUnit::day(),
+                    DurationUnit::week() => DurationUnit::week(),
+                    DurationUnit::month() => DurationUnit::month(),
                 ],
                 'mapped' => false,
                 'label' => "Unité"

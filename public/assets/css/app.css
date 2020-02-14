@@ -4,7 +4,7 @@ h1{
 }
 @font-face {
     font-family: 'Main font';
-    src: url('font/Main font.ttf');
+    /*src: url('font/Main font.ttf');*/
 }
 div { font-family: 'Main font', sans-serif; }
 
