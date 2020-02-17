@@ -4,44 +4,61 @@
 
 {% block body %}
 
-    <h1>Détail de la sortie</h1>
+    <h1>{{ eventDetail.name }}</h1>
     <div class="row">
-    <div class="col-4 mx-auto"><br>
-        <p>Nom de la sortie : {{ eventDetail.name }}</p>
-        <p>Organisateur : <a href="url">{{ eventDetail.organizer.name }}</a></p>
-        <p>Date et heure de la sortie : {{ eventDetail.startingDateTime|date('d-m-Y') }}</p>
-        <p>Date limite d'inscription : {{ eventDetail.inscriptionDeadLine|date('d-m-Y') }}</p>
-        <p>Nombre de places : {{ eventDetail.nbMaxRegistration }}</p>
-        <p>Durée : {{ eventDetail.duration }} heures</p>
-        <p>Description et infos : {{ eventDetail.infos }}</p>
-    </div>
 
-    <div class="col-4 mx-auto"><br>
-        <p>Ville organisatrice : {{ eventDetail.site.name }}</p>
-        <p>Lieu : {{ eventDetail.location.city.name }}</p>
-        <p>Rue : {{ eventDetail.location.street }}</p>
-        <p>Code postal : {{ eventDetail.location.city.zipCode }}</p>
-        <p>Latitude : {{ eventDetail.location.latitude }}</p>
-        <p>Longitude : {{ eventDetail.location.longitude }}</p>
-    </div>
-    </div>
+        <div class="col-4 mx-auto"><br>
+
+            <h2> Détails</h2>
+
+            <p>organisée par <a href="url">{{ eventDetail.organizer.name | capitalize }}</a>,
+                inscrit sur le site de l'ENI de {{ eventDetail.site.name }}</p>
+            <p>Infos supplémentaires : {{ eventDetail.infos }}</p>
+            <p>Date et heure de la sortie : {{ eventDetail.startingDateTime|date('d-m-Y') }}
+                à {{ eventDetail.startingDateTime|date(' H:i') }}
+            </p>
+            <p>Durée estimée de l'événement : {{ eventDetail.duration }} heures</p>
+
+            <h2> Inscription</h2>
+
+            <p>Date limite d'inscription : {{ eventDetail.inscriptionDeadLine|date('d-m-Y') }}</p>
+
+            {%  set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length  %}
+            {% if  nbPlacesRestantes > 0  %}
+                <p>Nombre de places restantes : <span class="badge badge-pill badge-primary"><strong>{{nbPlacesRestantes }}</strong></span></p>
 
 
-    <div id="scrollbar">
-        <ul>
-        {% for registeredMember in eventDetail.getRegisteredMembers %}
-            <li>{{ registeredMember.name }}</li>
+            {% else %}
+                <span class="badge badge-pill badge-danger">Complet</span>
+            {% endif %}
+
+
+
+            {% if eventDetail.registeredMembers | length > 0 %}
+                {% include 'includes/eventRegisteredMembers.html.twig' %}
             {% else %}
                 Aucun participant à cette sortie
-        {% endfor %}
-        </ul>
+            {% endif %}
+        </div>
+
+        <div class="col-4 mx-auto"><br>
+            <h2>Adresse</h2>
+            <p>Lieu de renedz-vous : {{ eventDetail.location.name }}</p>
+            <p>Ville : {{ eventDetail.location.city.name }}</p>
+            <p>Rue : {{ eventDetail.location.street }}</p>
+            <p>Code postal : {{ eventDetail.location.city.zipCode }}</p>
+        </div>
     </div>
+
+    {% if userCanRegisterToEvent %}
+        <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
+            S'inscrire
+        </a>
+    {% endif %}
 
 
     <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
-
         Retour
     </a>
-
 
 {% endblock %}

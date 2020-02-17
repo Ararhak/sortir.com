@@ -82,7 +82,7 @@ body {
 #scrollbar {
     margin-top: 100px;
     width: 500px;
-    height: 140px;
+    height: 200px;
     overflow-y: scroll;
     scrollbar-width: thin;
 }
@@ -97,11 +97,12 @@ label {
 }
 
 ​
-li {
+li.match {
     background-color: azure;
 }
 
-li:hover {
+
+li.match:hover {
     background-color: #55acee;
     color: #f5f8fa;
 }

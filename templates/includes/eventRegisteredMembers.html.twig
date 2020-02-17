@@ -1,0 +1,30 @@
+<h2>Participants</h2>
+    <div id="scrollbar">
+        <table class="table table-striped registeredMembers">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for registeredMember in eventDetail.registeredMembers %}
+                <tr>
+                    <td> <a href="{{ path('home') }}">{{ registeredMember.pseudo }}</a></td>
+                    <td>{{ registeredMember.name | capitalize }}</td>
+                    <td>{{ registeredMember.surname | capitalize }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
