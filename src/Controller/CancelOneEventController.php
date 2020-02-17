@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Status;
 use App\Form\CancelOneEventType;
+use App\Service\PossibleActionsOfMemberOnEventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,11 @@ class CancelOneEventController extends AbstractController
         $eventRepository = $entityManager->getRepository(Event::class);
         $eventDetail = $eventRepository->find($id);
 
-        $isOpened = $eventDetail->getStatus()->getLibel() === Status::opened();
-        $isCreated = $eventDetail->getStatus()->getLibel() === Status::created();
+
+        $possibleActions = new PossibleActionsOfMemberOnEventManager($entityManager);
+
+        $userCanCancelEvent = $possibleActions->userCanCancelEvent($this->getUser()->getId(), $id);
+
 
         $cancelForm = $this->createForm(CancelOneEventType::class, $eventDetail);
         $cancelFormView = $cancelForm->createView();
@@ -31,8 +35,9 @@ class CancelOneEventController extends AbstractController
         if($cancelForm->isSubmitted() && $cancelForm->isValid()){
             $this->addFlash('success', 'La sortie a été annulée');
 
-            $eventDetail->setStatus(Status::cancelled());
+            $status = $entityManager->getRepository(Status::class)->findByLibel(Status::cancelled());
 
+            $eventDetail->setStatus($status);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($eventDetail);
             $entityManager->flush();
@@ -42,7 +47,7 @@ class CancelOneEventController extends AbstractController
         }
 
 
-        return $this->render('displayevents/cancelOneEvent.html.twig', compact('eventDetail', 'isOpened', 'isCreated', 'cancelFormView')
+        return $this->render('displayevents/cancelOneEvent.html.twig', compact('eventDetail', 'userCanCancelEvent', 'cancelFormView')
             );
     }
 }

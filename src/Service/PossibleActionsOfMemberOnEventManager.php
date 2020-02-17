@@ -9,7 +9,7 @@ use App\Entity\Status;
 use Doctrine\ORM\EntityManager;
 
 
-class InscriptionManager
+class PossibleActionsOfMemberOnEventManager
 {
 
     private $em;
@@ -46,5 +46,23 @@ class InscriptionManager
 
         return $userCanRegisterToEvent;
     }
+
+    //Return true if a user can cancel an event, false otherwise
+    public function userCanCancelEvent($idUser, $idEvent)
+    {
+
+        $event = $this->em->getRepository(Event::class)->find($idEvent);
+        $user = $this->em->getRepository(Member::class)->find($idUser);
+
+        $isOpened = $event->getStatus()->getLibel() === Status::opened();
+        $isCreated = $event->getStatus()->getLibel() === Status::created();
+        $userIsOrganizer = $event->getOrganizer()->getId() === $user->getId();
+
+        $userCanCancelEvent = ($isOpened || $isCreated) && $userIsOrganizer;
+
+        return $userCanCancelEvent;
+
+    }
+
 
 }

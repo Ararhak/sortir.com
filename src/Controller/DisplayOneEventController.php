@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\Status;
 use App\Service\Inscription;
 use App\Service\InscriptionManager;
+use App\Service\PossibleActionsOfMemberOnEventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,8 +20,8 @@ class DisplayOneEventController extends AbstractController
     public function displayOneEvent(EntityManagerInterface $entityManager, $id)
     {
         $eventDetail = $entityManager->getRepository(Event::class)->find($id);
-        $InscriptionManager = new InscriptionManager($entityManager);
-        $userCanRegisterToEvent = $InscriptionManager->userCanRegisterToEvent($this->getUser()->getId(), $eventDetail->getId());
+        $possibleActions = new PossibleActionsOfMemberOnEventManager($entityManager);
+        $userCanRegisterToEvent = $possibleActions->userCanRegisterToEvent($this->getUser()->getId(), $eventDetail->getId());
 
         $isOpened = $eventDetail->getStatus()->getLibel() === Status::opened();
 

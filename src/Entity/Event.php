@@ -123,11 +123,14 @@ class Event
      */
     public function validateStartingDate(ExecutionContextInterface $context, $payload)
     {
-        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
-        if( $startingDateTime < new \DateTime('now')){
-            $context->buildViolation('L\'évènement doit débuter à une date ultérieure au présent')
-                ->atPath('startingDate')
-                ->addViolation();
+
+        if( is_null( $this->getStartingDateTime() ) ){
+            $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+            if( $startingDateTime < new \DateTime('now')){
+                $context->buildViolation('L\'évènement doit débuter à une date ultérieure au présent')
+                    ->atPath('startingDate')
+                    ->addViolation();
+            }
         }
     }
 
@@ -141,15 +144,31 @@ class Event
         //TODO : distinguer entre la creation et la mise a jour de l'event. Si $inscriptionDeadLine et $startingDateTime sont null alors
         //TODO : on est en creation, sinon en update
 
-        $inscriptionDeadLine = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
-        $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
 
-        if( is_null( $startingDateTime ) ){
+        if( is_null($this->getInscriptionDeadLine())){
 
-
+            $inscriptionDeadLine = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
+        }
+        else{
+            $inscriptionDeadLine = $this->getInscriptionDeadLine();
         }
 
-        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+
+        if( is_null( $this->getStartingDateTime() ) ){
+            $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+        }
+        else{
+            $startingDateTime = $this->getStartingDateTime();
+        }
+
+        if(is_null($this->getDurationUnit())){
+            $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
+
+        }
+        else{
+            $durationInHours = $this->getDuration();
+        }
+
         $endingDateTime = clone $startingDateTime;
         $endingDateTime->add( new\DateInterval('PT'.$durationInHours.'H') );
 

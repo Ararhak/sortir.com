@@ -28,7 +28,7 @@ class Status
         return 'finished';
     }
     public static function cancelled(){
-        return 'created';
+        return 'cancelled';
     }
 
 

@@ -14,8 +14,8 @@
             <p>Lieu : {{ eventDetail.location.city.name }},
                 {{ eventDetail.location.street }}, {{ eventDetail.location.city.zipCode }}</p>
 
-            {% if eventDetail.organizer.id is same as(app.user.id) and isOpened or isCreated %}
-            {{ form(cancelFormView) }}
+            {% if userCanCancelEvent %}
+                {{ form(cancelFormView) }}
             {% endif %}
 
             <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
@@ -23,10 +23,6 @@
             </a>
 
         </div>
-
-
-
-
 
 
     </div>

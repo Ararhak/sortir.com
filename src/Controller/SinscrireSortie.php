@@ -23,7 +23,7 @@ class SinscrireSortie extends AbstractController
 
         //Il faut refaire tous les tests fait dans la twig:
         $event = $em->getRepository(Event::class)->find($id);
-        $inscriptionManager = new InscriptionManager($em);
+        $inscriptionManager = new PossibleActionsOfMemberOnEventManager($em);
 
 
         if ($inscriptionManager->userCanRegisterToEvent($this->getUser(), $event)) {
