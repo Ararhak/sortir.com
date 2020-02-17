@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+
+
+    <div class="col-4 mx-auto"><br>
+
+        <h1>{{user.pseudo}}</h1>
+
+        <p>Prénom : {{ user.name | capitalize }}</p>
+        <p>Nom : {{ user.surname | capitalize }}</p>
+        <p>Email : {{ user.mail }}</p>
+        <p>Site de ratachement : {{ user.site.name }}</p>
+
+        {% if app.user.id == user.id %}
+
+            <a href="{{ path('edit_my_profile') }}" class="btn btn-secondary" role="button">
+                Modifier mon profil
+            </a>
+
+        {% endif %}
+
+        <a href="{{ path('display_events')}}" class="btn btn-secondary" role="button">
+            Retour
+        </a>
+
+    </div>
+
+{% endblock %}

@@ -12,7 +12,7 @@
 
             {% for registeredMember in eventDetail.registeredMembers %}
                 <tr>
-                    <td> <a href="{{ path('home') }}">{{ registeredMember.pseudo }}</a></td>
+                    <td> <a href="{{ path('display_profile_member', {'id': registeredMember.id}) }}">{{ registeredMember.pseudo }}</a></td>
                     <td>{{ registeredMember.name | capitalize }}</td>
                     <td>{{ registeredMember.surname | capitalize }}</td>
                 </tr>

@@ -28,7 +28,7 @@
 
     {{ form_end(myProfileFormView) }}
 
-    <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
+    <a href="{{ path('display_profile_member', {'id': app.user.id}) }}" class="btn btn-secondary" role="button">
         Retour
     </a>
 

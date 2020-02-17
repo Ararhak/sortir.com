@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class MyProfileController extends AbstractController
+class EditProfile extends AbstractController
 {
     /**
-     * @Route("/myprofile", name="myProfile")
+     * @Route("/edit-my-profile", name="edit_my_profile")
      */
     public function myProfile(Request $request, EntityManagerInterface $entityManager)
     {
@@ -21,20 +21,20 @@ class MyProfileController extends AbstractController
 
         $memberForm = $this->createForm(MyProfileType::class, $user);
 
-
         $memberForm->handleRequest($request);
 
         if($memberForm->isSubmitted() && $memberForm->isValid()){
+
             $this->addFlash('success', 'Le profil a bien été modifié');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('display_events');
+            return $this->redirectToRoute('display_profile_member', array('id' => $user->getid()));
         }
 
-        return $this->render('my_profile/myProfile.html.twig',
+        return $this->render('profile/edit_my_profile.html.twig',
             [
             'myProfileFormView' => $memberForm->createView(),
 
