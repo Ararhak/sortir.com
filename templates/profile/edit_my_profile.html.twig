@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% form_theme myProfileFormView 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+
+    <h1>Mon profil</h1>
+    <div class="col-4 mx-auto"><br>
+
+        {{ form_start(myProfileFormView) }}
+
+        {{ form_row(myProfileFormView.pseudo) }}
+        {{ form_row(myProfileFormView.name) }}
+        {{ form_row(myProfileFormView.surname) }}
+        {{ form_row(myProfileFormView.phone) }}
+        {{ form_row(myProfileFormView.mail) }}
+
+        <div class="password-div">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="8caracter" value="password" disabled>
+
+            <a href="{{ path('changePassword') }}" class="btn btn-secondary" role="button">
+                Changer mon mot de passe
+            </a>
+        </div>
+
+        {{ form_row(myProfileFormView.site) }}
+        {{ form_row(myProfileFormView.save) }}
+
+        {{ form_end(myProfileFormView) }}
+
+        <a href="{{ path('display_profile_member', {'id': app.user.id}) }}" class="btn btn-secondary" role="button">
+            Retour
+        </a>
+
+    </div>
+
+{% endblock %}

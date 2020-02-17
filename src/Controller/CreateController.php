@@ -56,7 +56,10 @@ class CreateController extends AbstractController
         ));
         //Set site
         $event->setSite($this->getUser()->getsite());
+
+        //TODO : status a mettre Status::created() !
         $status = $entityManager->getRepository(Status::class)->findByLibel(Status::opened());
+
         //Set status
         $event->setStatus($status);
 
@@ -87,7 +90,7 @@ class CreateController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($event);
         $entityManager->flush();
-        return $this->redirectToRoute('home'); //TODO : Route's name
+        //return $this->redirectToRoute('display_events'); //TODO : Route's name
     }
 
 
