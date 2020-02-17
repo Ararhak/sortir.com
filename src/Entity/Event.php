@@ -133,14 +133,22 @@ class Event
     public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
     {
 
-        $deadLineDateTime = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
+        //TODO : distinguer entre la creation et la mise a jour de l'event. Si $inscriptionDeadLine et $startingDateTime sont null alors
+        //TODO : on est en creation, sinon en update
+
+        $inscriptionDeadLine = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
         $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
+
+        if( is_null( $startingDateTime ) ){
+
+
+        }
 
         $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
         $endingDateTime = clone $startingDateTime;
         $endingDateTime->add( new\DateInterval('PT'.$durationInHours.'H') );
 
-        if ($deadLineDateTime > $endingDateTime) {
+        if ($inscriptionDeadLine > $endingDateTime) {
             $context->buildViolation(
                 'La date limite d\'inscription doit arriver avant la clôture de l\'événement '
             )
