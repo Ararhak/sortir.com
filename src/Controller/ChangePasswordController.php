@@ -52,7 +52,7 @@ class ChangePasswordController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('display_events');
         }
 
         return $this->render(

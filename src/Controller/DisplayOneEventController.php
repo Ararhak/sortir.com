@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Status;
+use App\Form\CancelOneEventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +19,10 @@ class DisplayOneEventController extends AbstractController
         $eventRepository = $entityManager->getRepository(Event::class);
         $eventDetail = $eventRepository->find($id);
 
-        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail'));
+        $isOpened = $eventDetail->getStatus()->getLibel() === Status::opened();
+
+
+
+        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail', 'isOpened'));
     }
 }
