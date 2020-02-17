@@ -51,7 +51,9 @@ class ChangePasswordController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+
             return $this->redirectToRoute('edit_my_profile');
+
         }
 
         return $this->render(

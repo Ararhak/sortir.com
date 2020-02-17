@@ -114,6 +114,11 @@ class Event
     private $durationUnit;
 
     /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $ReasonIfCanceled;
+
+    /**
      * @Assert\Callback
      */
     public function validateStartingDate(ExecutionContextInterface $context, $payload)
@@ -404,6 +409,18 @@ class Event
     public function setStartingTime($startingTime): void
     {
         $this->startingTime = $startingTime;
+    }
+
+    public function getReasonIfCanceled(): ?string
+    {
+        return $this->ReasonIfCanceled;
+    }
+
+    public function setReasonIfCanceled(?string $ReasonIfCanceled): self
+    {
+        $this->ReasonIfCanceled = $ReasonIfCanceled;
+
+        return $this;
     }
 
 

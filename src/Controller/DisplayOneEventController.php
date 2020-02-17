@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
-use App\Entity\Member;
+
 use App\Entity\Status;
 use App\Service\Inscription;
 use App\Service\InscriptionManager;
@@ -22,10 +22,11 @@ class DisplayOneEventController extends AbstractController
         $InscriptionManager = new InscriptionManager($entityManager);
         $userCanRegisterToEvent = $InscriptionManager->userCanRegisterToEvent($this->getUser()->getId(), $eventDetail->getId());
 
+        $isOpened = $eventDetail->getStatus()->getLibel() === Status::opened();
 
-        return $this->render('displayevents/displayOneEvent.html.twig', compact(
-            'eventDetail',
-            'userCanRegisterToEvent'
-        ));
+
+
+        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail', 'isOpened', 'userCanRegisterToEvent'));
+
     }
 }

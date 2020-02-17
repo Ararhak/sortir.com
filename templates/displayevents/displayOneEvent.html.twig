@@ -56,9 +56,14 @@
         </a>
     {% endif %}
 
-
     <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
         Retour
     </a>
+
+    {% if eventDetail.organizer.id is same as(app.user.id) and isOpened %}
+        <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
+            Annuler la sortie
+        </a>
+    {% endif %}
 
 {% endblock %}
