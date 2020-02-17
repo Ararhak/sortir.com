@@ -31,7 +31,7 @@ class EditProfile extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('display_profile_member', array('id' => $user->getid()));
+            return $this->redirectToRoute('display_events');
         }
 
         return $this->render('profile/edit_my_profile.html.twig',
