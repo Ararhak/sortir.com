@@ -30,11 +30,71 @@ class EventRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Event[]
+     */
+    public function findEventByFormParameters($site, $dateStart, $dateDeadline, $organizer, $registered, $unregistered, $finished, $id, $user){
+
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+            ->andWhere('e.site = :site')
+            ->setParameter('site', $site);
+        if(!empty($datestart)) {
+            $qb
+                ->andWhere('e.startingDateTime < :datestart')
+                ->setParameter('datestart', $datestart);
+        }
+        if(!empty($datedeadline)) {
+            $qb
+                ->andWhere('e.inscriptionDeadLine < :datedeadline')
+                ->setParameter('datedeadline', $datedeadline);
+        }
+
+        if(!empty($organizer)){
+            $qb
+                ->andWhere('e.organizer = :id')
+                ->setParameter('id',$id);
+        }
+
+//        dump('id',$id);
+//        die();
+
+        if(!empty($registered)){
+            $qb
+                ->innerJoin('e.registeredMembers', 'r')
+                ->andWhere('r.id = :id')
+                ->setParameter('id',$id);
+        }
+        if(!empty($finished)){
+            $qb
+                ->andWhere('e.startingDateTime < :now')
+                ->setParameter('now', '\'CURRENT_TIMESTAMP()\'');
+        }
+            $qb->orderBy('e.startingDateTime', 'ASC');
+
+            $results = $qb->getQuery()
+            ->getResult()
+            ;
+        if(!empty($unregistered)){
+            $resultsfiltered = [];
+            foreach($results as $result){
+                if(!$result->getRegistered()->contains($user)){
+                    $resultsfiltered[]=$result;
+                };
+            }
+            $results=$resultsfiltered;
+        }
+        return $results;
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
     }
 
+
+    //methode rajouté au cas où on veut de la pagination
     public function findEventByPage($page = 0, $limit = 100)
     {
         $entityManager = $this->getEntityManager();

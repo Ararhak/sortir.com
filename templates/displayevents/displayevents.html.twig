@@ -5,146 +5,222 @@
 {% block body %}
 
     <!--Séléction du site-->
+    <form class="formperso">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            {% for site in sites %}
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        {% for site in sites %}
+                <label class="btn btn-secondary active">
+                    {% if app.user.site.id==site.id %}
+                        <input type="radio" name="site" value="{{ site.id }}" id="{{ site.id }}"
+                               checked >{{ site.name }}
+                    {% else %}
+                        <input type="radio" name="site" value="{{ site.id }}" id="{{ site.id }}" >{{ site.name }}
+                    {% endif %}
+                </label>
 
-            <label class="btn btn-secondary active">
-                {% if app.user.site.id==site.id %}
-                    <input type="radio" name="options" id="{{ site.id }}" checked >{{ site.name }}
-                {% else %}
-                    <input type="radio" name="options" id="{{ site.id }}" >{{ site.name }}
-                {% endif %}
-            </label>
-
-        {% endfor %}
-    </div>
-
-
-    <div class="container">
-        <div class="row">
-  <div class="col-5">
-    <!--Séléction des options de filtres-->
-    <div class="custom-control custom-checkbox ">
-    <input type="checkbox" class="custom-control-input" id="defaultInline1">
-    <label class="custom-control-label" for="defaultInline1">Sorties dont je suis l'organisat·eur·rice</label>
-    </div>
-
-    <div class="custom-control custom-checkbox ">
-        <input type="checkbox" class="custom-control-input" id="defaultInline2">
-        <label class="custom-control-label" for="defaultInline2">Sorties auxquelles je suis inscrit·e</label>
-    </div>
-
-    <div class="custom-control custom-checkbox ">
-        <input type="checkbox" class="custom-control-input" id="defaultInline3">
-        <label class="custom-control-label" for="defaultInline3">Sorties auxquelles je ne suis pas inscrit·e</label>
-    </div>
-
-    <div class="custom-control custom-checkbox ">
-        <input type="checkbox" class="custom-control-input" id="defaultInline4">
-        <label class="custom-control-label" for="defaultInline3">Sorties passées</label>
-    </div>
-  </div>
-
-    <!--Séléction des dates-->
-        <!--Grid column-->
-        <div class="col-md-7 mb-4">
-            <div class="md-form">
-                <!--The "from" Date Picker -->
-                <div class="col-md-4">
-                <input class="form-control" type="date" placeholder="Filtrer par la date de début de sortie" id="startingDate" >
-                </div>
-                <label for="startingDate">Filtrer par la date de début de sortie</label>
-            </div>
-            <div class="md-form">
-                <!--The "to" Date Picker -->
-                <input placeholder="Filtrer par la date de fin d'inscription" type="date" id="endingDate" class="form-control datepicker">
-                <label  for="startingDate">Filtrer par la date de fin d'inscription</label>
-            </div>
+            {% endfor %}
         </div>
-        <!--Grid column-->
-    </div>
-    <!--Grid row-->
-  </div>
+
+
+        <!--Séléction des options de filtres-->
+        <div class="container">
+            <div class="row">
+                <div class="col-5">
+                    <div class="custom-control custom-checkbox ">
+                        <input type="checkbox" name="organizer" value="1" class="custom-control-input"
+                               id="defaultInline1" >
+                        <label class="custom-control-label" for="defaultInline1">Sorties dont je suis
+                            l'organisat·eur·rice</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox ">
+                        <input type="checkbox" name="registered" value="2" class="custom-control-input"
+                               id="defaultInline2">
+                        <label class="custom-control-label" for="defaultInline2">Sorties auxquelles je suis
+                            inscrit·e</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox ">
+                        <input type="checkbox" name="unregistered" value="3" class="custom-control-input"
+                               id="defaultInline3">
+                        <label class="custom-control-label" for="defaultInline3">Sorties auxquelles je ne suis pas
+                            inscrit·e</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox ">
+                        <input type="checkbox" name="finished" value="4" class="custom-control-input"
+                               id="defaultInline4">
+                        <label class="custom-control-label" for="defaultInline4">Sorties passées</label>
+                    </div>
+                </div>
+
+
+                <!--Séléction des dates-->
+                <!--Grid column-->
+                <div class="col-md-7 mb-4">
+                    <div class="md-form">
+                        <!--The "from" Date Picker -->
+{#                        <div class="col-md-8">#}
+                        <label for="startingDate">Afficher les dates de début de sortie avant</label>
+                            <input class="form-control" name="dateStart" value="1" type="date"
+                                   placeholder="Afficher les dates de début de sortie avant"
+                                   id="startingDate">
+{#                        </div>#}
+                    </div>
+                    <div class="md-form">
+                        <!--The "to" Date Picker -->
+                        <label for="startingDate">Afficher les dates de d'inscription avant</label>
+                        <input class="form-control datepicker" name="dateDeadline" value="1"
+                               placeholder="Afficher les dates de d'inscription avant" type="date" id="endingDate">
+                    </div>
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+    </form>
 
     <!--Barre de recherche-->
-
-        <input class="form-control " id="listSearch" type="text" placeholder="Le nom de la sortie contient">
-        <ul class="list-group" id="myList">
-    {% include 'includes/eventslist.html.twig' %}
-        </ul>
+    <input class="form-control " id="listSearch" type="text" placeholder="Le nom de la sortie contient">
+    <ul class="list-group" id="myList">
+        {% include 'includes/eventslist.html.twig' %}
+    </ul>
 
 {% endblock %}
 
-{%  block JS %}
-<script>
-    /*AJAX pour filtrer par site*/
-    $(".btn-secondary input").click(function(){
-        bouton=$(this).attr("id")
-        $.ajax({url: "http://localhost/sortir/public/displayevents/"+bouton, success: function(result){
-                $("#listevents").html(result);
-            }});
-    });
+{% block JS %}
+    <script>
+        /*AJAX pour filtrer par site*/
+        $(".formperso input").on("click", filterAjax);
 
-    /*AJAX pour la barre de recherche*/
-    $(document).ready(function(){
-        $("#listSearch").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#myList li").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        //casser et ajouter les differents champs actionnant la methode filtre
+
+        function filterAjax(e) {
+            $.ajax({
+                "url": "{{ path('display_events_by_form_parameters') }}",
+                "data": $(".formperso").serialize(),
+                "method": "get"
+            })
+                .done(function (response) {
+                    console.log(response);
+                    $("#listevents").html(response);
+                })
+        }
+
+        $(function () {
+            $('#defaultInline2').on('click',function () {
+                if($("input[name='registered']:checked").val()){
+                    $('#defaultInline3').prop('disabled', true);
+                } else
+                {
+                    $('#defaultInline3').prop('disabled', false);
+                }
             });
         });
-    });
 
-    /*AJAX pour filtrer par date*/
-    // Get the elements
-     var from_input = $('#startingDate').pickadate(),
-         from_picker = from_input.pickadate('picker')
-     var to_input = $('#endingDate').pickadate(),
-        to_picker = to_input.pickadate('picker')
-
-    // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-/*    if ( from_picker.get('value') ) {
-        to_picker.set('min', from_picker.get('select'))
-    }
-    if ( to_picker.get('value') ) {
-        from_picker.set('max', to_picker.get('select'))
-    }*/
-
-    // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-/*    from_picker.on('set', function(event) {
-        if ( event.select ) {
-            to_picker.set('min', from_picker.get('select'))
-        }
-        else if ( 'clear' in event ) {
-            to_picker.set('min', false)
-        }
-    })*/
-/*    to_picker.on('set', function(event) {
-        if ( event.select ) {
-            from_picker.set('max', to_picker.get('select'))
-        }
-        else if ( 'clear' in event ) {
-            from_picker.set('max', false)
-        }
-    })*/
-
-    //tentative par filtre des résultats déjà affichés
-    $(from_picker).ready(function(){
-        $("#listSearch").click(function() {
-            var value = $(this).val()
-            $("#myList li").filter(function() {
-                $(this).toggle($(this).dateTime().lower(value) > -1)
+        $(function () {
+            $('#defaultInline3').on('click',function () {
+                if($("input[name='unregistered']:checked").val()){
+                    $('#defaultInline2').prop('disabled', true);
+                } else
+                {
+                    $('#defaultInline2').prop('disabled', false);
+                }
             });
         });
-    });
 
-    //tentative a travers un controleur
-/*    $.ajax({url: "http://localhost/sortir/public/displayeventsdatefrom/"+from_picker, success: function(result){
-            $("#listevents").html(result);
-        }});
-    $.ajax({url: "http://localhost/sortir/public/displayeventsdateto/"+to_picker, success: function(result){
-            $("#listevents").html(result);
-        }});*/
-</script>
+
+        // url: "http://localhost/sortir/public/displayevents/"+bouton, success: function(result){
+        //     $("#listevents").html(result);
+
+        // $(".formperso input").click(function(){
+        //     bouton=$(this).attr("id")
+        //     $.ajax({url: "http://localhost/sortir/public/displayevents/"+bouton, success: function(result){
+        //             $("#listevents").html(result);
+        //         }});
+        // });
+
+        /*AJAX pour filtrer par date*/
+
+
+
+        {#$("#formperso").on("submit", function(e){#}
+        {#    e.preventDefault();#}
+        {#    $.ajax({#}
+        {#        //ne marche que parce que je ne suis pas dans un fichier js externe#}
+        {#        "url": "{{ path('location_create') }}",#}
+        {#        "data": $("#location_form").serialize(),#}
+        {#        "method": "post"#}
+        {#    })#}
+        {#        .done(function(response){#}
+        {#            console.log(response);#}
+        {#            var option = $("<option>").attr("value", response.location.id);#}
+        {#            option.html(response.location.name);#}
+        {#            option.prop('selected', true);#}
+        {#            $("#event_location").prepend(option);#}
+        {#            $('#locationModal').modal('hide');#}
+        {#        });#}
+        {#});#}
+
+        /*AJAX pour la barre de recherche*/
+        $(document).ready(function () {
+            $("#listSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myList a").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        /*AJAX pour filtrer par date*/
+        // Get the elements
+        /*     var from_input = $('#startingDate').pickadate(),
+                 from_picker = from_input.pickadate('picker')
+             var to_input = $('#endingDate').pickadate(),
+                to_picker = to_input.pickadate('picker')*/
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        /*    if ( from_picker.get('value') ) {
+                to_picker.set('min', from_picker.get('select'))
+            }
+            if ( to_picker.get('value') ) {
+                from_picker.set('max', to_picker.get('select'))
+            }*/
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        /*    from_picker.on('set', function(event) {
+                if ( event.select ) {
+                    to_picker.set('min', from_picker.get('select'))
+                }
+                else if ( 'clear' in event ) {
+                    to_picker.set('min', false)
+                }
+            })*/
+        /*    to_picker.on('set', function(event) {
+                if ( event.select ) {
+                    from_picker.set('max', to_picker.get('select'))
+                }
+                else if ( 'clear' in event ) {
+                    from_picker.set('max', false)
+                }
+            })*/
+
+        //tentative par filtre des résultats déjà affichés
+        /*    $(from_picker).ready(function(){
+                $("#listSearch").click(function() {
+                    var value = $(this).val()
+                    $("#myList li").filter(function() {
+                        $(this).toggle($(this).dateTime().lower(value) > -1)
+                    });
+                });
+            });*/
+
+        //tentative a travers un controleur
+        /*    $.ajax({url: "http://localhost/sortir/public/displayeventsdatefrom/"+from_picker, success: function(result){
+                    $("#listevents").html(result);
+                }});
+            $.ajax({url: "http://localhost/sortir/public/displayeventsdateto/"+to_picker, success: function(result){
+                    $("#listevents").html(result);
+                }});*/
+    </script>
 {% endblock %}
