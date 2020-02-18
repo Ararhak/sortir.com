@@ -70,11 +70,11 @@ class EventManager
 
     //Update status to $status if not already equal to it
     //TODO: add new constraint based on different status and current date (and return error)
-    public function updateStatus($event, $statusLibel)
+    public function publishEvent($event)
     {
 
-        if($event->getStatus()->getLibel() !== $statusLibel){
-            $status = $this->em->getRepository(Status::class)->findByLibel($statusLibel);
+        if($event->getStatus()->getLibel() !== Status::opened()){
+            $status = $this->em->getRepository(Status::class)->findByLibel(Status::opened());
             $event->setStatus($status);
         }
 
