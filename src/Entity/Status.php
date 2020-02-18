@@ -30,6 +30,9 @@ class Status
     public static function cancelled(){
         return 'cancelled';
     }
+    public static function archived(){
+        return 'archived';
+    }
 
 
     /**
