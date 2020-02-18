@@ -107,7 +107,7 @@ class EventType extends AbstractType
             )
             ->add('infos', TextType::class, ['label' => 'Informations complémentaires ', 'required' => false])
             ->add('location', LocationType::class, ['required' => true])
-            ->add('save', SubmitType::class, ['label' => 'Ajouter',]);
+            ->add('save', SubmitType::class, ['label' => 'Valider',]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

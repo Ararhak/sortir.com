@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Annuler la sortie{% endblock %}
+
+{% block body %}
+
+    <h2>Annuler la sortie</h2>
+
+    <div class="row">
+        <div class="col-4 mx-auto"><br>
+            <p>Nom de la sortie : {{ eventDetail.name }}</p>
+            <p>Date et heure de la sortie : {{ eventDetail.startingDateTime|date("F jS \\a\\t g:ia") }}</p>
+            <p>Ville organisatrice : {{ eventDetail.site.name }}</p>
+            <p>Lieu : {{ eventDetail.location.city.name }},
+                {{ eventDetail.location.street }}, {{ eventDetail.location.city.zipCode }}</p>
+
+            {% if userCanCancelEvent %}
+                {{ form(cancelFormView) }}
+            {% endif %}
+
+            <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
+                Retour
+            </a>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

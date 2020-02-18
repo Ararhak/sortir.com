@@ -1,0 +1,55 @@
+
+{#    Autocomplete location #}
+<script>
+    $("#event_location_name").on('input', function () {
+
+        //Empty the list
+        $('#list-match').empty();
+        let inputText = $("#event_location_name").val();
+        console.log(inputText);
+
+        $.ajax({
+            url: "http://localhost/sortir/public/api/getlocations/like/" + inputText,
+            success: function (result) {
+                console.log(result);
+                //build list of matching location:
+                result.forEach(el => $('#list-match').append(
+                    '<li class="list-group-item match" id='+ el.id +'>' +
+                    '<p name = name>' + '<strong>' + el.name + '</strong>' + '</p>' +
+                    '<p name = street>' + el.street + '</p> ' +
+                    '<p> <span name = city>' + el.city + '</span> <span name=zipCode>' + el.zipCode + '</span></p> ' +
+                    '</li>'
+                ));
+            }
+        });
+    });
+
+    //Quand on clique sur un element de la liste, il remplit automatiquement les champs de Location
+    $("#list-match").on('click', 'li', function () {
+
+        // $(this).
+        // console.log($(this).find("p[name=name]").text());
+        // console.log($(this).find("span[name=zipCode]").text());
+        // console.log($(this).find("p[name=street]").text());
+        // console.log($(this).find("span[name=city]").text());
+
+        let place = $(this).find("p[name=name]").text();
+        let street = $(this).find("p[name=street]").text();
+        let city = $(this).find("span[name=city]").text();
+        let zipCode = $(this).find("span[name=zipCode]").text();
+
+        $('#list-match').empty();
+
+        //Affecter les valeurs aux widgets:
+
+        $('#event_location_name').val(place);
+        $('#event_location_city_name').val(city);
+        $('#event_location_street').val(street);
+        $('#event_location_city_zipCode').val(zipCode);
+
+    });
+
+    //TODO Detruire la liste quand le champ perd le focus
+    // $("#list-match").on('click', 'li', function () {
+
+</script>

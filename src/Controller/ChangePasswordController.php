@@ -39,7 +39,6 @@ class ChangePasswordController extends AbstractController
 
             //TODO : verifier toutes les contraintes de taille de caractères spéciaux, pas le meme que l'ancien
 
-
             //encode the password give in the form
             $this->getUser()->setPassword(
                 $passwordEncoder->encodePassword(
@@ -52,7 +51,9 @@ class ChangePasswordController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+
+            return $this->redirectToRoute('edit_my_profile');
+
         }
 
         return $this->render(

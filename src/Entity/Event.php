@@ -114,15 +114,23 @@ class Event
     private $durationUnit;
 
     /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $ReasonIfCanceled;
+
+    /**
      * @Assert\Callback
      */
     public function validateStartingDate(ExecutionContextInterface $context, $payload)
     {
-        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
-        if( $startingDateTime < new \DateTime('now')){
-            $context->buildViolation('L\'évènement doit débuter à une date ultérieure au présent')
-                ->atPath('startingDate')
-                ->addViolation();
+
+        if( is_null( $this->getStartingDateTime() ) ){
+            $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+            if( $startingDateTime < new \DateTime('now')){
+                $context->buildViolation('L\'évènement doit débuter à une date ultérieure au présent')
+                    ->atPath('startingDate')
+                    ->addViolation();
+            }
         }
     }
 
@@ -133,14 +141,38 @@ class Event
     public function validateDeadlineDate(ExecutionContextInterface $context, $payload)
     {
 
-        $deadLineDateTime = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
-        $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
+        //TODO : distinguer entre la creation et la mise a jour de l'event. Si $inscriptionDeadLine et $startingDateTime sont null alors
+        //TODO : on est en creation, sinon en update
 
-        $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+
+        if( is_null($this->getInscriptionDeadLine())){
+
+            $inscriptionDeadLine = $this->buildDateTimeFromStringDateStringTime($this->getDeadLineDate(), $this->getDeadLineTime());
+        }
+        else{
+            $inscriptionDeadLine = $this->getInscriptionDeadLine();
+        }
+
+
+        if( is_null( $this->getStartingDateTime() ) ){
+            $startingDateTime = $this->buildDateTimeFromStringDateStringTime($this->getStartingDate(), $this->getStartingTime());
+        }
+        else{
+            $startingDateTime = $this->getStartingDateTime();
+        }
+
+        if(is_null($this->getDurationUnit())){
+            $durationInHours = DurationUnit::convertDurationIntoHours($this->getDuration(), $this->getDurationUnit());
+
+        }
+        else{
+            $durationInHours = $this->getDuration();
+        }
+
         $endingDateTime = clone $startingDateTime;
         $endingDateTime->add( new\DateInterval('PT'.$durationInHours.'H') );
 
-        if ($deadLineDateTime > $endingDateTime) {
+        if ($inscriptionDeadLine > $endingDateTime) {
             $context->buildViolation(
                 'La date limite d\'inscription doit arriver avant la clôture de l\'événement '
             )
@@ -396,6 +428,18 @@ class Event
     public function setStartingTime($startingTime): void
     {
         $this->startingTime = $startingTime;
+    }
+
+    public function getReasonIfCanceled(): ?string
+    {
+        return $this->ReasonIfCanceled;
+    }
+
+    public function setReasonIfCanceled(?string $ReasonIfCanceled): self
+    {
+        $this->ReasonIfCanceled = $ReasonIfCanceled;
+
+        return $this;
     }
 
 
