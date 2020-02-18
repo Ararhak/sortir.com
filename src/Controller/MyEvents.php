@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,14 +20,38 @@ class MyEvents extends AbstractController
     {
 
         //Get my created events
-        $myEvents = $em->getRepository(Event::class)->findCreatedEvent($this->getUser()->getId());
+        $events = $em->getRepository(Event::class)->findCreatedEvent($this->getUser()->getId());
 
+        //Status: created
+        $drafts = array();
+        //Status: opened, ongoing, closed
+        $active = array();
+        //Status: finished, cancelled, archived
+        $inactive = array();
 
-        return $this->render("displayevents/manageMyEvents.html.twig",compact('myEvents'));
+        foreach ($events as $event) {
 
+            $statusLibel = $event->getStatus()->getLibel();
 
+            if ($statusLibel === Status::created()) {
+                $drafts[] = $event;
+            } elseif ($statusLibel === Status::opened() || $statusLibel === Status::ongoing(
+                ) || $statusLibel === Status::closed()) {
+                $active[] = $event;
+            } else {
+                $inactive[] = $event;
+            }
+        }
+
+        return $this->render(
+            "displayevents/manage_my_events.html.twig",
+            compact(
+                'drafts',
+                'active',
+                'inactive'
+            )
+        );
     }
-
 
 
 }

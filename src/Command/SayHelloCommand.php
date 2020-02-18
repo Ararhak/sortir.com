@@ -30,5 +30,28 @@ class SayHelloCommand extends Command
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
