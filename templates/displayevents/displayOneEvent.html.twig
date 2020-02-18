@@ -4,7 +4,16 @@
 
 {% block body %}
 
-    <h1>{{ eventDetail.name }}</h1>
+
+    <h1>
+        {{ eventDetail.name }}
+        {% if eventDetail.status.libel == 'opened' %}
+            <span class="badge badge-primary">à venir</span>
+        {% elseif eventDetail.status.libel == 'ongoing' %}
+            <span class="badge badge-success">en cours</span>
+        {% endif %}
+    </h1>
+
 
     <div class="row">
 

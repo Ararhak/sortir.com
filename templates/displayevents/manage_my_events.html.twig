@@ -19,7 +19,6 @@
         </tr>
         </thead>
 
-
         <tbody>
 
         {% for event in drafts %}
@@ -53,9 +52,10 @@
             {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
             <tr>
                 <td>{{ eventDetail.name | capitalize }}</td>
-                <td>Commence le {{ eventDetail.startingDateTime|date('d-m-Y') }} à  {{ eventDetail.startingDateTime|date('H:i') }} </td>
+                <td>Commence le {{ eventDetail.startingDateTime|date('d-m-Y') }}
+                    à {{ eventDetail.startingDateTime|date('H:i') }} </td>
                 {% if date(eventDetail.startingDateTime) < date('now') %}
-                    <td><span class="badge badge-primary">en attente</span></td>
+                    <td><span class="badge badge-primary">à venir</span></td>
                 {% else %}
                     <td><span class="badge badge-success">en cours</span></td>
                 {% endif %}
@@ -82,7 +82,7 @@
             <tr>
                 <td>{{ eventDetail.name | capitalize }}</td>
                 <td>Terminée le {{ eventDetail.startingDateTime|date('d-m-Y') }}</td>
-                    <td><span class="badge badge-dark">{{eventDetail.status.libel}}</span></td>
+                <td><span class="badge badge-dark">{{ eventDetail.status.libel }}</span></td>
                 <td>
                     {% include 'includes/actions/consult_inactive_event.html.twig' %}
                 </td>
