@@ -19,72 +19,86 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return Event[]
      */
-    public function findEventBySite($site){
+    public function findEventBySite($site)
+    {
 
         return $this->createQueryBuilder('e')
             ->andWhere('e.site = :site')
             ->setParameter('site', $site)
             ->orderBy('e.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
      * @return Event[]
      */
-    public function findEventByFormParameters($site, $dateStart, $dateDeadline, $organizer, $registered, $unregistered, $finished, $id, $user){
-
+    public function findEventByFormParameters(
+        $site,
+        $dateStart,
+        $dateDeadline,
+        $organizer,
+        $registered,
+        $unregistered,
+        $finished,
+        $id,
+        $user
+    ) {
         $qb = $this->createQueryBuilder('e');
 
-        $qb
-            ->andWhere('e.site = :site')
-            ->setParameter('site', $site);
-        if(!empty($datestart)) {
+        if ($site != '4') {
             $qb
-                ->andWhere('e.startingDateTime < :datestart')
-                ->setParameter('datestart', $datestart);
-        }
-        if(!empty($datedeadline)) {
-            $qb
-                ->andWhere('e.inscriptionDeadLine < :datedeadline')
-                ->setParameter('datedeadline', $datedeadline);
+                ->andWhere('e.site = :site')
+                ->setParameter('site', $site);
         }
 
-        if(!empty($organizer)){
+        if (!empty($dateStart)) {
+            $qb
+                ->andWhere('e.startingDateTime < :dateStart')
+                ->setParameter('dateStart', $dateStart);
+        }
+
+        if (!empty($dateDeadline)) {
+            $qb
+                ->andWhere('e.inscriptionDeadLine < :dateDeadline')
+                ->setParameter('dateDeadline', $dateDeadline);
+        }
+
+        if (!empty($organizer)) {
             $qb
                 ->andWhere('e.organizer = :id')
-                ->setParameter('id',$id);
+                ->setParameter('id', $id);
         }
 
-//        dump('id',$id);
-//        die();
 
-        if(!empty($registered)){
+        if (!empty($registered)) {
             $qb
                 ->innerJoin('e.registeredMembers', 'r')
                 ->andWhere('r.id = :id')
-                ->setParameter('id',$id);
+                ->setParameter('id', $id);
         }
-        if(!empty($finished)){
+
+        if (!empty($finished)) {
             $qb
                 ->andWhere('e.startingDateTime < :now')
-                ->setParameter('now', '\'CURRENT_TIMESTAMP()\'');
+                ->setParameter('now', new \DateTime('now'));
         }
-            $qb->orderBy('e.startingDateTime', 'ASC');
 
-            $results = $qb->getQuery()
-            ->getResult()
-            ;
-        if(!empty($unregistered)){
+        $qb->orderBy('e.startingDateTime', 'ASC');
+
+        $results = $qb->getQuery()
+            ->getResult();
+
+        if (!empty($unregistered)) {
             $resultsfiltered = [];
-            foreach($results as $result){
-                if(!$result->getRegistered()->contains($user)){
-                    $resultsfiltered[]=$result;
+            foreach ($results as $result) {
+                if (!$result->getRegistered()->contains($user)) {
+                    $resultsfiltered[] = $result;
                 };
             }
-            $results=$resultsfiltered;
+            $results = $resultsfiltered;
         }
+
         return $results;
     }
 
