@@ -55,7 +55,6 @@ class EditEvent extends AbstractController
         }
 
 
-
         return $this->render(
             'displayevents/edit_event.html.twig',
             compact(

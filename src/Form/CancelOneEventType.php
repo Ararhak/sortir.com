@@ -15,7 +15,7 @@ class CancelOneEventType extends AbstractType
     {
         $builder
             ->add('ReasonIfCanceled', TextareaType::class, ['label'=>'Motif : ', 'required'=>true])
-            ->add('save', SubmitType::class, ['label'=>'Supprimer l\'évennement',])
+            ->add('save', SubmitType::class, ['label'=>'Confirmer l\'annulation',])
         ;
     }
 
