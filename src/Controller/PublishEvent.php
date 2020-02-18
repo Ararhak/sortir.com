@@ -36,7 +36,7 @@ class PublishEvent extends AbstractController
         }
 
         $eventManager = new EventManager($entityManager);
-        $event = $eventManager->updateStatus($event, Status::opened());
+        $event = $eventManager->publishEvent($event);
         $entityManager->persist($event);
         $entityManager->flush();
 

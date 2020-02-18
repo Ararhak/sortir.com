@@ -24,6 +24,7 @@
             <p>Date limite d'inscription : {{ eventDetail.inscriptionDeadLine|date('d-m-Y') }}</p>
 
             {%  set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length  %}
+
             {% if  nbPlacesRestantes > 0  %}
                 <p>Nombre de places restantes : <span class="badge badge-pill badge-primary"><strong>{{nbPlacesRestantes }}</strong></span></p>
 

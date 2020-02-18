@@ -1,14 +1,31 @@
 <div id="listevents">
-{% for event in events %}
+
+
+    {% for event in events %}
+
+        {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
+
         <a href="{{ path('display_one_event', {'id': event.id}) }}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ event.name }}</h5>
+                <h4 class="mb-1">{{ event.name }}</h4>
 
-                <small class="text-muted"> Commence le {{ event.startingDateTime | date ('d/m/Y')}} et
+
+                <small class="text-muted"> Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
                     dure {{ event.duration }} heures</small>
+
+                {% if nbPlacesRestantes > 1 %}
+                    <small class="text-muted"> {{ nbPlacesRestantes }} places libres</small>
+                {% elseif nbPlacesRestantes == 1 %}
+                    <small class="text-muted"> {{ nbPlacesRestantes }} place libre</small>
+                    {% else %}
+                        <small class="text-muted"> Complet !</small>
+                {% endif %}
+
+
             </div>
-            <p class="mb-1">{{ event.location.name }}</p>
+            <div class="mb-1">organisé par {{ event.organizer.pseudo }}</div>
+            <p class="mb-1">lieu : {{ event.location.name }}</p>
             <small class="text-muted">{{ event.infos }}</small>
         </a>
-{% endfor %}
+    {% endfor %}
 </div>
