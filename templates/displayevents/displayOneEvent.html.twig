@@ -43,7 +43,7 @@
 
         <div class="col-4 mx-auto"><br>
             <h2>Adresse</h2>
-            <p>Lieu de renedz-vous : {{ eventDetail.location.name }}</p>
+            <p>Lieu de rendez-vous : {{ eventDetail.location.name }}</p>
             <p>Ville : {{ eventDetail.location.city.name }}</p>
             <p>Rue : {{ eventDetail.location.street }}</p>
             <p>Code postal : {{ eventDetail.location.city.zipCode }}</p>
@@ -53,6 +53,12 @@
     {% if userCanRegisterToEvent %}
         <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
             S'inscrire
+        </a>
+    {% endif %}
+
+    {% if userCanWithdrawEvent %}
+        <a href="{{ path( 'withdraw_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
+            Se désister
         </a>
     {% endif %}
 

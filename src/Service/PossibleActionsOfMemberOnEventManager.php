@@ -64,5 +64,20 @@ class PossibleActionsOfMemberOnEventManager
 
     }
 
+    public function userCanWithdrawEvent($idUser, $idEvent)
+    {
+        $event = $this->em->getRepository(Event::class)->find($idEvent);
+        $user = $this->em->getRepository(Member::class)->find($idUser);
+
+        $isOpened = $event->getStatus()->getLibel() === Status::opened();
+        
+
+        $userIsRegistered = $event->getRegisteredMembers()->contains($user);
+
+        $userCanWithdrawEvent = $isOpened && $userIsRegistered;
+
+        return $userCanWithdrawEvent;
+    }
+
 
 }

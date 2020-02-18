@@ -23,11 +23,12 @@ class DisplayOneEventController extends AbstractController
         $possibleActions = new PossibleActionsOfMemberOnEventManager($entityManager);
         $userCanRegisterToEvent = $possibleActions->userCanRegisterToEvent($this->getUser()->getId(), $eventDetail->getId());
 
+        $userCanWithdrawEvent = $possibleActions->userCanWithdrawEvent($this->getUser()->getId(), $eventDetail->getId());
+
         $isOpened = $eventDetail->getStatus()->getLibel() === Status::opened();
 
 
-
-        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail', 'isOpened', 'userCanRegisterToEvent'));
+        return $this->render('displayevents/displayOneEvent.html.twig', compact('eventDetail', 'isOpened', 'userCanRegisterToEvent', 'userCanWithdrawEvent'));
 
     }
 }
