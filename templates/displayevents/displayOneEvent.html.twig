@@ -5,34 +5,41 @@
 {% block body %}
 
     <h1>{{ eventDetail.name }}</h1>
+
     <div class="row">
 
-        <div class="col-4 mx-auto"><br>
+        <div class="col-12 col-lg-4"><br>
 
             <h2> Détails</h2>
 
-            <p>organisée par <a href="url">{{ eventDetail.organizer.name | capitalize }}</a>,
+            <p>Organisateur:<a href="url">{{ eventDetail.organizer.name | capitalize }}</a>,
                 inscrit sur le site de l'ENI de {{ eventDetail.site.name }}</p>
-            <p>Infos supplémentaires : {{ eventDetail.infos }}</p>
-            <p>Date et heure de la sortie : {{ eventDetail.startingDateTime|date('d-m-Y') }}
+
+            {% if eventDetail.infos %}
+                <p>Infos supplémentaires : {{ eventDetail.infos }}</p>
+            {% endif %}
+
+            <p>Date et heure de la sortie : le {{ eventDetail.startingDateTime|date('d-m-Y') }}
                 à {{ eventDetail.startingDateTime|date(' H:i') }}
             </p>
             <p>Durée estimée de l'événement : {{ eventDetail.duration }} heures</p>
+
+        </div>
+
+        <div class="col-12 col-lg-4"><br>
 
             <h2> Inscription</h2>
 
             <p>Date limite d'inscription : {{ eventDetail.inscriptionDeadLine|date('d-m-Y') }}</p>
 
-            {%  set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length  %}
+            {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
 
-            {% if  nbPlacesRestantes > 0  %}
-                <p>Nombre de places restantes : <span class="badge badge-pill badge-primary"><strong>{{nbPlacesRestantes }}</strong></span></p>
-
-
+            {% if  nbPlacesRestantes > 0 %}
+                <p>Nombre de places restantes : <span
+                            class="badge badge-pill badge-primary"><strong>{{ nbPlacesRestantes }}</strong></span></p>
             {% else %}
                 <span class="badge badge-pill badge-danger">Complet</span>
             {% endif %}
-
 
             {% if eventDetail.registeredMembers | length > 0 %}
                 {% include 'includes/eventRegisteredMembers.html.twig' %}
@@ -41,7 +48,7 @@
             {% endif %}
         </div>
 
-        <div class="col-4 mx-auto"><br>
+        <div class="col-12 col-lg-4"><br>
             <h2>Adresse</h2>
             <p>Lieu de rendez-vous : {{ eventDetail.location.name }}</p>
             <p>Ville : {{ eventDetail.location.city.name }}</p>
@@ -50,19 +57,25 @@
         </div>
     </div>
 
-    <div class="col-4 mx-auto" >
 
     {% if userCanRegisterToEvent %}
-        <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
-            S'inscrire
-        </a>
+        <div class="col ">
+            <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary"
+               role="button">
+                S'inscrire
+            </a>
+        </div>
     {% endif %}
 
+
     {% if userCanCancelEvent %}
-        <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
+        <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary"
+           role="button">
             Annuler la sortie
         </a>
     {% endif %}
+
+
 
     {% if userCanModifyEvent %}
         <a href="{{ path('edit_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
@@ -70,18 +83,22 @@
         </a>
     {% endif %}
 
-        {% if userCanPublishEvent %}
-            <a href="{{ path('publish_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
-                Publier la sortie
-            </a>
-        {% endif %}
 
-    </div>
-
-    <div class="col-4 mx-auto">
-        <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
-            Retour
+    {% if userCanPublishEvent %}
+        <a href="{{ path('publish_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary"
+           role="button">
+            Publier la sortie
         </a>
-    </div>
+    {% endif %}
 
-{% endblock %}
+
+
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
+                Retour
+            </a>
+        </div>
+
+
+
+{% endblock body %}
