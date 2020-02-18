@@ -25,6 +25,7 @@ class DisplayOneEventController extends AbstractController
         $userCanRegisterToEvent = $possibleActions->userCanRegisterToEvent($this->getUser()->getId(), $eventDetail->getId());
         $userCanCancelEvent = $possibleActions->userCanCancelEvent($this->getUser()->getId(), $id);
         $userCanModifyEvent = $possibleActions->userCanModifyEvent($this->getUser()->getId(), $eventDetail->getId());
+        $userCanPublishEvent =  $possibleActions->userCanPublishEvent($this->getUser()->getId(), $eventDetail->getId());
 
         return $this->render(
             'displayevents/displayOneEvent.html.twig',
@@ -32,7 +33,8 @@ class DisplayOneEventController extends AbstractController
                 'eventDetail',
                 'userCanRegisterToEvent',
                 'userCanModifyEvent',
-                'userCanCancelEvent'
+                'userCanCancelEvent',
+                'userCanPublishEvent'
             )
         );
 

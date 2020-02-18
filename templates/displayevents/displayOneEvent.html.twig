@@ -69,6 +69,12 @@
         </a>
     {% endif %}
 
+        {% if userCanPublishEvent %}
+            <a href="{{ path('publish_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
+                Publier la sortie
+            </a>
+        {% endif %}
+
     </div>
 
     <div class="col-4 mx-auto">
@@ -76,6 +82,5 @@
             Retour
         </a>
     </div>
-
 
 {% endblock %}

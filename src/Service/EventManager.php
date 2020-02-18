@@ -18,7 +18,8 @@ class EventManager
     }
 
 
-    public function setAttributesToEventFromFormAndReturn($event, $user, $eventForm ){
+    public function setAttributesToEventFromFormAndReturn($event, $user, $eventForm)
+    {
 
         //Set organizer:
         $event->setOrganizer($user);
@@ -27,15 +28,17 @@ class EventManager
         $event = $this->buildDateTimeFromDateAndTimeForm($eventForm, $event);
 
         //Set duration
-        $event->setDuration(DurationUnit::convertDurationIntoHours(
-            $eventForm->get('duration')->getData(),
-            $eventForm->get('duration_unit')->getData()
-        ));
+        $event->setDuration(
+            DurationUnit::convertDurationIntoHours(
+                $eventForm->get('duration')->getData(),
+                $eventForm->get('duration_unit')->getData()
+            )
+        );
 
         //Set site
         $event->setSite($user->getsite());
 
-        $status = $this->em->getRepository(Status::class)->findByLibel( Status::created() );
+        $status = $this->em->getRepository(Status::class)->findByLibel(Status::created());
 
         //Set status
         $event->setStatus($status);
@@ -43,31 +46,39 @@ class EventManager
         return $event;
     }
 
-    public function buildDateTimeFromDateAndTimeForm($eventForm, $event){
+    public function buildDateTimeFromDateAndTimeForm($eventForm, $event)
+    {
 
         //merge date et time starting date:
         $startingDate = $eventForm->get('startingDate')->getData();
         $startingTime = $eventForm->get('startingTime')->getData();
-        $startingDateTime = $event->buildDateTimeFromStringDateStringTime($startingDate,$startingTime );
+        $startingDateTime = $event->buildDateTimeFromStringDateStringTime($startingDate, $startingTime);
 
         //merge date et time deadline :
         $deadLineDate = $eventForm->get('deadLineDate')->getData();
         $deadLineTime = $eventForm->get('deadLineTime')->getData();
-        $inscriptionDeadLine = $event->buildDateTimeFromStringDateStringTime($deadLineDate, $deadLineTime );
+        $inscriptionDeadLine = $event->buildDateTimeFromStringDateStringTime($deadLineDate, $deadLineTime);
 
-        $event->setStartingDateTime( $startingDateTime );
-        $event->setInscriptionDeadLine( $inscriptionDeadLine );
+        $event->setStartingDateTime($startingDateTime);
+        $event->setInscriptionDeadLine($inscriptionDeadLine);
 
         return $event;
     }
 
-    public function persistEvent($event)
+
+    //Gestion des status:
+
+    //Update status to $status if not already equal to it
+    //TODO: add new constraint based on different status and current date (and return error)
+    public function updateStatus($event, $statusLibel)
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($event);
-        $entityManager->flush();
-        //return $this->redirectToRoute('display_events'); //TODO : Route's name
+        if($event->getStatus()->getLibel() !== $statusLibel){
+            $status = $this->em->getRepository(Status::class)->findByLibel($statusLibel);
+            $event->setStatus($status);
+        }
+
+        return $event;
     }
 
 }

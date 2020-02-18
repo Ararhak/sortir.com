@@ -83,4 +83,17 @@ class PossibleActionsOfMemberOnEventManager
     }
 
 
+    public function userCanPublishEvent($idUser, $idEvent){
+
+        $event = $this->em->getRepository(Event::class)->find($idEvent);
+        $user = $this->em->getRepository(Member::class)->find($idUser);
+
+        $isCreated = $event->getStatus()->getLibel() === Status::created();
+        $userIsOrganizer = $event->getOrganizer()->getId() === $user->getId();
+
+        return $isCreated && $userIsOrganizer;
+
+    }
+
+
 }
