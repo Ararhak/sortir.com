@@ -5,14 +5,12 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
-use App\Entity\Status;
-use App\Service\Inscription;
-use App\Service\InscriptionManager;
+use App\Service\PossibleActionsOfMemberOnEventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SinscrireSortie extends AbstractController
+class RegisterToEvent extends AbstractController
 {
 
     /**

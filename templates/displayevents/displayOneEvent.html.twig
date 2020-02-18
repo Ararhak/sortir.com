@@ -33,7 +33,6 @@
             {% endif %}
 
 
-
             {% if eventDetail.registeredMembers | length > 0 %}
                 {% include 'includes/eventRegisteredMembers.html.twig' %}
             {% else %}
@@ -43,12 +42,14 @@
 
         <div class="col-4 mx-auto"><br>
             <h2>Adresse</h2>
-            <p>Lieu de renedz-vous : {{ eventDetail.location.name }}</p>
+            <p>Lieu de rendez-vous : {{ eventDetail.location.name }}</p>
             <p>Ville : {{ eventDetail.location.city.name }}</p>
             <p>Rue : {{ eventDetail.location.street }}</p>
             <p>Code postal : {{ eventDetail.location.city.zipCode }}</p>
         </div>
     </div>
+
+    <div class="col-4 mx-auto" >
 
     {% if userCanRegisterToEvent %}
         <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
@@ -56,14 +57,25 @@
         </a>
     {% endif %}
 
-    <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
-        Retour
-    </a>
-
-    {% if eventDetail.organizer.id is same as(app.user.id) and isOpened %}
+    {% if userCanCancelEvent %}
         <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
             Annuler la sortie
         </a>
     {% endif %}
+
+    {% if userCanModifyEvent %}
+        <a href="{{ path('edit_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
+            Modifier la sortie
+        </a>
+    {% endif %}
+
+    </div>
+
+    <div class="col-4 mx-auto">
+        <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
+            Retour
+        </a>
+    </div>
+
 
 {% endblock %}

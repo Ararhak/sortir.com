@@ -20,14 +20,13 @@ class CancelOneEventController extends AbstractController
     {
         $eventRepository = $entityManager->getRepository(Event::class);
         $eventDetail = $eventRepository->find($id);
-
-
         $possibleActions = new PossibleActionsOfMemberOnEventManager($entityManager);
 
         $userCanCancelEvent = $possibleActions->userCanCancelEvent($this->getUser()->getId(), $id);
 
 
         $cancelForm = $this->createForm(CancelOneEventType::class, $eventDetail);
+
         $cancelFormView = $cancelForm->createView();
 
         $cancelForm->handleRequest($request);
