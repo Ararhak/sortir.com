@@ -1,0 +1,56 @@
+{% form_theme eventFormView 'bootstrap_4_layout.html.twig' %}
+
+<div class="col-4 mx-auto"><br>
+
+    {{ form_start(eventFormView) }}
+
+    {{ form_row(eventFormView.name) }}
+    {{ form_row(eventFormView.infos) }}
+
+    <h2>Date et durée de l'événement</h2>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(eventFormView.startingDate) }}
+        </div>
+        <div class="col">
+            {{ form_row(eventFormView.startingTime) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(eventFormView.duration) }}
+        </div>
+        <div class="col">
+            {{ form_row(eventFormView.duration_unit) }}
+        </div>
+    </div>
+
+    <h2>Gestion des inscriptions</h2>
+
+    <div class="row">
+
+        <div class="col">
+
+            {{ form_label(eventFormView.deadLineDate) }}
+            {{ form_widget(eventFormView.deadLineDate) }}
+        </div>
+        <div class="col">
+            {{ form_row(eventFormView.deadLineTime) }}
+        </div>
+    </div>
+
+    {{ form_row(eventFormView.nbMaxRegistration) }}
+
+    <h2>Lieu</h2>
+
+    {{ form_row(eventFormView.location.name) }}
+    {#        Cette liste stocke la liste temporaire de match entre l'input de l'user et la bbd#}
+    <ul id="list-match" class="list-group" style="position: absolute; list-style: none;"></ul>
+    {{ form_row(eventFormView.location.street) }}
+    {{ form_row(eventFormView.location.city) }}
+
+    {{ form_row(eventFormView.save) }}
+    {{ form_end(eventFormView) }}
+</div>

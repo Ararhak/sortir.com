@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Site;
+
 use App\Form\MyProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class EditProfile extends AbstractController
@@ -15,7 +17,7 @@ class EditProfile extends AbstractController
     /**
      * @Route("/edit-my-profile", name="edit_my_profile")
      */
-    public function myProfile(Request $request, EntityManagerInterface $entityManager)
+    public function myProfile(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
         $user = $this->getUser();
 
@@ -23,15 +25,20 @@ class EditProfile extends AbstractController
 
         $memberForm->handleRequest($request);
 
-        if($memberForm->isSubmitted() && $memberForm->isValid()){
+        $entityManager = $this->getDoctrine()->getManager();
 
-            $this->addFlash('success', 'Le profil a bien été modifié');
+        if($memberForm->isSubmitted()){
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if($memberForm->isValid()){
 
-            return $this->redirectToRoute('display_events');
+                $this->addFlash('success', 'Le profil a bien été modifié');
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('display_events');
+            }
+            else{
+                $entityManager->refresh($user);
+            }
         }
 
         return $this->render('profile/edit_my_profile.html.twig',
@@ -39,6 +46,7 @@ class EditProfile extends AbstractController
             'myProfileFormView' => $memberForm->createView(),
         ]);
     }
+
 
 
 }
