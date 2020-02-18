@@ -16,15 +16,25 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class EventRepository extends ServiceEntityRepository
 {
+        private $status1 = 1;
+        private $status2 = 2;
+        private $status3 = 3;
+        private $status4 = 4;
+        private $status5 = 5;
+        private $status6 = 6;
+
     /**
      * @return Event[]
      */
     public function findEventBySite($site)
     {
-
         return $this->createQueryBuilder('e')
             ->andWhere('e.site = :site')
             ->setParameter('site', $site)
+            ->andWhere('e.status = :status2 OR e.status = :status3 OR e.status = :status4')
+            ->setParameter('status2',$this->status2)
+            ->setParameter('status3',$this->status3)
+            ->setParameter('status4',$this->status4)
             ->orderBy('e.id', 'ASC')
             ->getQuery()
             ->getResult();
@@ -79,9 +89,17 @@ class EventRepository extends ServiceEntityRepository
         }
 
         if (!empty($finished)) {
+
             $qb
-                ->andWhere('e.startingDateTime < :now')
-                ->setParameter('now', new \DateTime('now'));
+                ->andWhere('e.status = :status5')
+                ->setParameter('status5', $this->status5);
+        } else {
+
+            $qb
+                ->andWhere('e.status = :status2 OR e.status = :status3 OR e.status = :status4')
+                ->setParameter('status2',$this->status2)
+                ->setParameter('status3',$this->status3)
+                ->setParameter('status4',$this->status4);
         }
 
         $qb->orderBy('e.startingDateTime', 'ASC');
