@@ -69,6 +69,22 @@ class PossibleActionsOfMemberOnEventManager
 
     }
 
+
+    public function userCanWithdrawEvent($idUser, $idEvent)
+    {
+        $event = $this->em->getRepository(Event::class)->find($idEvent);
+        $user = $this->em->getRepository(Member::class)->find($idUser);
+
+        $isOpened = $event->getStatus()->getLibel() === Status::opened();
+
+
+        $userIsRegistered = $event->getRegisteredMembers()->contains($user);
+
+        $userCanWithdrawEvent = $isOpened && $userIsRegistered;
+
+        return $userCanWithdrawEvent;
+    }
+
     //Return true if a user can modify an event ( organizer and event not opened yet), else otherwise
     public function userCanModifyEvent($idUser, $idEvent){
 
@@ -92,6 +108,7 @@ class PossibleActionsOfMemberOnEventManager
         $userIsOrganizer = $event->getOrganizer()->getId() === $user->getId();
 
         return $isCreated && $userIsOrganizer;
+
 
     }
 

@@ -68,6 +68,12 @@
     {% endif %}
 
 
+    {% if userCanWithdrawEvent %}
+        <a href="{{ path( 'withdraw_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
+            Se désister
+        </a>
+    {% endif %}
+
     {% if userCanCancelEvent %}
         <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary"
            role="button">
