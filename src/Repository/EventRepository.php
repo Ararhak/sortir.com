@@ -138,4 +138,15 @@ DQL;
         ;
     }
     */
+
+
+    public function findCreatedEvent($idOrganizer){
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.organizer = :val')
+            ->setParameter('val', $idOrganizer)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
