@@ -91,6 +91,12 @@
     <script>
         /*AJAX pour filtrer par site*/
         $(".formperso input").on("click", filterAjax);
+        $("#startingDate").on("change", filterAjax);
+        $("#endingDate").on("change", filterAjax);
+
+        // $('#startingDate input').datepicker({onchange: filterAjax});
+
+
 
         //casser et ajouter les differents champs actionnant la methode filtre
 
