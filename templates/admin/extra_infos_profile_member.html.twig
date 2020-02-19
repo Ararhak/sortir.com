@@ -1,0 +1,19 @@
+<h2>Sorties publiées ({{ publicOrganizedEvents | length }})</h2>
+
+    <div id="scrollbar">
+        <table class="table table-striped registeredMembers">
+            <thead>
+            <tr>
+                <th scope="col">Sorties publiées</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for event in publicOrganizedEvents %}
+                <tr>
+                    <td> <a href="{{ path('display_one_event', {'id': event.id}) }}">{{ event.name }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>

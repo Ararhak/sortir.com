@@ -80,7 +80,6 @@ body {
 }
 
 #scrollbar {
-    margin-top: 100px;
     width: 500px;
     height: 200px;
     overflow-y: scroll;
@@ -108,5 +107,5 @@ li.match:hover {
 }
 
 .badge{
-    width: 80px;
+    width: 200px;
 }

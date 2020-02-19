@@ -186,4 +186,14 @@ DQL;
             ->getResult();
     }
 
+    //Public Event: opened or ongoing
+    public function findPublicEvent($idOrganizer){
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.organizer = :val')
+            ->andWhere('e.status = 2 OR e.status = 3 ')
+            ->setParameter('val', $idOrganizer)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
