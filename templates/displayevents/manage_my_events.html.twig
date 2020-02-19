@@ -54,7 +54,8 @@
                 <td>{{ eventDetail.name | capitalize }}</td>
                 <td>Commence le {{ eventDetail.startingDateTime|date('d-m-Y') }}
                     à {{ eventDetail.startingDateTime|date('H:i') }} </td>
-                {% if date(eventDetail.startingDateTime) < date('now') %}
+
+                {% if date(eventDetail.startingDateTime) > date() %}
                     <td><span class="badge badge-primary">à venir</span></td>
                 {% else %}
                     <td><span class="badge badge-success">en cours</span></td>
