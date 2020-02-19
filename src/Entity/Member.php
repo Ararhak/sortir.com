@@ -98,6 +98,11 @@ class Member implements UserInterface
      */
     private $isAdmin;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastConnectionDateTime;
+
 
     public function __construct()
     {
@@ -343,6 +348,18 @@ class Member implements UserInterface
     public function setIsAdmin(?bool $isAdmin): self
     {
         $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getLastConnectionDateTime(): ?\DateTimeInterface
+    {
+        return $this->lastConnectionDateTime;
+    }
+
+    public function setLastConnectionDateTime(?\DateTimeInterface $lastConnectionDateTime): self
+    {
+        $this->lastConnectionDateTime = $lastConnectionDateTime;
 
         return $this;
     }

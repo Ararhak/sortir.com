@@ -9,15 +9,15 @@
 {% block body %}
 
 
-<h1>Tableau de bord administrateur [{{ app.user.name }}]</h1>
+    <h1>Tableau de bord administrateur [{{ app.user.name }}]</h1>
 
 
-<a href="{{ path('app_register') }}" class="btn btn-primary"
-   role="button">
-    Ajouter un nouveau membre
-</a>
+    <a href="{{ path('app_register') }}" class="btn btn-primary"
+       role="button">
+        Ajouter un nouveau membre
+    </a>
 
-<table class="table table-striped members">
+    <table class="table table-striped members">
     <thead>
     <tr>
         <th colspan="3" align="justify"><h2>Liste des membres</h2></th>
@@ -31,6 +31,7 @@
         <th colspan="1" align="justify">Status</th>
         <th colspan="1" align="justify">Nombre de connexions</th>
         <th colspan="1" align="justify">Date dernière connexion</th>
+        <th colspan="1" align="justify">Dernière connexion</th>
         <th colspan="1" align="justify">Actions</th>
     </tr>
     </thead>
@@ -51,12 +52,52 @@
                     <td><span class="badge badge-secondary">inactif</span></td>
                 {% endif %}
                 <td>{{ member.nbConnection }}</td>
-                <td>TODO</td>
+
+                {% if member.lastConnectionDateTime is not null %}
+
+                    {% set intervalLastConnexion = member.lastConnectionDateTime.diff( date() ) %}
+                    {% set days = intervalLastConnexion.days %}
+                    {% set years = intervalLastConnexion.y %}
+                    {% set hours = intervalLastConnexion.h %}
+                    {% set minutes = intervalLastConnexion.i %}
+                    {% set secondes = intervalLastConnexion.s %}
+
+                    <td>
+                        {{ member.lastConnectionDateTime | date('H:i:s d/m/Y') }}
+                    </td>
+
+                    <td>
+                        {% if years != 0 %}
+                            {{ years }} année(s)
+                        {% else %}
+
+                            {% if days != 0 %}
+                                {{ days }} jour(s)
+                            {% endif %}
+                            {% if hours != 0 %}
+                                {{ hours }} heure(s)
+                            {% endif %}
+                            {% if minutes != 0 %}
+                                {{ minutes }} minute(s)
+                            {% endif %}
+                            {% if secondes != 0 %}
+                                {{ secondes }} seconde(s)
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+
+
+
+                    </td>
+                {% else %}
+                    <td>inconnue</td>
+                {% endif %}
 
                 <td>
                     <a href="{{ path('display_profile_member', {'id': member.id}) }}" class="btn btn-secondary"
                        role="button">
-                        Afficher profil
+                        Accéder au profil
                     </a>
                 </td>
 
@@ -81,8 +122,11 @@
     {% endfor %}
 
 
-
     {% block JS %}
+
+
+
+
 
 
     {% endblock JS %}
