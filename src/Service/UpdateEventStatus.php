@@ -39,24 +39,23 @@ class UpdateEventStatus
 
 
         //l'evt est-il closed ? (passage du statut opened à closed)
-        $nowEventIsClosed = $event->getInscriptionDeadLine() < new \DateTime('now');
+        $nowEventIsClosed = $event->getInscriptionDeadLine() > new \DateTime('now');
         //l'evnt est-il commencé ? (pour passage statut opened à ongoing)
-        $nowEventIsStarted = $event->getStartingDateTime() < new \DateTime('now');
+        $nowEventIsStarted = $event->getStartingDateTime() > new \DateTime('now');
 
         //duration
         $duration = $event->getDuration();
 
         //l'evnt est-il terminé ? (passage du statut ongoing à finished)
         try {
-            $nowEventIsFinished = ($event->getStartingDateTime()->add(new DateInterval('P' . $duration . 'D')) < new \DateTime('now'));
+            $nowEventIsFinished = ($event->getStartingDateTime()->add(new DateInterval('P' . $duration . 'D')) > new \DateTime('now'));
         } catch (\Exception $e) {
         }
         //l'evnt est-il archivé ? (passage du statut fininshed à archived)
         try {
-            $nowEventIsArchived = $event->getStartingDateTime()->add(new DateInterval('P' . ($duration+30) . 'D'));
+            $nowEventIsArchived = ($event->getStartingDateTime()->add(new DateInterval('P' . ($duration+630) . 'D')) > new \DateTime('now'));
         } catch (\Exception $e) {
         }
-
 
         //Passer du statut opened à closed
 //        if ($openedEvent && $nowEventIsClosed) {
@@ -75,11 +74,12 @@ class UpdateEventStatus
             $event->setStatus($statusOnGoing);
         }
         //Passer du statut ongoing à finished
-        if($ongoingEvent && $nowEventIsFinished) {
+        else if($ongoingEvent && $nowEventIsFinished) {
             $statusFinished = $this->em->getRepository(Status::class)->findByLibel(Status::finished());
             $event->setStatus($statusFinished);
         }
-        if($finishedEvent && $nowEventIsArchived) {
+        //Passer du statut finished à archived
+        else if($finishedEvent && $nowEventIsArchived) {
             $statusArchived = $this->em->getRepository(Status::class)->findByLibel(Status::archived());
             $event->setStatus($statusArchived);
         }
