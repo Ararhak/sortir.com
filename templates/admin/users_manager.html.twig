@@ -41,7 +41,7 @@
     {% for member in members %}
 
         {% if member != app.user %}
-            <tr>
+            <tr id="row{{ member.id }}">
                 <td>{{ member.surname | capitalize }}</td>
                 <td>{{ member.name | capitalize }}</td>
                 <td>{{ member.pseudo | capitalize }}</td>
@@ -112,7 +112,7 @@
                     </td>
                 {% endif %}
                 <td>
-                    <button type="button" class="btn btn-danger">Supprimer le compte</button>
+                    <button type="button" class="btn btn-danger supprimer" id="suppr{{ member.id}}">Supprimer le compte</button>
                 </td>
 
 
@@ -129,11 +129,31 @@
             $(".activer-desactiver").on('click', function () {
                 let id =  $(this).attr('id');
                 $.ajax({
-                    url: "http://localhost/sortir/public/api/activate_desactivate_user/"+ id,
+                    url: "http://localhost/sortir/public/admin/api/activate_desactivate_user/"+ id,
                     success: function (result) {
                         $('#' + id).text(result);
                     }})
             });
+
+            $(".supprimer").on('click', function () {
+                let id =  $(this).attr('id');
+                id = id.match(/\d+/g)[0];
+                console.log(id);
+
+                if ( confirm( "Vous êtes sûr de vouloir supprimer le compte?" ) ) {
+                    $.ajax({
+                        url: "http://localhost/sortir/public/admin/api/delete_user/"+ id,
+                        success: function (result) {
+                            $('#row' + id).empty();
+                        }})
+                } else {
+                    // Code à éxécuter si l'utilisateur clique sur "Annuler"
+                }
+            });
+
+
+
+
         </script>
 
     {% endblock JS %}

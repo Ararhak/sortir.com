@@ -46,7 +46,7 @@ class ApiAjaxController extends AbstractController
 
 
     /**
-     * @Route("/api/activate_desactivate_user/{idMember}", name="activate_desactivate_user");
+     * @Route("/admin/api/activate_desactivate_user/{idMember}", name="activate_desactivate_user");
      */
     public function activateDesactivateMember(EntityManagerInterface $entityManager, $idMember){
 
@@ -67,6 +67,21 @@ class ApiAjaxController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse($response);
+    }
+
+    /**
+     * @Route("/admin/api/delete_user/{idMember}", name="");
+     */
+    public function deleteUserAccount(EntityManagerInterface $entityManager, $idMember)
+    {
+
+
+        $member = $entityManager->getRepository(Member::class)->find($idMember);
+        $entityManager->remove($member);
+        $entityManager->flush();
+
+        return new JsonResponse(array('Supprimé avec succès!'));
+
     }
 
 
