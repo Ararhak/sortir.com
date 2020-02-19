@@ -40,6 +40,11 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllEventExceptStatusArchived()
+    {
+        //TODO
+    }
+
     /**
      * @return Event[]
      */
