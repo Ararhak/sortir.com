@@ -5,6 +5,13 @@
 
         <a href="{{ path('display_one_event', {'id': event.id}) }}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
+
+                {% if event.organizer.picture != null %}
+                    <img src="{{ asset('assets/profilepic/' ~ event.organizer.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture" width="100" height="100">
+                {% else %}
+                    <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block" alt="profile picture" width="100" height="100">
+                {% endif %}
+
                 <h4 class="mb-1">{{ event.name }}</h4>
 
                 <small class="text-muted"> Commence le {{ event.startingDateTime | date ('d/m/Y') }} et

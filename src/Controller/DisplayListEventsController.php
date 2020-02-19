@@ -20,7 +20,8 @@ class DisplayListEventsController extends AbstractController
         $site = $this->getUser()->getSite();
         $eventRepo = $entityManager->getRepository(Event::class);
         $sites = $entityManager->getRepository(Site::class)->findAll();
-        $events = $eventRepo->findEventBySite($site);
+        $events = $eventRepo->findAll();
+        //findEventBySite($site);
         return $this->render("displayevents/displayevents.html.twig",compact('events','sites'));
     }
 

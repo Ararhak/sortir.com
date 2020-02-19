@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 
+use App\Entity\ProfilePictureName;
 use App\Form\MyProfileType;
+use App\Form\ProfilePictureFileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,30 +26,79 @@ class EditProfile extends AbstractController
         $user = $this->getUser();
 
         $memberForm = $this->createForm(MyProfileType::class, $user);
-
         $memberForm->handleRequest($request);
+        if($user->getPicture()){
+        $profilepicture = $user->getPicture();
+            $oldprofilepicture = clone $profilepicture;
+        } else {
+        $profilepicture = new ProfilePictureName();
+        }
+        $profilepictureForm = $this->createForm(ProfilePictureFileType::class, $profilepicture);
+        $profilepictureForm->handleRequest($request);
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        if($memberForm->isSubmitted()){
+        if ($memberForm->isSubmitted()) {
 
-            if($memberForm->isValid()){
+            if ($memberForm->isValid()) {
 
                 $this->addFlash('success', 'Le profil a bien été modifié');
                 $entityManager->persist($user);
                 $entityManager->flush();
+
                 return $this->redirectToRoute('display_events');
-            }
-            else{
+            } else {
                 $entityManager->refresh($user);
             }
         }
 
-        return $this->render('profile/edit_my_profile.html.twig',
-            [
-            'myProfileFormView' => $memberForm->createView(),
-        ]);
-    }
+        if ($profilepictureForm->isSubmitted() && $profilepictureForm->isValid()) {
+            /** @var UploadedFile $profilePictureFile */
+            $profilePictureFile = $profilepictureForm->get('profilepicturename')->getData();
+
+            // this condition is needed because the 'picture' field is not required
+            // so the JPG/PNG file must be processed only when a file is uploaded
+            if ($profilePictureFile) {
+                $originalFilename = pathinfo($profilePictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate(
+                    'Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
+                    $originalFilename
+                );
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$profilePictureFile->guessExtension();
+
+                // Move the file to the directory where pictures are stored
+                try {
+                    $profilePictureFile->move(
+                        $this->getParameter('profilepic_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'profilePictureFilename' property to store the PDF file name
+                // instead of its contents
+                $profilepicture->setName($newFilename);
+
+            $this->addFlash('success', 'La photo de profil a bien été modifié');
+            $entityManager->persist($profilepicture);
+            $entityManager->flush();
+            unlink($this->getParameter('profilepic_directory').'/'.$oldprofilepicture->getName());
+                return $this->redirectToRoute('edit_my_profile');
+            }
+        }
+
+
+            return $this->render(
+                'profile/edit_my_profile.html.twig',
+                [
+                    'myProfileFormView' => $memberForm->createView(),
+                    'porfilePictureFormView' => $profilepictureForm->createView(),
+                    'user' => $user,
+                ]
+            );
+        }
 
 
 
