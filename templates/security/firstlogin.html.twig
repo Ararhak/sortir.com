@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1>Bienvenue sur Sortir</h1>
+    <h1><i>{{ app.user.surname | capitalize }}</i>, bienvenue  sur Sortir !</h1>
 
     <p>
         C'est votre première connexion.
@@ -10,7 +10,7 @@
 
     <p>
         Nous vous invitons à compléter votre profil en suivant ce lien.
-        <a href="{{ path('myProfile') }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
+        <a href="{{ path('edit_my_profile',  {'id': app.user.id}) }}" class="btn btn-secondary btn-lg" role="button" aria-disabled="true">
             Modifier mon profil
         </a>
     </p>

@@ -30,8 +30,16 @@ class DisplayListEventsController extends AbstractController
     public function displayEventsbyFormParameters(EntityManagerInterface $entityManager, Request $request){
         $id = $this->getUser()->getid();
         $site = $request->query->get('site');
-        $dateStart = $request->query->get('dateStart');
-        $dateDeadline = $request->query->get('dateDeadline');
+        if(!empty($request->query->get('dateStart'))){
+        $dateStart = new \DateTime($request->query->get('dateStart'));
+        } else {
+            $dateStart="";
+        }
+        if(!empty($request->query->get('dateDeadline'))) {
+            $dateDeadline = new \DateTime($request->query->get('dateDeadline'));
+        } else {
+            $dateDeadline="";
+        }
         $organizer = $request->query->get('organizer');
         $registered = $request->query->get('registered');
         $unregistered = $request->query->get('unregistered');

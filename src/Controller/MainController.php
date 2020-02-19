@@ -16,4 +16,14 @@ class MainController extends AbstractController
     {
         return $this->redirectToRoute('app_login');
     }
+
+    /**
+     * @Route("/contact", name="contact");
+     * */
+    public function contact()
+    {
+        return $this->render('Main/contact.html.twig');
+    }
+
+
 }

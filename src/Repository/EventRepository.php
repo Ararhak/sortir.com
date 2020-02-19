@@ -16,75 +16,107 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class EventRepository extends ServiceEntityRepository
 {
+        private $status1 = 1;
+        private $status2 = 2;
+        private $status3 = 3;
+        private $status4 = 4;
+        private $status5 = 5;
+        private $status6 = 6;
+
     /**
      * @return Event[]
      */
-    public function findEventBySite($site){
-
+    public function findEventBySite($site)
+    {
         return $this->createQueryBuilder('e')
             ->andWhere('e.site = :site')
             ->setParameter('site', $site)
+            ->andWhere('e.status = :status2 OR e.status = :status3 OR e.status = :status4')
+            ->setParameter('status2',$this->status2)
+            ->setParameter('status3',$this->status3)
+            ->setParameter('status4',$this->status4)
             ->orderBy('e.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
      * @return Event[]
      */
-    public function findEventByFormParameters($site, $dateStart, $dateDeadline, $organizer, $registered, $unregistered, $finished, $id, $user){
-
+    public function findEventByFormParameters(
+        $site,
+        $dateStart,
+        $dateDeadline,
+        $organizer,
+        $registered,
+        $unregistered,
+        $finished,
+        $id,
+        $user
+    ) {
         $qb = $this->createQueryBuilder('e');
 
-        $qb
-            ->andWhere('e.site = :site')
-            ->setParameter('site', $site);
-        if(!empty($datestart)) {
+        if ($site != '4') {
             $qb
-                ->andWhere('e.startingDateTime < :datestart')
-                ->setParameter('datestart', $datestart);
-        }
-        if(!empty($datedeadline)) {
-            $qb
-                ->andWhere('e.inscriptionDeadLine < :datedeadline')
-                ->setParameter('datedeadline', $datedeadline);
+                ->andWhere('e.site = :site')
+                ->setParameter('site', $site);
         }
 
-        if(!empty($organizer)){
+        if (!empty($dateStart)) {
+            $qb
+                ->andWhere('e.startingDateTime < :dateStart')
+                ->setParameter('dateStart', $dateStart);
+        }
+
+        if (!empty($dateDeadline)) {
+            $qb
+                ->andWhere('e.inscriptionDeadLine < :dateDeadline')
+                ->setParameter('dateDeadline', $dateDeadline);
+        }
+
+        if (!empty($organizer)) {
             $qb
                 ->andWhere('e.organizer = :id')
-                ->setParameter('id',$id);
+                ->setParameter('id', $id);
         }
 
-//        dump('id',$id);
-//        die();
 
-        if(!empty($registered)){
+        if (!empty($registered)) {
             $qb
                 ->innerJoin('e.registeredMembers', 'r')
                 ->andWhere('r.id = :id')
-                ->setParameter('id',$id);
+                ->setParameter('id', $id);
         }
-        if(!empty($finished)){
-            $qb
-                ->andWhere('e.startingDateTime < :now')
-                ->setParameter('now', '\'CURRENT_TIMESTAMP()\'');
-        }
-            $qb->orderBy('e.startingDateTime', 'ASC');
 
-            $results = $qb->getQuery()
-            ->getResult()
-            ;
-        if(!empty($unregistered)){
+        if (!empty($finished)) {
+
+            $qb
+                ->andWhere('e.status = :status5')
+                ->setParameter('status5', $this->status5);
+        } else {
+
+            $qb
+                ->andWhere('e.status = :status2 OR e.status = :status3 OR e.status = :status4')
+                ->setParameter('status2',$this->status2)
+                ->setParameter('status3',$this->status3)
+                ->setParameter('status4',$this->status4);
+        }
+
+        $qb->orderBy('e.startingDateTime', 'ASC');
+
+        $results = $qb->getQuery()
+            ->getResult();
+
+        if (!empty($unregistered)) {
             $resultsfiltered = [];
-            foreach($results as $result){
-                if(!$result->getRegistered()->contains($user)){
-                    $resultsfiltered[]=$result;
+            foreach ($results as $result) {
+                if (!$result->getRegistered()->contains($user)) {
+                    $resultsfiltered[] = $result;
                 };
             }
-            $results=$resultsfiltered;
+            $results = $resultsfiltered;
         }
+
         return $results;
     }
 
@@ -138,4 +170,15 @@ DQL;
         ;
     }
     */
+
+
+    public function findCreatedEvent($idOrganizer){
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.organizer = :val')
+            ->setParameter('val', $idOrganizer)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

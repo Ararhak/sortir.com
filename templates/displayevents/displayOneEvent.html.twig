@@ -4,7 +4,16 @@
 
 {% block body %}
 
-    <h1>{{ eventDetail.name }}</h1>
+
+    <h1>
+        {{ eventDetail.name }}
+        {% if eventDetail.status.libel == 'opened' %}
+            <span class="badge badge-primary">à venir</span>
+        {% elseif eventDetail.status.libel == 'ongoing' %}
+            <span class="badge badge-success">en cours</span>
+        {% endif %}
+    </h1>
+
 
     <div class="row">
 
@@ -57,54 +66,29 @@
         </div>
     </div>
 
-
     {% if userCanRegisterToEvent %}
-        <div class="col ">
-            <a href="{{ path( 'register_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary"
-               role="button">
-                S'inscrire
-            </a>
-        </div>
+        {% include 'includes/actions/register_to_event.html.twig' %}
     {% endif %}
 
-
     {% if userCanWithdrawEvent %}
-        <a href="{{ path( 'withdraw_to_event', {'id': eventDetail.id} ) }}" class="btn btn-secondary" role="button">
-            Se désister
-        </a>
+        {% include 'includes/actions/withdraw_from_event.html.twig' %}
     {% endif %}
 
     {% if userCanCancelEvent %}
-        <a href="{{ path('cancel_one_event', {'id': eventDetail.id}) }}" class="btn btn-secondary"
-           role="button">
-            Annuler la sortie
-        </a>
+        {% include 'includes/actions/cancel_event.html.twig' %}
     {% endif %}
-
-
 
     {% if userCanModifyEvent %}
-        <a href="{{ path('edit_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary" role="button">
-            Modifier la sortie
-        </a>
+        {% include 'includes/actions/modify_event.html.twig' %}
     {% endif %}
-
 
     {% if userCanPublishEvent %}
-        <a href="{{ path('publish_my_event', {'id': eventDetail.id}) }}" class="btn btn-secondary"
-           role="button">
-            Publier la sortie
-        </a>
+        {% include 'includes/actions/publish_event.html.twig' %}
     {% endif %}
 
 
-
-        <div class="d-flex justify-content-center">
-            <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
-                Retour
-            </a>
-        </div>
-
+    {% include 'includes/actions/return_to_home.html.twig' %}
+    {#    {% include 'includes/actions/return_to_path.html.twig' with { my_path: 'my_events' } only %}#}
 
 
 {% endblock body %}

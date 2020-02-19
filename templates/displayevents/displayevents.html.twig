@@ -18,8 +18,10 @@
                         <input type="radio" name="site" value="{{ site.id }}" id="{{ site.id }}" >{{ site.name }}
                     {% endif %}
                 </label>
-
             {% endfor %}
+            <label class="btn btn-secondary">
+                <input type="radio" name="site" value="4" id="4">Tous les sites
+            </label>
         </div>
 
 
@@ -29,7 +31,7 @@
                 <div class="col-5">
                     <div class="custom-control custom-checkbox ">
                         <input type="checkbox" name="organizer" value="1" class="custom-control-input"
-                               id="defaultInline1" >
+                               id="defaultInline1">
                         <label class="custom-control-label" for="defaultInline1">Sorties dont je suis
                             l'organisat·eur·rice</label>
                     </div>
@@ -56,24 +58,18 @@
 
                 </div>
 
-
                 <!--Séléction des dates-->
                 <!--Grid column-->
                 <div class="col-md-7 mb-4">
                     <div class="md-form">
-                        <!--The "from" Date Picker -->
-{#                        <div class="col-md-8">#}
-                        <label for="startingDate">Afficher les dates de début de sortie avant</label>
-                            <input class="form-control" name="dateStart" value="1" type="date"
-                                   placeholder="Afficher les dates de début de sortie avant"
-                                   id="startingDate">
-{#                        </div>#}
+                        <label for="startingDate">Sorties qui débutent après le</label>
+                        <input class="form-control" name="dateStart" value="1" type="date"
+                               id="startingDate">
                     </div>
                     <div class="md-form">
-                        <!--The "to" Date Picker -->
-                        <label for="startingDate">Afficher les dates de d'inscription avant</label>
+                        <label for="startingDate">Sorties qui terminent avant le</label>
                         <input class="form-control datepicker" name="dateDeadline" value="1"
-                               placeholder="Afficher les dates de d'inscription avant" type="date" id="endingDate">
+                               type="date" id="endingDate">
                     </div>
                 </div>
                 <!--Grid column-->
@@ -95,6 +91,12 @@
     <script>
         /*AJAX pour filtrer par site*/
         $(".formperso input").on("click", filterAjax);
+        $("#startingDate").on("change", filterAjax);
+        $("#endingDate").on("change", filterAjax);
+
+        // $('#startingDate input').datepicker({onchange: filterAjax});
+
+
 
         //casser et ajouter les differents champs actionnant la methode filtre
 
@@ -110,28 +112,27 @@
                 })
         }
 
-        //Grise les boutons pour empécher de faire une recherche en étant inscrit et non-inscrit en même temps
+        //Grise les boutons pour empécher de faire une recherche en étant inscrit et non
         $(function () {
-            $('#defaultInline2').on('click',function () {
-                if($("input[name='registered']:checked").val()){
+            $('#defaultInline2').on('click', function () {
+                if ($("input[name='registered']:checked").val()) {
                     $('#defaultInline3').prop('disabled', true);
-                } else
-                {
+                } else {
                     $('#defaultInline3').prop('disabled', false);
                 }
             });
         });
 
         $(function () {
-            $('#defaultInline3').on('click',function () {
-                if($("input[name='unregistered']:checked").val()){
+            $('#defaultInline3').on('click', function () {
+                if ($("input[name='unregistered']:checked").val()) {
                     $('#defaultInline2').prop('disabled', true);
-                } else
-                {
+                } else {
                     $('#defaultInline2').prop('disabled', false);
                 }
             });
         });
+
 
         /*AJAX pour la barre de recherche*/
         $(document).ready(function () {

@@ -1,0 +1,95 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+
+    <h1>Mes événements</h1>
+
+    <table class="table table-striped registeredMembers">
+        <thead>
+        <tr>
+            <th colspan="3" align="justify"><h2>En préparation</h2></th>
+        </tr>
+        </thead>
+        <thead>
+        <tr>
+            <th colspan="1" align="justify">Nom</th>
+            <th colspan="1" align="justify">Date de début</th>
+            <th colspan="1" align="justify">Status</th>
+            <th colspan="1" align="justify">Editer</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        {% for event in drafts %}
+
+            {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
+            <tr>
+                <td>{{ event.name | capitalize }}</td>
+                <td>Prévue le {{ event.startingDateTime|date('d-m-Y') }} à {{ event.startingDateTime|date('H:i') }}</td>
+                <td><span class="badge badge-secondary">brouillon</span></td>
+                <td>
+                    {% include 'includes/actions/publish_event.html.twig' with { eventDetail:event } only %}
+                    {% include 'includes/actions/modify_event.html.twig' with { eventDetail:event } only %}
+                    {% include 'includes/actions/delete_event.html.twig' with { eventDetail:event } only %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        <thead>
+        <tr>
+            <th colspan="3" align="justify"><h2>Publiés</h2></th>
+        </tr>
+        <tr>
+            <th colspan="1" align="justify">Nom</th>
+            <th colspan="1" align="justify">Date de début</th>
+            <th colspan="1" align="justify">Status</th>
+            <th colspan="1" align="justify">Editer</th>
+        </tr>
+        </thead>
+
+        {% for eventDetail in active %}
+            {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
+            <tr>
+                <td>{{ eventDetail.name | capitalize }}</td>
+                <td>Commence le {{ eventDetail.startingDateTime|date('d-m-Y') }}
+                    à {{ eventDetail.startingDateTime|date('H:i') }} </td>
+                {% if date(eventDetail.startingDateTime) < date('now') %}
+                    <td><span class="badge badge-primary">à venir</span></td>
+                {% else %}
+                    <td><span class="badge badge-success">en cours</span></td>
+                {% endif %}
+                <td>
+                    {% include 'includes/actions/cancel_event.html.twig' %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        <thead>
+        <tr>
+            <th colspan="3" align="justify"><h2>Terminés</h2></th>
+        </tr>
+        <tr>
+            <th colspan="1" align="justify">Nom</th>
+            <th colspan="1" align="justify">Date de début</th>
+            <th colspan="1" align="justify">Status</th>
+            <th colspan="1" align="justify">Editer</th>
+        </tr>
+        </thead>
+
+        {% for eventDetail in inactive %}
+            {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
+            <tr>
+                <td>{{ eventDetail.name | capitalize }}</td>
+                <td>Terminée le {{ eventDetail.startingDateTime|date('d-m-Y') }}</td>
+                <td><span class="badge badge-dark">{{ eventDetail.status.libel }}</span></td>
+                <td>
+                    {% include 'includes/actions/consult_inactive_event.html.twig' %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock body %}
+

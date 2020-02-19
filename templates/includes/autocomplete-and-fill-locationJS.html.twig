@@ -50,6 +50,9 @@
     });
 
     //TODO Detruire la liste quand le champ perd le focus
-    // $("#list-match").on('click', 'li', function () {
+    $("#event_location_name").focusout( function () {
+
+        $('#list-match').empty();
+    });
 
 </script>

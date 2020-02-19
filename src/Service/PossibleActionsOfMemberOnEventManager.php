@@ -92,9 +92,10 @@ class PossibleActionsOfMemberOnEventManager
         $user = $this->em->getRepository(Member::class)->find($idUser);
 
         $isNotOpenedYet = $event->getStatus()->getLibel() !== Status::opened();
+        $hasBeenCancelled = $event->getStatus()->getLibel() === Status::cancelled();
         $userIsOrganizer = $event->getOrganizer()->getId() === $user->getId();
 
-        return $isNotOpenedYet && $userIsOrganizer;
+        return $isNotOpenedYet && $userIsOrganizer && !$hasBeenCancelled;
 
     }
 
