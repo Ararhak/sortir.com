@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Entity\Member;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,6 +42,31 @@ class ApiAjaxController extends AbstractController
         }
 
         return new JsonResponse( $response );
+    }
+
+
+    /**
+     * @Route("/api/activate_desactivate_user/{idMember}", name="activate_desactivate_user");
+     */
+    public function activateDesactivateMember(EntityManagerInterface $entityManager, $idMember){
+
+        $member = $entityManager->getRepository(Member::class)->find($idMember);
+
+        $response = array();
+
+        if($member->getActive()){
+            $member->setActive(false);
+            $response[] = 'Activer';
+        }
+        else{
+            $member->setActive(true);
+            $response[] = 'Désactiver';
+        }
+
+        $entityManager->persist($member);
+        $entityManager->flush();
+
+        return new JsonResponse($response);
     }
 
 
