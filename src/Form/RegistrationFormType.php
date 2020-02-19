@@ -44,6 +44,13 @@ class RegistrationFormType extends AbstractType
                     'label' => 'Email',
                 ]
             )
+            ->add(
+                'isAdmin',
+                CheckboxType::class,
+                [
+                    'label' => 'Accorder les privilèges administrateur', 'required'=>false
+                ]
+            )
             ->add('site', EntityType::class, ['class' => Site::class, 'choice_label' => 'name']);
     }
 

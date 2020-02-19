@@ -4,7 +4,16 @@
 
 {% block body %}
 
-    <h1>{{ eventDetail.name }}</h1>
+
+    <h1>
+        {{ eventDetail.name }}
+        {% if eventDetail.status.libel == 'opened' %}
+            <span class="badge badge-primary">à venir</span>
+        {% elseif eventDetail.status.libel == 'ongoing' %}
+            <span class="badge badge-success">en cours</span>
+        {% endif %}
+    </h1>
+
 
     <div class="row">
 
@@ -77,10 +86,13 @@
         {% include 'includes/actions/publish_event.html.twig' %}
     {% endif %}
 
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'admin/cancel_event.html.twig' %}
+    {% endif %}
+
 
     {% include 'includes/actions/return_to_home.html.twig' %}
-
-
+    {#    {% include 'includes/actions/return_to_path.html.twig' with { my_path: 'my_events' } only %}#}
 
 
 {% endblock body %}

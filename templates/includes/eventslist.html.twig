@@ -4,6 +4,7 @@
         {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
 
         <a href="{{ path('display_one_event', {'id': event.id}) }}" class="list-group-item list-group-item-action">
+
             <div class="d-flex w-100 justify-content-between">
 
                 {% if event.organizer.picture != null %}
@@ -14,16 +15,36 @@
 
                 <h4 class="mb-1">{{ event.name }}</h4>
 
-                <small class="text-muted"> Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
-                    dure {{ event.duration }} heures</small>
+            <div class="row">
 
-                {% if nbPlacesRestantes > 1 %}
-                    <small class="text-muted"> {{ nbPlacesRestantes }} places libres</small>
-                {% elseif nbPlacesRestantes == 1 %}
-                    <small class="text-muted"> {{ nbPlacesRestantes }} place libre</small>
+                <div class="col">
+                <h3 >{{ event.name }}</h3>
+                </div>
+
+                <div class="col">
+                    Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
+                    dure {{ event.duration }} heures
+
+                </div>
+
+                <div class="col">
+                    {% if event.status.libel == 'opened'  %}
+                        <span class="badge badge-primary">à venir</span>
+                        {% elseif event.status.libel == 'ongoing'  %}
+                            <span class="badge badge-success">en cours</span>
+                    {% endif %}
+                </div>
+
+
+                <div class="col">
+                    {% if nbPlacesRestantes > 1 %}
+                        <div class="text-muted"> {{ nbPlacesRestantes }} places libres</div>
+                    {% elseif nbPlacesRestantes == 1 %}
+                        <div class="text-muted"> {{ nbPlacesRestantes }} place libre</div>
                     {% else %}
-                        <small class="text-muted"> Complet !</small>
-                {% endif %}
+                        <div class="text-muted"> Complet !</div>
+                    {% endif %}
+                </div>
 
 
             </div>

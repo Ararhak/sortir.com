@@ -27,10 +27,14 @@ class CreateController extends AbstractController
             $eventForm = $this->createForm(EventType::class, $event);
             $eventForm->handleRequest($request);
 
-            if ($eventForm->isSubmitted() && $eventForm->isValid() ) {
+            if ( $eventForm->isSubmitted() && $eventForm->isValid() ) {
 
                 $eventManager = new EventManager($entityManager);
                 $event = $eventManager->setAttributesToEventFromFormAndReturn($event, $this->getUser(), $eventForm);
+
+                if($eventForm->get('publish')->getData()){
+                    $event = $eventManager->publishEvent($event);
+                }
 
                 $entityManager->persist($event);
                 $entityManager->flush();

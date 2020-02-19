@@ -98,7 +98,15 @@ class Member implements UserInterface
      */
     private $picture;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAdmin;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastConnectionDateTime;
 
     public function __construct()
     {
@@ -270,15 +278,20 @@ class Member implements UserInterface
     }
 
 
-
-
     /**
      * @inheritDoc
      */
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        return ['ROLE_USER'];
+
+        if(is_null($this->isAdmin) || $this->isAdmin === false){
+            return ['ROLE_USER'];
+        }
+        else{
+            return ['ROLE_ADMIN'];
+        }
+
     }
 
     /**
@@ -331,6 +344,7 @@ class Member implements UserInterface
         return $this;
     }
 
+
     public function getPicture(): ?ProfilePictureName
     {
         return $this->picture;
@@ -345,6 +359,29 @@ class Member implements UserInterface
         if ($picture->getMember() !== $newMember) {
             $picture->setMember($newMember);
         }
+        return $this;
+    }
+
+    public function getIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(?bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getLastConnectionDateTime(): ?\DateTimeInterface
+    {
+        return $this->lastConnectionDateTime;
+    }
+
+    public function setLastConnectionDateTime(?\DateTimeInterface $lastConnectionDateTime): self
+    {
+        $this->lastConnectionDateTime = $lastConnectionDateTime;
 
         return $this;
     }

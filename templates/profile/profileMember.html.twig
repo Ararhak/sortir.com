@@ -5,8 +5,7 @@
 
 {% block body %}
 
-
-    <div class="col-4 mx-auto"><br>
+    <div>
 
         {% if user.picture != null %}
             <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture">
@@ -28,6 +27,11 @@
             </a>
 
         {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            {% include 'admin/extra_infos_profile_member.html.twig' %}
+        {% endif %}
+
 
         <a href="{{ path('display_events')}}" class="btn btn-secondary" role="button">
             Retour

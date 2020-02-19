@@ -80,7 +80,6 @@ body {
 }
 
 #scrollbar {
-    margin-top: 100px;
     width: 500px;
     height: 200px;
     overflow-y: scroll;
@@ -105,4 +104,8 @@ li.match {
 li.match:hover {
     background-color: #55acee;
     color: #f5f8fa;
+}
+
+.badge{
+    width: 200px;
 }

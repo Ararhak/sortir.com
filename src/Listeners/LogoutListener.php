@@ -23,6 +23,9 @@ class LogoutListener implements LogoutHandlerInterface
      */
     public function logout(Request $request, Response $response, TokenInterface $token)
     {
-
+        $user = $token->getUser();
+        $user->setLastConnectionDateTime(new \DateTime('now'));
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }

@@ -40,6 +40,11 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllEventExceptStatusArchived()
+    {
+        //TODO
+    }
+
     /**
      * @return Event[]
      */
@@ -176,6 +181,16 @@ DQL;
 
         return $this->createQueryBuilder('e')
             ->andWhere('e.organizer = :val')
+            ->setParameter('val', $idOrganizer)
+            ->getQuery()
+            ->getResult();
+    }
+
+    //Public Event: opened or ongoing
+    public function findPublicEvent($idOrganizer){
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.organizer = :val')
+            ->andWhere('e.status = 2 OR e.status = 3 ')
             ->setParameter('val', $idOrganizer)
             ->getQuery()
             ->getResult();
