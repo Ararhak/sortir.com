@@ -36,7 +36,7 @@ class AdminController extends  AbstractController
             );
 
             $user->setPassword( $passwordEncoder->encodePassword( $user,  $plainPassword));
-            $user->setActive(false);
+            $user->setActive(true);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

@@ -1,11 +1,26 @@
 {% extends 'layout.html.twig' %}
 
+   {% block title %}
+       Admin manager
+   {% endblock %}
+
+
+
 {% block body %}
+
+
+<h1>Tableau de bord administrateur [{{ app.user.name }}]</h1>
+
+
+<a href="{{ path('app_register') }}" class="btn btn-primary"
+   role="button">
+    Ajouter un nouveau membre
+</a>
 
 <table class="table table-striped members">
     <thead>
     <tr>
-        <th colspan="3" align="justify"><h2>Membres</h2></th>
+        <th colspan="3" align="justify"><h2>Liste des membres</h2></th>
     </tr>
     </thead>
     <thead>
@@ -14,11 +29,13 @@
         <th colspan="1" align="justify">Prénom</th>
         <th colspan="1" align="justify">Pseudo</th>
         <th colspan="1" align="justify">Status</th>
+        <th colspan="1" align="justify">Nombre de connexions</th>
+        <th colspan="1" align="justify">Date dernière connexion</th>
+        <th colspan="1" align="justify">Actions</th>
     </tr>
     </thead>
 
     <tbody>
-
 
     {% for member in members %}
 
@@ -33,14 +50,41 @@
                 {% else %}
                     <td><span class="badge badge-secondary">inactif</span></td>
                 {% endif %}
+                <td>{{ member.nbConnection }}</td>
+                <td>TODO</td>
+
+                <td>
+                    <a href="{{ path('display_profile_member', {'id': member.id}) }}" class="btn btn-secondary"
+                       role="button">
+                        Afficher profil
+                    </a>
+                </td>
+
+                {# Actions#}
+                {% if member.active %}
+                    <td>
+                        <button type="button" class="btn btn-primary">Activer</button>
+                    </td>
+                {% else %}
+                    <td>
+                        <button type="button" class="btn btn-warning">Desactiver</button>
+                    </td>
+                {% endif %}
+                <td>
+                    <button type="button" class="btn btn-danger">Supprimer le compte</button>
+                </td>
+
+
             </tr>
         {% endif %}
 
     {% endfor %}
 
-    {% endblock %}
 
-    {% block title %}
-        Admin manager
-    {% endblock %}
 
+    {% block JS %}
+
+
+    {% endblock JS %}
+
+{% endblock body %}
