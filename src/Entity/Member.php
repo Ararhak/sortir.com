@@ -93,6 +93,11 @@ class Member implements UserInterface
      */
     private $nbConnection;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAdmin;
+
 
     public function __construct()
     {
@@ -264,15 +269,20 @@ class Member implements UserInterface
     }
 
 
-
-
     /**
      * @inheritDoc
      */
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        return ['ROLE_USER'];
+
+        if(is_null($this->isAdmin) || $this->isAdmin === false){
+            return ['ROLE_USER'];
+        }
+        else{
+            return ['ROLE_ADMIN'];
+        }
+
     }
 
     /**
@@ -321,6 +331,18 @@ class Member implements UserInterface
     public function setNbConnection(?int $nbConnection): self
     {
         $this->nbConnection = $nbConnection;
+
+        return $this;
+    }
+
+    public function getIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(?bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
 
         return $this;
     }

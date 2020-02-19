@@ -14,6 +14,15 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <p class="navbar-btn">
+                    <a class="nav-link" href="{{ path('app_register') }}">Inscrire un nouveau membre</a>
+                </p>
+            </li>
+            {% endif %}
+
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('display_events') }}">Accueil <span class="sr-only">(current)</span></a>
             </li>
@@ -26,6 +35,8 @@
                     </a>
                     {# A modifier menu déroulant#}
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
                         <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
                         <a class="dropdown-item" href="{{ path('my_events') }}">Gérer mes événements</a>
                         <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements publiés</a>
