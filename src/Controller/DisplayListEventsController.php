@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Site;
+use App\Service\UpdateEventStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,10 @@ class DisplayListEventsController extends AbstractController
         $eventRepo = $entityManager->getRepository(Event::class);
         $sites = $entityManager->getRepository(Site::class)->findAll();
         $events = $eventRepo->findEventBySite($site);
+
+//        $updateOneEvent = new UpdateEventStatus($entityManager);
+//        $updateOneEvent->updateEventStatus(2);
+
         return $this->render("displayevents/displayevents.html.twig",compact('events','sites'));
     }
 
