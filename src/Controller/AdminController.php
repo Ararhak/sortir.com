@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Event;
 use App\Entity\Member;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFromAuthentificator;
@@ -62,6 +63,24 @@ class AdminController extends  AbstractController
         return $this->render('admin/users_manager.html.twig',compact('members'));
 
     }
+
+
+    /**
+     * @Route("/admin/cancel-evenet/{id}", name="app_cancel_event")
+     */
+    public function cancelEvent(EntityManagerInterface $em, $id){
+
+        $event = $em->getRepository(Event::class)->find($id);
+        $em->remove($event);
+        $em->flush();
+
+        $this->addFlash('success', 'La sortie a bien été supprimée');
+
+        return $this->redirectToRoute('display_events');
+
+    }
+
+
 
 
 }

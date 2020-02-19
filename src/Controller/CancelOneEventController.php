@@ -24,7 +24,6 @@ class CancelOneEventController extends AbstractController
 
         $userCanCancelEvent = $possibleActions->userCanCancelEvent($this->getUser()->getId(), $id);
 
-
         $cancelForm = $this->createForm(CancelOneEventType::class, $eventDetail);
 
         $cancelFormView = $cancelForm->createView();

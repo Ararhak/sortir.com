@@ -86,6 +86,10 @@
         {% include 'includes/actions/publish_event.html.twig' %}
     {% endif %}
 
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'admin/cancel_event.html.twig' %}
+    {% endif %}
+
 
     {% include 'includes/actions/return_to_home.html.twig' %}
     {#    {% include 'includes/actions/return_to_path.html.twig' with { my_path: 'my_events' } only %}#}

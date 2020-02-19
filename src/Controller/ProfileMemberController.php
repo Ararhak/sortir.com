@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Entity\Member;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,10 @@ class ProfileMemberController extends  AbstractController
      */
     public function displayProfile(EntityManagerInterface $em, $id){
         $user = $em->getRepository(Member::class)->find($id);
-        return $this->render("profile/profileMember.html.twig", compact('user'));
+
+        $publicOrganizedEvents = $em->getRepository(Event::class)->findPublicEvent($id);
+
+        return $this->render("profile/profileMember.html.twig", compact('user','publicOrganizedEvents'));
     }
 
 
