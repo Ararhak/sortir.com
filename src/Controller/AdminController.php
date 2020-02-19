@@ -1,11 +1,14 @@
 <?php
 
+
 namespace App\Controller;
+
 
 use App\Entity\Member;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFromAuthentificator;
 use App\Service\DefaultPasswordGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
-class RegistrationController extends AbstractController
+class AdminController extends  AbstractController
 {
 
-
-    //TODO: cette route n'est accessible qu'avec une ROOLE_ADMIN
-    //L'admin remplit un formulaire basique (nom, prenom, email) et c'est a l'utilisateur de se connecter
-    //Changer son mot de passe qui a été mis par défaut (premiere lettre du prénom + nom: ex: pschuhmacher)
-
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/admin/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFromAuthentificator $authenticator): Response
     {
@@ -50,8 +48,20 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('admin/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/admin/users-manager", name="app_manage_users")
+     */
+    public function manageUsers(EntityManagerInterface $em){
+
+        $members = $em->getRepository(Member::class)->findall();
+        return $this->render('admin/users_manager.html.twig',compact('members'));
+
+    }
+
+
 }
