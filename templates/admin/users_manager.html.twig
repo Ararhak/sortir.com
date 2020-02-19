@@ -47,9 +47,9 @@
                 <td>{{ member.pseudo | capitalize }}</td>
 
                 {% if member.active %}
-                    <td><span class="badge badge-success">actif</span></td>
+                    <td><span class="badge badge-success" id="status{{ member.id}}">actif</span></td>
                 {% else %}
-                    <td><span class="badge badge-secondary">inactif</span></td>
+                    <td><span class="badge badge-secondary" id="status{{ member.id}}">inactif</span></td>
                 {% endif %}
                 <td>{{ member.nbConnection }}</td>
 
@@ -86,8 +86,6 @@
 
                         {% endif %}
                     </td>
-
-
 
                     </td>
                 {% else %}
@@ -131,7 +129,19 @@
                 $.ajax({
                     url: "http://localhost/sortir/public/admin/api/activate_desactivate_user/"+ id,
                     success: function (result) {
-                        $('#' + id).text(result);
+
+                        console.log(result)
+                        $('#' + id).text(result[0]);
+
+                        if(result[0] === 'Activer'){
+                            $('#status' + id).attr('class', 'badge badge-secondary');
+                            $('#status' + id).text('inactif');
+                        }
+                        else{
+                            $('#status' + id).attr('class', 'badge badge-success');
+                            $('#status' + id).text('actif');
+                        }
+
                     }})
             });
 
@@ -145,6 +155,7 @@
                         url: "http://localhost/sortir/public/admin/api/delete_user/"+ id,
                         success: function (result) {
                             $('#row' + id).empty();
+
                         }})
                 } else {
                     // Code à éxécuter si l'utilisateur clique sur "Annuler"
