@@ -7,6 +7,7 @@ use App\Service\DurationUnit;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Button;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -107,6 +108,7 @@ class EventType extends AbstractType
             )
             ->add('infos', TextType::class, ['label' => 'Informations complémentaires ', 'required' => false])
             ->add('location', LocationType::class, ['required' => true])
+            ->add('publish', CheckboxType::class, ['label' => 'Publier directement', 'mapped' => false,'required'=>false])
             ->add('save', SubmitType::class, ['label' => 'Valider',]);
     }
 

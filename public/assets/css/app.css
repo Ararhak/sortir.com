@@ -106,3 +106,7 @@ li.match:hover {
     background-color: #55acee;
     color: #f5f8fa;
 }
+
+.badge{
+    width: 80px;
+}
