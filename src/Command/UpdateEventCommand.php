@@ -44,7 +44,7 @@ class UpdateEventCommand extends Command
         ]);
 
 
-        $this->ues->updateEventStatus();
+        $this->ues->updateEventStatus2();
 
         $io->success('Your event\'s status is about is up to date in your database, good job');
 
