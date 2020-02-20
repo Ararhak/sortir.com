@@ -24,6 +24,9 @@ class DisplayListEventsController extends AbstractController
 
         $events = $eventRepo->findEventBySite($site);
 
+//        $updateOneEvent = new UpdateEventStatus($entityManager);
+//        $updateOneEvent->updateEventStatus();
+
         return $this->render("displayevents/displayevents.html.twig",compact('events','sites'));
     }
 

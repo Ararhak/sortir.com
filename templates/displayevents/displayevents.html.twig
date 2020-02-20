@@ -28,7 +28,7 @@
         <!--Séléction des options de filtres-->
         <div class="container">
             <div class="row">
-                <div class="col-5">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-6">
                     <div class="custom-control custom-checkbox ">
                         <input type="checkbox" name="organizer" value="1" class="custom-control-input"
                                id="defaultInline1">
@@ -60,13 +60,17 @@
 
                 <!--Séléction des dates-->
                 <!--Grid column-->
-                <div class="col-md-7 mb-4">
-                    <div class="md-form">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+
+                    <div class="md-form ">
                         <label for="startingDate">Sorties qui débutent après le</label>
                         <input class="form-control" name="dateStart" value="1" type="date"
                                id="startingDate">
                     </div>
-                    <div class="md-form">
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                    <div class="md-form ">
                         <label for="startingDate">Sorties qui terminent avant le</label>
                         <input class="form-control datepicker" name="dateDeadline" value="1"
                                type="date" id="endingDate">
@@ -95,7 +99,6 @@
         $("#endingDate").on("change", filterAjax);
 
         // $('#startingDate input').datepicker({onchange: filterAjax});
-
 
 
         //casser et ajouter les differents champs actionnant la methode filtre
@@ -143,6 +146,14 @@
                 });
             });
         });
+
+        // permets de clicker et d'être redirigé dans le tableau
+        $(document).ready(function ($) {
+            $(".table-row").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+
 
     </script>
 {% endblock %}
