@@ -22,30 +22,33 @@ a {
     margin-right: 5px;
 }
 
+.navbar-toggler {
+    color: #DDDDDD;
+}
 
-.navbar-custom {
+.navbar-light {
     background-color: #55acee;
     border-bottom: 1px solid #226699;
 }
 
 /* change the brand and text color */
-.navbar-custom .navbar-brand,
-.navbar-custom .navbar-text {
+.navbar-light .navbar-brand,
+.navbar-light .navbar-text {
     color: #f5f8fa;
 }
 
 /* change the link color */
-.navbar-custom .navbar-nav .nav-link {
+.navbar-light .navbar-nav .nav-link {
     color: #f5f8fa;
 }
 
 /* change the color of active or hovered links */
-.navbar-custom .nav-item.active .nav-link,
-.navbar-custom .nav-item:hover .nav-link {
+.navbar-light .nav-item.active .nav-link,
+.navbar-light .nav-item:hover .nav-link {
     color: #f5f8fa;
 }
 
-.navbar, .navbar-expand-sm, .navbar-expand-md, .navbar-expand-lg, .navbar-custom, .navbar-brand {
+.navbar, .navbar-expand-sm, .navbar-expand-md, .navbar-expand-lg, .navbar-light, .navbar-brand {
     position: relative;
     margin-top: 0;
     padding-top: 0;
