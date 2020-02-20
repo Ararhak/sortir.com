@@ -32,11 +32,8 @@ class ImportCsvController extends AbstractController
             return $this->redirectToRoute('display_events');
         }
 
-        dump('loaded ok');
-        die();
-
-        //Send data to AdminController route 'app_register_from_csv'
-
+        $response = $this->forward('App\Controller\AdminController:registerFromFileCSV', ['data' => $data]);
+        return $response;
     }
 
 

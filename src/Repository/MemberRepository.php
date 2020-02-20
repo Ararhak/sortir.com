@@ -29,6 +29,14 @@ class MemberRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findByEmail($value){
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.mail = :value')
+            ->setParameter( 'value', $value )
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Member[] Returns an array of Member objects
     //  */
