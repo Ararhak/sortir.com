@@ -28,8 +28,9 @@ class EditProfile extends AbstractController
         $memberForm = $this->createForm(MyProfileType::class, $user);
         $memberForm->handleRequest($request);
 
+        $oldprofilepicture = null;
 
-        if ($user->getPicture()) {
+        if (!is_null($user->getPicture())) {
             $profilepicture = $user->getPicture();
             $oldprofilepicture = clone $profilepicture;
         } else {
@@ -85,8 +86,15 @@ class EditProfile extends AbstractController
 
                 $this->addFlash('success', 'La photo de profil a bien été modifié');
                 $entityManager->persist($profilepicture);
+
+                //TODO fix bug
+                $this->getUser()->setPicture($profilepicture);
+                //If previous picture, remove old link
+                if($oldprofilepicture){
+                    unlink($this->getParameter('profilepic_directory').'/'.$oldprofilepicture->getName());
+                }
+
                 $entityManager->flush();
-                unlink($this->getParameter('profilepic_directory').'/'.$oldprofilepicture->getName());
 
                 return $this->redirectToRoute('edit_my_profile');
             }

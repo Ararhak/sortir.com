@@ -7,7 +7,7 @@
 
         {{ form_errors(formUploadCSV) }}
 
-        <div class="form-group" style="margin-left: 15px;">
+        <div class="form-group" style="margin-left: 150px;">
 
             {{ form_label(formUploadCSV.csvFile, null, { 'label_attr':  {
                 'class': 'col-sm-3 control-label'
@@ -23,4 +23,8 @@
         {{ form_end(formUploadCSV) }}
 
     </form>
+
+
+    {% include 'includes/actions/return_to_home.html.twig' %}
+
 {% endblock body %}
