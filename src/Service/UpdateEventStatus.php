@@ -19,11 +19,16 @@ class UpdateEventStatus
         $this->em = $entityManager;
     }
 
-    public function updateEventStatus(){
+    public function updateEventStatus()
+    {
+
 
         //$event = $this->em->getRepository(Event::class)->find($id);
-        $event = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchived();
+        $events = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchived();
 
+        $eventTab= [];
+
+        foreach ($events as $event) {
 
             //The event have created status ?
             $createdEvent = $event->getStatus()->getLibel() === Status::created();
@@ -42,9 +47,9 @@ class UpdateEventStatus
 
 
             //l'evt est-il closed ? (passage du statut opened à closed)
-            $nowEventIsClosed = $event->getInscriptionDeadLine() > new \DateTime('now');
+            $nowEventIsClosed = $event->getInscriptionDeadLine() < new \DateTime('now');
             //l'evnt est-il commencé ? (pour passage statut opened à ongoing)
-            $nowEventIsStarted = $event->getStartingDateTime() > new \DateTime('now');
+            $nowEventIsStarted = $event->getStartingDateTime() < new \DateTime('now');
 
             //duration
             $duration = $event->getDuration();
@@ -54,7 +59,7 @@ class UpdateEventStatus
                 $nowEventIsFinished = ($event->getStartingDateTime()->add(new DateInterval('P' . $duration . 'D')) > new \DateTime('now'));
             } catch (\Exception $e) {
             }
-            //l'evnt est-il archivé ? (passage du statut fininshed à archived)
+            //l'evnt est-il archivé ? (passage du statut finished à archived)
             try {
                 $nowEventIsArchived = ($event->getStartingDateTime()->add(new DateInterval('P' . ($duration + 630) . 'D')) > new \DateTime('now'));
             } catch (\Exception $e) {
@@ -85,11 +90,15 @@ class UpdateEventStatus
                 $event->setStatus($statusArchived);
             }
 
-        //pour les sorties annulées, les garder cancelled et juste les enlever de l'affichage après 30 jours
+            $eventTab = $event;
 
-        $this->em->persist($event);
-        $this->em->flush();
+        }
+            //pour les sorties annulées, les garder cancelled et juste les enlever de l'affichage après 30 jours
 
-    }
+            $this->em->persist($eventTab);
+            $this->em->flush();
+
+        }
+
 
 }
