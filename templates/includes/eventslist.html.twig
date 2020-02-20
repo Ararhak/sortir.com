@@ -1,4 +1,4 @@
-<table id="listevents" class="table table-striped ">
+<table id="listevents" class="table table-striped table-hover">
     <thead>
     <tr>
 
@@ -17,17 +17,15 @@
     <tbody>
     {% for event in events %}
         {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
-
-        <div href="{{ path('display_one_event', {'id': event.id}) }}">
-            <tr>
+            <tr class="table-row"data-href="{{ path('display_one_event',{'id': event.id}) }}">
+                <div class="view overlay">
                 <th scope="row">
                     <h4 class="mb-1">{{ event.name }}</h4>
                 </th>
                 <td>
                     Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
                     dure {{ event.duration }} heures
-{#                </td>#}
-{#                <td>#}<h5>
+                    <h5>
                     {% if event.status.libel == 'opened' %}
                         <span class="badge badge-primary">à venir</span>
                     {% elseif event.status.libel == 'ongoing' %}
@@ -65,8 +63,9 @@
                 <td>
                 <small class="text-muted">{{ event.infos }}</small>
                 </td>
+                </div>
             </tr>
-        </div>
     {% endfor %}
     </tbody>
 </table>
+
