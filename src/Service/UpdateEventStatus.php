@@ -19,9 +19,9 @@ class UpdateEventStatus
         $this->em = $entityManager;
     }
 
-    public function updateEventStatus($id){
-        $event = $this->em->getRepository(Event::class)->find($id);
-        //TODO : $event = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchived();
+    public function updateEventStatus(){
+        //$event = $this->em->getRepository(Event::class)->find($id);
+        $event = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchived();
 
         //The event have created status ?
         $createdEvent = $event->getStatus()->getLibel() === Status::created();
