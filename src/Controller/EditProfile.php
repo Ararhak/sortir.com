@@ -86,8 +86,7 @@ class EditProfile extends AbstractController
 
                 $this->addFlash('success', 'La photo de profil a bien été modifié');
                 $entityManager->persist($profilepicture);
-
-                //TODO fix bug
+                
                 $this->getUser()->setPicture($profilepicture);
                 //If previous picture, remove old link
                 if($oldprofilepicture){
