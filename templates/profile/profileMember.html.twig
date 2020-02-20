@@ -7,6 +7,12 @@
 
     <div>
 
+        {% if user.picture != null %}
+            <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture">
+        {% else %}
+            <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block" alt="profile picture">
+        {% endif %}
+
         <h1>{{user.pseudo}}</h1>
 
         <p>Prénom : {{ user.name | capitalize }}</p>

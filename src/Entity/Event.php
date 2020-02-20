@@ -80,6 +80,7 @@ class Event
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="organizedEvents", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
+     *
      */
     private $organizer;
 

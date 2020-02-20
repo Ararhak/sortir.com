@@ -1,32 +1,44 @@
-<div id="listevents">
+<table id="listevents" class="table table-striped ">
+    <thead>
+    <tr>
 
+        <th scope="col">Sortie</th>
+        <th scope="col">Quand ?</th>
+
+        <th scope="col">Places restantes</th>
+        <th scope="col">#</th>
+        <th scope="col">Organisateur</th>
+        <th scope="col">Lieu</th>
+        <th scope="col">Infos</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
     {% for event in events %}
         {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
 
-        <a href="{{ path('display_one_event', {'id': event.id}) }}" class="list-group-item list-group-item-action">
-
-            <div class="row">
-
-                <div class="col">
-                <h3 >{{ event.name }}</h3>
-                </div>
-
-                <div class="col">
+        <div href="{{ path('display_one_event', {'id': event.id}) }}">
+            <tr>
+                <th scope="row">
+                    <h4 class="mb-1">{{ event.name }}</h4>
+                </th>
+                <td>
                     Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
                     dure {{ event.duration }} heures
-
-                </div>
-
-                <div class="col">
-                    {% if event.status.libel == 'opened'  %}
+{#                </td>#}
+{#                <td>#}<h5>
+                    {% if event.status.libel == 'opened' %}
                         <span class="badge badge-primary">à venir</span>
-                        {% elseif event.status.libel == 'ongoing'  %}
-                            <span class="badge badge-success">en cours</span>
+                    {% elseif event.status.libel == 'ongoing' %}
+                        <span class="badge badge-success">en cours</span>
+                    {% elseif event.status.libel == 'finished' %}
+                        <span class="badge badge-dark">terminé</span>
                     {% endif %}
-                </div>
+                    </h5>
+                </td>
 
-
-                <div class="col">
+                <td>
                     {% if nbPlacesRestantes > 1 %}
                         <div class="text-muted"> {{ nbPlacesRestantes }} places libres</div>
                     {% elseif nbPlacesRestantes == 1 %}
@@ -34,13 +46,27 @@
                     {% else %}
                         <div class="text-muted"> Complet !</div>
                     {% endif %}
-                </div>
-
-
-            </div>
-            <div class="mb-1">organisé par {{ event.organizer.pseudo }}</div>
-            <p class="mb-1">lieu : {{ event.location.name }}</p>
-            <small class="text-muted">{{ event.infos }}</small>
-        </a>
+                </td>
+                <td>
+                    {% if event.organizer.picture != null %}
+                        <img src="{{ asset('assets/profilepic/' ~ event.organizer.picture.name) }}"
+                             class="rounded mx-auto d-block" alt="profile picture" width="50" height="50">
+                    {% else %}
+                        <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block"
+                             alt="profile picture" width="50" height="50">
+                    {% endif %}
+                </td>
+                <td>
+                <div class="mb-1">organisé par {{ event.organizer.pseudo }}</div>
+                </td>
+                <td>
+                <p class="mb-1">lieu : {{ event.location.name }}</p>
+                </td>
+                <td>
+                <small class="text-muted">{{ event.infos }}</small>
+                </td>
+            </tr>
+        </div>
     {% endfor %}
-</div>
+    </tbody>
+</table>
