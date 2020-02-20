@@ -94,6 +94,11 @@ class Member implements UserInterface
     private $nbConnection;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ProfilePictureName", mappedBy="member", cascade={"persist", "remove"})
+     */
+    private $picture;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isAdmin;
@@ -102,7 +107,6 @@ class Member implements UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastConnectionDateTime;
-
 
     public function __construct()
     {
@@ -337,6 +341,24 @@ class Member implements UserInterface
     {
         $this->nbConnection = $nbConnection;
 
+        return $this;
+    }
+
+
+    public function getPicture(): ?ProfilePictureName
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?ProfilePictureName $picture): self
+    {
+        $this->picture = $picture;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newMember = null === $picture ? null : $this;
+        if ($picture->getMember() !== $newMember) {
+            $picture->setMember($newMember);
+        }
         return $this;
     }
 

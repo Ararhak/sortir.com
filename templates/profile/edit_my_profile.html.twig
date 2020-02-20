@@ -7,7 +7,21 @@
 {% block body %}
 
     <h1>Mon profil</h1>
-    <div class="col-4 mx-auto">
+    <div class="col-8 mx-auto">
+
+
+        {% if user.picture != null %}
+            <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture">
+        {% else %}
+            <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block" alt="profile picture">
+        {% endif %}
+
+
+        {{ form_start(porfilePictureFormView) }}
+        {{ form_row(porfilePictureFormView.profilepicturename) }}
+        {{ form_widget(porfilePictureFormView.save, { 'attr': {'class': 'btn-success'} }) }}
+        {{ form_end(porfilePictureFormView) }}
+
 
         {{ form_start(myProfileFormView) }}
 

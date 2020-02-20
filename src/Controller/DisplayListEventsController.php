@@ -21,6 +21,7 @@ class DisplayListEventsController extends AbstractController
         $site = $this->getUser()->getSite();
         $eventRepo = $entityManager->getRepository(Event::class);
         $sites = $entityManager->getRepository(Site::class)->findAll();
+
         $events = $eventRepo->findEventBySite($site);
 
 //        $updateOneEvent = new UpdateEventStatus($entityManager);
