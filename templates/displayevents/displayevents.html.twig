@@ -138,10 +138,10 @@
 
 
         /*AJAX pour la barre de recherche*/
-        $(document).ready(function () {
-            $("#listSearch").on("keyup", function () {
+        $(document).ready(function(){
+            $("#listSearch").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
-                $("#myList a").filter(function () {
+                $("#myTable tr").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
@@ -149,7 +149,7 @@
 
         // permets de clicker et d'être redirigé dans le tableau
         $(document).ready(function ($) {
-            $(".table-row").click(function () {
+            $("#myList").on('click', '.table-row', function () {
                 window.document.location = $(this).data("href");
             });
         });
