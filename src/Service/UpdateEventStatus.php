@@ -19,14 +19,14 @@ class UpdateEventStatus
         $this->em = $entityManager;
     }
 
-    public function updateEventStatus()
+    public function updateEventStatussssss()
     {
 
 
         //$event = $this->em->getRepository(Event::class)->find($id);
         $events = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchived();
 
-        $eventTab= [];
+        $eventTab = [];
 
         foreach ($events as $event) {
 
@@ -97,12 +97,80 @@ class UpdateEventStatus
             $eventTab = $event;
 
         }
-            //pour les sorties annulées, les garder cancelled et juste les enlever de l'affichage après 30 jours
+        //pour les sorties annulées, les garder cancelled et juste les enlever de l'affichage après 30 jours
 
-            $this->em->persist($eventTab);
-            $this->em->flush();
+        $this->em->persist($eventTab);
+        $this->em->flush();
+
+    }
+
+    public function updateEventStatus2()
+    {
+        $events = $this->em->getRepository(Event::class)->findAllEventExceptStatusArchivedAndCreated();
+
+        foreach ($events as $event) {
+
+            $this->updateEvent($event);
 
         }
+
+        $this->em->flush();
+    }
+
+    public function updateEvent($event)
+    {
+        $startingDate = $event->getStartingDateTime();
+        $duration = $event->getDuration();
+
+        if ($this->eventIsArchived($startingDate, $duration)) {
+            $statusArchived = $this->em->getRepository(Status::class)->findByLibel(Status::archived());
+            $event->setStatus($statusArchived);
+        } elseif ($this->eventIsFinished($startingDate, $duration)) {
+            $statusFinished = $this->em->getRepository(Status::class)->findByLibel(Status::finished());
+            $event->setStatus($statusFinished);
+        } elseif ($this->eventIsOnGoing($startingDate, $duration)) {
+            $statusOnGoing = $this->em->getRepository(Status::class)->findByLibel(Status::ongoing());
+            $event->setStatus($statusOnGoing);
+        }
+
+        $this->em->persist($event);
+
+    }
+
+
+    function eventIsArchived($startingDate, $duration)
+    {
+
+        $startingDateClone = clone $startingDate;
+
+        try {
+            $nowEventIsArchived = ($startingDateClone->add(new DateInterval('PT' . ($duration + 630) . 'H')) < new \DateTime('now'));
+        } catch (\Exception $e) {
+        }
+
+        return $nowEventIsArchived;
+
+    }
+
+    function eventIsFinished($startingDate, $duration)
+    {
+
+        $startingDateClone = clone $startingDate;
+
+        try {
+            $nowEventIsFinished = ($startingDateClone->add(new DateInterval('PT' . $duration . 'H')) < new \DateTime('now'));
+        } catch (\Exception $e) {
+        }
+
+        return $nowEventIsFinished;
+
+    }
+
+    function eventIsOnGoing($startingDate)
+    {
+
+        return $startingDate < new \DateTime('now');
+    }
 
 
 }
