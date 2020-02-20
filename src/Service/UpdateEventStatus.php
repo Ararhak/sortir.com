@@ -55,13 +55,17 @@ class UpdateEventStatus
             $duration = $event->getDuration();
 
             //l'evnt est-il terminé ? (passage du statut ongoing à finished)
+            $startingDateTimeClone = clone $event->getStartingDateTime();
+            $nowEventIsFinished = false;
+            $nowEventIsArchived = false;
             try {
-                $nowEventIsFinished = ($event->getStartingDateTime()->add(new DateInterval('P' . $duration . 'D')) > new \DateTime('now'));
+                $nowEventIsFinished = ($startingDateTimeClone->add(new DateInterval('PT' . $duration . 'H')) < new \DateTime('now'));
             } catch (\Exception $e) {
             }
             //l'evnt est-il archivé ? (passage du statut finished à archived)
+            $startingDateTimeClone = clone $event->getStartingDateTime();
             try {
-                $nowEventIsArchived = ($event->getStartingDateTime()->add(new DateInterval('P' . ($duration + 630) . 'D')) > new \DateTime('now'));
+                $nowEventIsArchived = ($startingDateTimeClone->add(new DateInterval('PT' . ($duration + 630) . 'H')) < new \DateTime('now'));
             } catch (\Exception $e) {
             }
 
