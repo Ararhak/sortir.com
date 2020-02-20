@@ -8,9 +8,11 @@
     <h1>
         {{ eventDetail.name }}
         {% if eventDetail.status.libel == 'opened' %}
-            <span class="badge badge-primary">à venir</span>
+            <span class="badge badge-primary">A venir</span>
         {% elseif eventDetail.status.libel == 'ongoing' %}
-            <span class="badge badge-success">en cours</span>
+            <span class="badge badge-success">En cours</span>
+        {% elseif eventDetail.status.libel == 'cancelled' %}
+            <span class="badge badge-dark">Annulé</span>
         {% endif %}
     </h1>
 
@@ -65,6 +67,14 @@
             <p>Code postal : {{ eventDetail.location.city.zipCode }}</p>
         </div>
     </div>
+
+
+    {% if eventDetail.ReasonIfCanceled is not null %}
+
+        <h2>Cause de l'annulation</h2>
+        {{ eventDetail.ReasonIfCanceled }}
+
+    {% endif %}
 
     {% if userCanRegisterToEvent %}
         {% include 'includes/actions/register_to_event.html.twig' %}
