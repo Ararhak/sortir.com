@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{#{% form_theme formUploadCSV 'bootstrap_4_layout.html.twig' %}#}
+
+{% block body %}
+    <form method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
+
+        {{ form_errors(formUploadCSV) }}
+
+        <div class="form-group" style="margin-left: 150px;">
+
+            {{ form_label(formUploadCSV.csvFile, null, { 'label_attr':  {
+                'class': 'col-sm-3 control-label'
+            }}) }}
+            <div class="col-sm-4">
+                {{ form_errors(formUploadCSV.csvFile) }}
+                {{ form_widget(formUploadCSV.csvFile, { 'attr':  {
+                    'class': 'form-control'
+                }}) }}
+            </div>
+        </div>
+
+        {{ form_end(formUploadCSV) }}
+
+    </form>
+
+
+    {% include 'includes/actions/return_to_home.html.twig' %}
+
+{% endblock body %}

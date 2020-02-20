@@ -23,7 +23,7 @@
                     <h4 class="mb-1">{{ event.name }}</h4>
                 </th>
                 <td>
-                    Commence le {{ event.startingDateTime | date ('d/m/Y') }} et
+                    Débute le {{ event.startingDateTime | date ('d/m/Y') }} et
                     dure {{ event.duration }} heures
                     <h5>
                     {% if event.status.libel == 'opened' %}
@@ -55,10 +55,10 @@
                     {% endif %}
                 </td>
                 <td>
-                <div class="mb-1">organisé par {{ event.organizer.pseudo }}</div>
+                <div class="mb-1">{{ event.organizer.pseudo }}</div>
                 </td>
                 <td>
-                <p class="mb-1">lieu : {{ event.location.name }}</p>
+                <p class="mb-1">{{ event.location.name }}</p>
                 </td>
                 <td>
                 <small class="text-muted">{{ event.infos }}</small>

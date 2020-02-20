@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use function Sodium\add;
 
 class DisplayListEventsController extends AbstractController
 {
@@ -24,6 +25,7 @@ class DisplayListEventsController extends AbstractController
 
         $events = $eventRepo->findEventBySite($site);
 
+        //to update events status
 //        $updateOneEvent = new UpdateEventStatus($entityManager);
 //        $updateOneEvent->updateEventStatus();
 
