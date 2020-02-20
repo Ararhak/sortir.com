@@ -5,24 +5,25 @@
         </a>
     </div>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    </div>
-        <div class="navbar-text">
-            <a class="navbar-brand" href="{{ url('display_events') }}"> Sortir.com </a><br>
-            <p>Sortez avec vos collègues de l'ENI</p>
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+    </div>
+    <div class="navbar-text">
+        <a class="navbar-brand" href="{{ url('display_events') }}"> Sortir.com </a><br>
+        <p>Sortez avec vos collègues de l'ENI</p>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
 
             {% if is_granted('ROLE_ADMIN') %}
-
-                <li class="nav-item dropdown">
+            <div class="collapse navbar-collapse" id="NonavbarSupportedContent">
+                <li class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
@@ -36,6 +37,7 @@
                             membres</a>
                     </div>
                 </li>
+            </div>
 
             {% endif %}
 
@@ -45,7 +47,8 @@
             </li>
 
             {% if app.user %}
-                <li class="nav-item dropdown">
+            <div class="collapse navbar-collapse" id="NonavbarSupportedContent">
+                <li class="nav-item dropdown" id="NonavbarSupportedContent">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
@@ -59,7 +62,7 @@
                             publiés</a>
                     </div>
                 </li>
-
+            </div>
                 <li class="nav-item active">
                     <a class="nav-link"
                        href="{{ path('display_profile_member', {'id': app.user.id}) }}">{{ app.user.name }}<span
