@@ -81,6 +81,16 @@ class AdminController extends  AbstractController
     }
 
 
+    /**
+     * @Route("/admin/register-from-csv-file/{id}", name="app_register_from_csv")
+     */
+    public function registerFromFileCSV(EntityManagerInterface $em){
+
+
+
+    }
+
+
 
 
 }
