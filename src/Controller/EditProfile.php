@@ -27,11 +27,14 @@ class EditProfile extends AbstractController
 
         $memberForm = $this->createForm(MyProfileType::class, $user);
         $memberForm->handleRequest($request);
-        if($user->getPicture()){
-        $profilepicture = $user->getPicture();
+
+        $oldprofilepicture = null;
+
+        if (!is_null($user->getPicture())) {
+            $profilepicture = $user->getPicture();
             $oldprofilepicture = clone $profilepicture;
         } else {
-        $profilepicture = new ProfilePictureName();
+            $profilepicture = new ProfilePictureName();
         }
         $profilepictureForm = $this->createForm(ProfilePictureFileType::class, $profilepicture);
         $profilepictureForm->handleRequest($request);
@@ -81,25 +84,31 @@ class EditProfile extends AbstractController
                 // instead of its contents
                 $profilepicture->setName($newFilename);
 
-            $this->addFlash('success', 'La photo de profil a bien été modifié');
-            $entityManager->persist($profilepicture);
-            $entityManager->flush();
-            unlink($this->getParameter('profilepic_directory').'/'.$oldprofilepicture->getName());
+                $this->addFlash('success', 'La photo de profil a bien été modifié');
+                $entityManager->persist($profilepicture);
+                
+                $this->getUser()->setPicture($profilepicture);
+                //If previous picture, remove old link
+                if($oldprofilepicture){
+                    unlink($this->getParameter('profilepic_directory').'/'.$oldprofilepicture->getName());
+                }
+
+                $entityManager->flush();
+
                 return $this->redirectToRoute('edit_my_profile');
             }
         }
 
 
-            return $this->render(
-                'profile/edit_my_profile.html.twig',
-                [
-                    'myProfileFormView' => $memberForm->createView(),
-                    'porfilePictureFormView' => $profilepictureForm->createView(),
-                    'user' => $user,
-                ]
-            );
-        }
-
+        return $this->render(
+            'profile/edit_my_profile.html.twig',
+            [
+                'myProfileFormView' => $memberForm->createView(),
+                'porfilePictureFormView' => $profilepictureForm->createView(),
+                'user' => $user,
+            ]
+        );
+    }
 
 
 }
