@@ -22,6 +22,7 @@ class EventRepository extends ServiceEntityRepository
         private $status4 = 4;
         private $status5 = 5;
         private $status6 = 6;
+        private $status7 = 7;
 
     /**
      * @return Event[]
@@ -43,7 +44,8 @@ class EventRepository extends ServiceEntityRepository
     public function findAllEventExceptStatusArchived()
     {
         return $this->createQueryBuilder('e')
-            ->where('e.status != archived')
+            ->where('e.status != :archived')
+            ->setParameter('archived', $this->status7)
             ->getQuery()
             ->getResult();
     }
