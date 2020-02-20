@@ -47,11 +47,16 @@
                 <td>{{ member.pseudo | capitalize }}</td>
 
                 {% if member.active %}
-                    <td><span class="badge badge-success" id="status{{ member.id}}">actif</span></td>
+                    <td><span class="badge badge-success" id="status{{ member.id }}">actif</span></td>
                 {% else %}
-                    <td><span class="badge badge-secondary" id="status{{ member.id}}">inactif</span></td>
+                    <td><span class="badge badge-secondary" id="status{{ member.id }}">inactif</span></td>
                 {% endif %}
-                <td>{{ member.nbConnection }}</td>
+
+                {% if member.nbConnection is not null %}
+                    <td>{{ member.nbConnection }}</td>
+                {% else %}
+                    <td>0</td>
+                {% endif %}
 
                 {% if member.lastConnectionDateTime is not null %}
 
@@ -90,6 +95,7 @@
                     </td>
                 {% else %}
                     <td>inconnue</td>
+                    <td>inconnue</td>
                 {% endif %}
 
                 <td>
@@ -102,15 +108,20 @@
                 {# Actions#}
                 {% if member.active %}
                     <td>
-                        <button type="button" class="btn btn-primary activer-desactiver" id="{{ member.id }}">Désactiver</button>
+                        <button type="button" class="btn btn-primary activer-desactiver" id="{{ member.id }}">
+                            Désactiver
+                        </button>
                     </td>
                 {% else %}
                     <td>
-                        <button type="button" class="btn btn-primary activer-desactiver" id="{{ member.id }}">Activer</button>
+                        <button type="button" class="btn btn-primary activer-desactiver" id="{{ member.id }}">Activer
+                        </button>
                     </td>
                 {% endif %}
                 <td>
-                    <button type="button" class="btn btn-danger supprimer" id="suppr{{ member.id}}">Supprimer le compte</button>
+                    <button type="button" class="btn btn-danger supprimer" id="suppr{{ member.id }}">Supprimer le
+                        compte
+                    </button>
                 </td>
 
 
@@ -125,44 +136,43 @@
 
         <script>
             $(".activer-desactiver").on('click', function () {
-                let id =  $(this).attr('id');
+                let id = $(this).attr('id');
                 $.ajax({
-                    url: "http://localhost/sortir/public/admin/api/activate_desactivate_user/"+ id,
+                    url: "http://localhost/sortir/public/admin/api/activate_desactivate_user/" + id,
                     success: function (result) {
 
                         console.log(result)
                         $('#' + id).text(result[0]);
 
-                        if(result[0] === 'Activer'){
+                        if (result[0] === 'Activer') {
                             $('#status' + id).attr('class', 'badge badge-secondary');
                             $('#status' + id).text('inactif');
-                        }
-                        else{
+                        } else {
                             $('#status' + id).attr('class', 'badge badge-success');
                             $('#status' + id).text('actif');
                         }
 
-                    }})
+                    }
+                })
             });
 
             $(".supprimer").on('click', function () {
-                let id =  $(this).attr('id');
+                let id = $(this).attr('id');
                 id = id.match(/\d+/g)[0];
                 console.log(id);
 
-                if ( confirm( "Vous êtes sûr de vouloir supprimer le compte?" ) ) {
+                if (confirm("Vous êtes sûr de vouloir supprimer le compte?")) {
                     $.ajax({
-                        url: "http://localhost/sortir/public/admin/api/delete_user/"+ id,
+                        url: "http://localhost/sortir/public/admin/api/delete_user/" + id,
                         success: function (result) {
                             $('#row' + id).empty();
 
-                        }})
+                        }
+                    })
                 } else {
                     // Code à éxécuter si l'utilisateur clique sur "Annuler"
                 }
             });
-
-
 
 
         </script>

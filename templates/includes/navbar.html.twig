@@ -16,41 +16,46 @@
         <ul class="navbar-nav ml-auto">
 
             {% if is_granted('ROLE_ADMIN') %}
-            <li>
-                <p class="navbar-btn">
-                    <a class="nav-link" href="{{ path('app_register') }}">Inscrire un nouveau membre</a>
-                </p>
-            </li>
-                <li>
-                    <p class="navbar-btn">
-                        <a class="nav-link" href="{{ path('app_manage_users') }}">Gestion des membres</a>
-                    </p>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Administration
+                    </a>
+                    {# A modifier menu déroulant#}
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"  href="{{ path('app_register') }}">Inscrire un nouveau membre</a>
+                        <a class="dropdown-item" href="{{ path('import_user_csv') }}">Importer membres (csv)</a>
+                        <a  class="dropdown-item" href="{{ path('app_manage_users') }}">Gestion des membres</a>
+                    </div>
                 </li>
+
             {% endif %}
 
             <li class="nav-item active">
-                <a class="nav-link" href="{{ url('display_events') }}">Accueil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url('display_events') }}">Accueil <span
+                            class="sr-only">(current)</span></a>
             </li>
 
             {% if app.user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Événements
                     </a>
                     {# A modifier menu déroulant#}
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-
                         <a class="dropdown-item" href="{{ path('create') }}">Créer un événement</a>
                         <a class="dropdown-item" href="{{ path('my_events') }}">Gérer mes événements</a>
                         <a class="dropdown-item" href="{{ path('display_events') }}">Afficher les événements publiés</a>
-
                     </div>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('display_profile_member', {'id': app.user.id}) }}">{{ app.user.name }}<span
+                    <a class="nav-link"
+                       href="{{ path('display_profile_member', {'id': app.user.id}) }}">{{ app.user.name }}<span
                                 class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
