@@ -42,7 +42,10 @@ class EventRepository extends ServiceEntityRepository
 
     public function findAllEventExceptStatusArchived()
     {
-        //TODO
+        return $this->createQueryBuilder('e')
+            ->where('e.status != archived')
+            ->getQuery()
+            ->getResult();
     }
 
     /**

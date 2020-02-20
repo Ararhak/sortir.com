@@ -73,7 +73,14 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email invalide !');
+            throw new CustomUserMessageAuthenticationException('Pseudo ou Email invalide');
+        }
+        else if( !$user->getActive() ) {
+            throw new CustomUserMessageAuthenticationException(
+                "Votre compte a été désactivé par un administrateur, veuillez contacter un administrateur
+                du site.",
+                ['active' => false]
+            );
         }
 
         return $user;
@@ -81,7 +88,10 @@ class LoginFromAuthentificator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+//        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)

@@ -4,6 +4,17 @@
 
     <h1>Mes événements</h1>
 
+
+    <div>
+        <a href="{{ path('create') }}" class="btn btn-primary"
+           role="button">
+            Créer un nouvel événement
+        </a>
+    </div>
+
+    <br>
+
+
     <table class="table table-striped registeredMembers">
         <thead>
         <tr>
@@ -21,11 +32,18 @@
 
         <tbody>
 
+
+        {% if drafts | length == 0 %}
+
+            <tr><td colspan="4" align="center"><i>Aucun brouillon</i></td> </tr>
+
+        {% endif %}
+
         {% for event in drafts %}
 
             {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
             <tr>
-                <td>{{ event.name | capitalize }}</td>
+                <td><a href="{{  path('display_one_event', {'id': event.id})  }}">{{ event.name | capitalize }}</a></td>
                 <td>Prévue le {{ event.startingDateTime|date('d-m-Y') }} à {{ event.startingDateTime|date('H:i') }}</td>
                 <td><span class="badge badge-secondary">brouillon</span></td>
                 <td>
@@ -51,7 +69,7 @@
         {% for eventDetail in active %}
             {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
             <tr>
-                <td>{{ eventDetail.name | capitalize }}</td>
+                <td><a href="{{  path('display_one_event', {'id': eventDetail.id})  }}">{{ eventDetail.name | capitalize }}</a></td>
                 <td>Commence le {{ eventDetail.startingDateTime|date('d-m-Y') }}
                     à {{ eventDetail.startingDateTime|date('H:i') }} </td>
 
@@ -81,8 +99,8 @@
         {% for eventDetail in inactive %}
             {% set nbPlacesRestantes = eventDetail.nbMaxRegistration - eventDetail.registeredMembers | length %}
             <tr>
-                <td>{{ eventDetail.name | capitalize }}</td>
-                <td>Terminée le {{ eventDetail.startingDateTime|date('d-m-Y') }}</td>
+                <td><a href="{{  path('display_one_event', {'id': eventDetail.id})  }}">{{ eventDetail.name | capitalize }}</a></td>
+                <td>{{ eventDetail.startingDateTime|date('d-m-Y') }}</td>
                 <td><span class="badge badge-dark">{{ eventDetail.status.libel }}</span></td>
                 <td>
                     {% include 'includes/actions/consult_inactive_event.html.twig' %}

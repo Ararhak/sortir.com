@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Event;
+use App\Entity\Status;
 use App\Form\EventType;
 use App\Service\EventManager;
 use App\Service\PossibleActionsOfMemberOnEventManager;
@@ -62,7 +63,24 @@ class EditEvent extends AbstractController
                 'eventFormView'
             )
         );
+    }
 
+    /**
+     * @Route("/delete-event/{id}", name="delete_event", requirements={"id": "\d+"})
+     */
+
+    public function deleteDraftEvent(EntityManagerInterface $em,$id){
+
+
+        $event = $em->getRepository(Event::class)->find($id);
+
+
+        if($event->getStatus()->getLibel() == Status::created() && $event->getOrganizer() === $this->getUser()){
+            $em->remove($event);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('my_events');
 
     }
 
