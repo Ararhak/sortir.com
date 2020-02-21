@@ -17,7 +17,7 @@
     <tbody id="myTable">
     {% for event in events %}
         {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
-            <tr class="table-row"data-href="{{ path('display_one_event',{'id': event.id}) }}">
+            <tr class="table-row"data-href="{{ path('display_one_event',{'id': event.id}) }}" id="myTablerow">
                 <div class="view overlay">
                 <th scope="row">
                     <h4 class="mb-1">{{ event.name }}</h4>

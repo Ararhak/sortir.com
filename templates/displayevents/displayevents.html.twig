@@ -85,7 +85,9 @@
     <!--Barre de recherche-->
     <input class="form-control " id="listSearch" type="text" placeholder="Le nom de la sortie contient">
     <ul class="list-group" id="myList">
+        <div id="tableanim">
         {% include 'includes/eventslist.html.twig' %}
+        </div>
     </ul>
 
 {% endblock %}
@@ -93,17 +95,36 @@
 
 {% block JS %}
     <script>
+
+        //Fonction permettant l'animation des lignes
+        //.position()-> position relative au parent
+        //.offset()-> position relative au document
+        // $(document).ready(function ($) {
+        //     $("#myList").on('change', '.table-row', function () {
+        //         ;
+        //     });
+        // });
+
         /*AJAX pour filtrer par site*/
         $(".formperso input").on("click", filterAjax);
         $("#startingDate").on("change", filterAjax);
         $("#endingDate").on("change", filterAjax);
 
         // $('#startingDate input').datepicker({onchange: filterAjax});
+        function closeresult()
+        {
+            $("#tableanim").slideUp(200);
+        }
 
+        function openresult()
+        {
+            $("#tableanim").slideDown(200);
+        }
 
         //casser et ajouter les differents champs actionnant la methode filtre
 
         function filterAjax(e) {
+            closeresult();
             $.ajax({
                 "url": "{{ path('display_events_by_form_parameters') }}",
                 "data": $(".formperso").serialize(),
@@ -111,8 +132,11 @@
             })
                 .done(function (response) {
                     console.log(response);
-                    $("#listevents").html(response);
+                    $("#listevents").html(response)
+                    openresult();
                 })
+
+
         }
 
         //Grise les boutons pour empécher de faire une recherche en étant inscrit et non
@@ -153,6 +177,7 @@
                 window.document.location = $(this).data("href");
             });
         });
+
 
 
     </script>
