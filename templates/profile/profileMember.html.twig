@@ -15,7 +15,7 @@
 
 
         <div class="row">
-            <div class="col col-md-4">
+            <div class="col-12 col-sm-12 col-md-6">
                 {% if user.picture != null %}
                     <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block"
                          alt="profile picture" height="300" width="300">
@@ -25,7 +25,7 @@
                 {% endif %}
             </div>
 
-            <div class="col col-md-5">
+            <div class="col-12 col-sm-12 col-md-6">
                 <p>Prénom : {{ user.name | capitalize }}</p>
                 <p>Nom : {{ user.surname | capitalize }}</p>
                 <p>Email : {{ user.mail }}</p>

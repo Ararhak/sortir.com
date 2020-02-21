@@ -6,10 +6,10 @@
         <th scope="col">Quand ?</th>
 
         <th scope="col">Places restantes</th>
-        <th scope="col">#</th>
+        <th class="d-none d-lg-block" scope="col">#</th>
         <th scope="col">Organisateur</th>
         <th scope="col">Lieu</th>
-        <th scope="col">Infos</th>
+        <th class="d-none d-lg-block" scope="col">Infos</th>
 
 
     </tr>
@@ -17,22 +17,21 @@
     <tbody id="myTable">
     {% for event in events %}
         {% set nbPlacesRestantes = event.nbMaxRegistration - event.registeredMembers | length %}
-            <tr class="table-row"data-href="{{ path('display_one_event',{'id': event.id}) }}">
-                <div class="view overlay">
+        <tr class="table-row" data-href="{{ path('display_one_event',{'id': event.id}) }}">
+            <div class="view overlay">
                 <th scope="row">
                     <h4 class="mb-1">{{ event.name }}</h4>
                 </th>
                 <td>
-                    Débute le {{ event.startingDateTime | date ('d/m/Y') }} et
-                    dure {{ event.duration }} heures
+                    Le {{ event.startingDateTime | date ('d/m/Y') }}
                     <h5>
-                    {% if event.status.libel == 'opened' %}
-                        <span class="badge badge-primary">à venir</span>
-                    {% elseif event.status.libel == 'ongoing' %}
-                        <span class="badge badge-success">en cours</span>
-                    {% elseif event.status.libel == 'finished' %}
-                        <span class="badge badge-dark">terminé</span>
-                    {% endif %}
+                        {% if event.status.libel == 'opened' %}
+                            <span class="badge badge-primary">à venir</span>
+                        {% elseif event.status.libel == 'ongoing' %}
+                            <span class="badge badge-success">en cours</span>
+                        {% elseif event.status.libel == 'finished' %}
+                            <span class="badge badge-dark">terminé</span>
+                        {% endif %}
                     </h5>
                 </td>
 
@@ -45,7 +44,7 @@
                         <div class="text-muted"> Complet !</div>
                     {% endif %}
                 </td>
-                <td>
+                <td class="d-none d-lg-block">
                     {% if event.organizer.picture != null %}
                         <img src="{{ asset('assets/profilepic/' ~ event.organizer.picture.name) }}"
                              class="rounded mx-auto d-block" alt="profile picture" width="50" height="50">
@@ -54,17 +53,20 @@
                              alt="profile picture" width="50" height="50">
                     {% endif %}
                 </td>
+
+
                 <td>
-                <div class="mb-1">{{ event.organizer.pseudo }}</div>
+                    <div class="mb-1">{{ event.organizer.pseudo }}</div>
                 </td>
                 <td>
-                <p class="mb-1">{{ event.location.name }}</p>
+                    <p class="mb-1">{{ event.location.name }}</p>
                 </td>
-                <td>
-                <small class="text-muted">{{ event.infos }}</small>
-                </td>
+                <div class="d-none d-lg-block">
+                    <td class="d-none d-lg-block">
+                        <small class="text-muted">{{ event.infos }}</small>
+                    </td>
                 </div>
-            </tr>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
