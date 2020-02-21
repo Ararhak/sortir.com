@@ -6,58 +6,57 @@
 
 {% block body %}
 
-    <h1>Mon profil</h1>
-    <div class="col-8 mx-auto">
+    <div class="row">
+        <div class="col col-sm-12 d-flex justify-content-center">
+            <h1>{{ user.name | capitalize }} {{ user.surname }}</h1>
+        </div>
+    </div>
 
 
-        {% if user.picture != null %}
-            <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture">
-        {% else %}
-            <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block" alt="profile picture">
-        {% endif %}
+    <div class="row">
+        <div class="col col-md-4">
 
-
-        {{ form_start(porfilePictureFormView) }}
-        {{ form_row(porfilePictureFormView.profilepicturename) }}
-        {{ form_widget(porfilePictureFormView.save, { 'attr': {'class': 'btn-success'} }) }}
-        {{ form_end(porfilePictureFormView) }}
-
-
-        {{ form_start(myProfileFormView) }}
-
-        {{ form_row(myProfileFormView.pseudo) }}
-        {{ form_row(myProfileFormView.name) }}
-        {{ form_row(myProfileFormView.surname) }}
-        {{ form_row(myProfileFormView.phone) }}
-        {{ form_row(myProfileFormView.mail) }}
-
-        <div class="password-div">
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="8caracter" value="password" disabled>
-
-            <a href="{{ path('changePassword') }}" class="btn btn-secondary" role="button">
-                Changer mon mot de passe
-            </a>
+            {% if user.picture != null %}
+                <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block"
+                     alt="profile picture">
+            {% else %}
+                <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block"
+                     alt="profile picture">
+            {% endif %}
+            {{ form_start(porfilePictureFormView) }}
+            {{ form_row(porfilePictureFormView.profilepicturename) }}
+            {{ form_widget(porfilePictureFormView.save, { 'attr': {'class': 'btn-success'} }) }}
+            {{ form_end(porfilePictureFormView) }}
         </div>
 
-        {{ form_row(myProfileFormView.site) }}
+        <div class="col col-md-4">
+            {{ form_start(myProfileFormView) }}
+            {{ form_row(myProfileFormView.pseudo) }}
+            {{ form_row(myProfileFormView.name) }}
+            {{ form_row(myProfileFormView.surname) }}
+            {{ form_row(myProfileFormView.phone) }}
+            {{ form_row(myProfileFormView.mail) }}
 
-        {{ form_widget(myProfileFormView.save, { 'attr': {'class': 'btn-success'} }) }}
+            {{ form_row(myProfileFormView.site) }}
 
-        {{ form_end(myProfileFormView) }}
+            {{ form_widget(myProfileFormView.save, { 'attr': {'class': 'btn-success'} }) }}
 
+            {{ form_end(myProfileFormView) }}
+
+            <div class="password-div">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="8caracter" value="password" disabled>
+
+                <a href="{{ path('changePassword') }}" class="btn btn-secondary" role="button">
+                    Changer mon mot de passe
+                </a>
+            </div>
+        </div>
     </div>
 
-
-    <div class="col-4 mx-auto">
-
-{#        <a href="{{ path('display_profile_member', {'id': app.user.id}) }}" class="btn btn-warning" role="button">#}
-{#            Annuler les modifications#}
-{#        </a>#}
-        <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
-            Retour à la page principale
-        </a>
-
+    <div class="row">
+            {% include 'includes/actions/return_to_home.html.twig' %}
     </div>
+
 
 {% endblock %}
