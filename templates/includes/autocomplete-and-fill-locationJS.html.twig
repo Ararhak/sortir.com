@@ -8,13 +8,16 @@
         let inputText = $("#event_location_name").val();
         console.log(inputText);
 
+        let url = '{{ path("api_ajax_locations_like", {'location_pattern': 'inputText'}) }}';
+        url = url.replace("inputText", inputText);
+
         $.ajax({
-            url: "http://localhost/sortir/public/api/getlocations/like/" + inputText,
+            url: url,
             success: function (result) {
                 console.log(result);
                 //build list of matching location:
                 result.forEach(el => $('#list-match').append(
-                    '<li class="list-group-item match" id='+ el.id +'>' +
+                    '<li class="list-group-item match" id=' + el.id + '>' +
                     '<p name = name>' + '<strong>' + el.name + '</strong>' + '</p>' +
                     '<p name = street>' + el.street + '</p> ' +
                     '<p> <span name = city>' + el.city + '</span> <span name=zipCode>' + el.zipCode + '</span></p> ' +
