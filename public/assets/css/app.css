@@ -127,3 +127,21 @@ li.match:hover {
 .returnHome{
     margin-top: 20px;
 }
+
+.d-none .d-lg-block{
+    display: inline;
+}
+
+th{
+    text-align: center;
+
+}
+
+td{
+    padding: 10px;
+    margin-right: 10px;
+}
+
+table {
+    width: 100%;
+}
