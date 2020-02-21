@@ -7,35 +7,60 @@
 
     <div>
 
-        {% if user.picture != null %}
-            <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block" alt="profile picture">
-        {% else %}
-            <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block" alt="profile picture">
-        {% endif %}
-
-        <h1>{{user.pseudo}}</h1>
-
-        <p>Prénom : {{ user.name | capitalize }}</p>
-        <p>Nom : {{ user.surname | capitalize }}</p>
-        <p>Email : {{ user.mail }}</p>
-        <p>Site de ratachement : {{ user.site.name }}</p>
-
-        {% if app.user.id == user.id %}
-
-            <a href="{{ path('edit_my_profile') }}" class="btn btn-secondary" role="button">
-                Modifier mon profil
-            </a>
-
-        {% endif %}
-
-        {% if is_granted('ROLE_ADMIN') %}
-            {% include 'admin/extra_infos_profile_member.html.twig' %}
-        {% endif %}
+        <div class="row">
+            <div class="col col-sm-12 d-flex justify-content-center">
+                <h1>{{ user.pseudo }}</h1>
+            </div>
+        </div>
 
 
-        <a href="{{ path('display_events')}}" class="btn btn-secondary" role="button">
-            Retour
-        </a>
+        <div class="row">
+            <div class="col col-md-4">
+                {% if user.picture != null %}
+                    <img src="{{ asset('assets/profilepic/' ~ user.picture.name) }}" class="rounded mx-auto d-block"
+                         alt="profile picture" height="300" width="300">
+                {% else %}
+                    <img src="{{ asset('assets/img/missingrofilepic.png') }}" class="rounded mx-auto d-block"
+                         alt="profile picture" height="300" width="300">
+                {% endif %}
+            </div>
+
+            <div class="col col-md-5">
+                <p>Prénom : {{ user.name | capitalize }}</p>
+                <p>Nom : {{ user.surname | capitalize }}</p>
+                <p>Email : {{ user.mail }}</p>
+                <p>Site de ratachement : {{ user.site.name }}</p>
+
+                {% if app.user.id == user.id %}
+
+                    <a href="{{ path('edit_my_profile') }}" class="btn btn-secondary" role="button">
+                        Modifier mon profil
+                    </a>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col col-sm-12 d-flex justify-content-center">
+                <a href="{{ path('display_events') }}" class="btn btn-secondary" role="button">
+                    Retour
+                </a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col col-sm-12">
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% include 'admin/extra_infos_profile_member.html.twig' %}
+                {% endif %}
+            </div>
+
+        </div>
+
 
     </div>
 
