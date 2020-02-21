@@ -16,7 +16,7 @@ class ProfilePictureFileType extends AbstractType
     {
         $builder
             ->add('profilepicturename', FileType::class, [
-                'label' => 'Modifier se photo de profil (JPG or PNG file)',
+                'label' => false,
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -41,7 +41,7 @@ class ProfilePictureFileType extends AbstractType
                 ],
         ]
     )
-            ->add('save', SubmitType::class, ['label'=>'Enregistrer'])
+            ->add('save', SubmitType::class, ['label'=>'Modifier'])
         ;
     }
 

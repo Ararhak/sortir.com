@@ -5,6 +5,7 @@
 {% block body %}
 
 
+
     <h1>
         {{ eventDetail.name }}
         {% if eventDetail.status.libel == 'opened' %}
@@ -23,7 +24,7 @@
 
             <h2> Détails</h2>
 
-            <p>Organisateur:<a href="url">{{ eventDetail.organizer.name | capitalize }}</a>,
+            <p>Organisateur:<a href="{{ path('display_profile_member', { 'id' : eventDetail.organizer.id }) }}">{{ eventDetail.organizer.name | capitalize }}</a>,
                 inscrit sur le site de l'ENI de {{ eventDetail.site.name }}</p>
 
             {% if eventDetail.infos %}
